@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sanyang.logistics.jaj.mapper.InWarehouseMapper" >
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.InWarehouse" >
+    <id column="in_warehouse_id" property="inWarehouseId" jdbcType="INTEGER" />
+    <result column="rcpt_prod_id" property="rcptProdId" jdbcType="INTEGER" />
+    <result column="rcpt_id" property="rcptId" jdbcType="INTEGER" />
+    <result column="posn_id" property="posnId" jdbcType="INTEGER" />
+    <result column="posn_code" property="posnCode" jdbcType="VARCHAR" />
+    <result column="store_amt" property="storeAmt" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="backup_area_code" property="backupAreaCode" jdbcType="VARCHAR" />
+    <result column="prod_id" property="prodId" jdbcType="INTEGER" />
+    <result column="package_name" property="packageName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    in_warehouse_id, rcpt_prod_id, rcpt_id, posn_id, posn_code, store_amt, memo, backup_area_code, 
+    prod_id, package_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.InWarehouseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from in_warehouse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from in_warehouse
+    where in_warehouse_id = #{inWarehouseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from in_warehouse
+    where in_warehouse_id = #{inWarehouseId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanyang.logistics.base.pojo.InWarehouseExample" >
+    delete from in_warehouse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanyang.logistics.base.pojo.InWarehouse" >
+    insert into in_warehouse (in_warehouse_id, rcpt_prod_id, rcpt_id, 
+      posn_id, posn_code, store_amt, 
+      memo, backup_area_code, prod_id, 
+      package_name)
+    values (#{inWarehouseId,jdbcType=INTEGER}, #{rcptProdId,jdbcType=INTEGER}, #{rcptId,jdbcType=INTEGER}, 
+      #{posnId,jdbcType=INTEGER}, #{posnCode,jdbcType=VARCHAR}, #{storeAmt,jdbcType=INTEGER}, 
+      #{memo,jdbcType=VARCHAR}, #{backupAreaCode,jdbcType=VARCHAR}, #{prodId,jdbcType=INTEGER}, 
+      #{packageName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.InWarehouse" >
+    insert into in_warehouse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="inWarehouseId != null" >
+        in_warehouse_id,
+      </if>
+      <if test="rcptProdId != null" >
+        rcpt_prod_id,
+      </if>
+      <if test="rcptId != null" >
+        rcpt_id,
+      </if>
+      <if test="posnId != null" >
+        posn_id,
+      </if>
+      <if test="posnCode != null" >
+        posn_code,
+      </if>
+      <if test="storeAmt != null" >
+        store_amt,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="backupAreaCode != null" >
+        backup_area_code,
+      </if>
+      <if test="prodId != null" >
+        prod_id,
+      </if>
+      <if test="packageName != null" >
+        package_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="inWarehouseId != null" >
+        #{inWarehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="rcptProdId != null" >
+        #{rcptProdId,jdbcType=INTEGER},
+      </if>
+      <if test="rcptId != null" >
+        #{rcptId,jdbcType=INTEGER},
+      </if>
+      <if test="posnId != null" >
+        #{posnId,jdbcType=INTEGER},
+      </if>
+      <if test="posnCode != null" >
+        #{posnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAmt != null" >
+        #{storeAmt,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="backupAreaCode != null" >
+        #{backupAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prodId != null" >
+        #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="packageName != null" >
+        #{packageName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanyang.logistics.base.pojo.InWarehouseExample" resultType="java.lang.Integer" >
+    select count(*) from in_warehouse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update in_warehouse
+    <set >
+      <if test="record.inWarehouseId != null" >
+        in_warehouse_id = #{record.inWarehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.rcptProdId != null" >
+        rcpt_prod_id = #{record.rcptProdId,jdbcType=INTEGER},
+      </if>
+      <if test="record.rcptId != null" >
+        rcpt_id = #{record.rcptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.posnId != null" >
+        posn_id = #{record.posnId,jdbcType=INTEGER},
+      </if>
+      <if test="record.posnCode != null" >
+        posn_code = #{record.posnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeAmt != null" >
+        store_amt = #{record.storeAmt,jdbcType=INTEGER},
+      </if>
+      <if test="record.memo != null" >
+        memo = #{record.memo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backupAreaCode != null" >
+        backup_area_code = #{record.backupAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prodId != null" >
+        prod_id = #{record.prodId,jdbcType=INTEGER},
+      </if>
+      <if test="record.packageName != null" >
+        package_name = #{record.packageName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update in_warehouse
+    set in_warehouse_id = #{record.inWarehouseId,jdbcType=INTEGER},
+      rcpt_prod_id = #{record.rcptProdId,jdbcType=INTEGER},
+      rcpt_id = #{record.rcptId,jdbcType=INTEGER},
+      posn_id = #{record.posnId,jdbcType=INTEGER},
+      posn_code = #{record.posnCode,jdbcType=VARCHAR},
+      store_amt = #{record.storeAmt,jdbcType=INTEGER},
+      memo = #{record.memo,jdbcType=VARCHAR},
+      backup_area_code = #{record.backupAreaCode,jdbcType=VARCHAR},
+      prod_id = #{record.prodId,jdbcType=INTEGER},
+      package_name = #{record.packageName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanyang.logistics.base.pojo.InWarehouse" >
+    update in_warehouse
+    <set >
+      <if test="rcptProdId != null" >
+        rcpt_prod_id = #{rcptProdId,jdbcType=INTEGER},
+      </if>
+      <if test="rcptId != null" >
+        rcpt_id = #{rcptId,jdbcType=INTEGER},
+      </if>
+      <if test="posnId != null" >
+        posn_id = #{posnId,jdbcType=INTEGER},
+      </if>
+      <if test="posnCode != null" >
+        posn_code = #{posnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeAmt != null" >
+        store_amt = #{storeAmt,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="backupAreaCode != null" >
+        backup_area_code = #{backupAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prodId != null" >
+        prod_id = #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="packageName != null" >
+        package_name = #{packageName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where in_warehouse_id = #{inWarehouseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.InWarehouse" >
+    update in_warehouse
+    set rcpt_prod_id = #{rcptProdId,jdbcType=INTEGER},
+      rcpt_id = #{rcptId,jdbcType=INTEGER},
+      posn_id = #{posnId,jdbcType=INTEGER},
+      posn_code = #{posnCode,jdbcType=VARCHAR},
+      store_amt = #{storeAmt,jdbcType=INTEGER},
+      memo = #{memo,jdbcType=VARCHAR},
+      backup_area_code = #{backupAreaCode,jdbcType=VARCHAR},
+      prod_id = #{prodId,jdbcType=INTEGER},
+      package_name = #{packageName,jdbcType=VARCHAR}
+    where in_warehouse_id = #{inWarehouseId,jdbcType=INTEGER}
+  </update>
+</mapper>

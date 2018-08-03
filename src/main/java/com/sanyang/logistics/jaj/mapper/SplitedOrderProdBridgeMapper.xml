@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sanyang.logistics.jaj.mapper.SplitedOrderProdBridgeMapper" >
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.SplitedOrderProdBridge" >
+    <id column="oid" property="oid" jdbcType="INTEGER" />
+    <result column="work_order_id" property="workOrderId" jdbcType="INTEGER" />
+    <result column="sched_id" property="schedId" jdbcType="INTEGER" />
+    <result column="orderid" property="orderid" jdbcType="INTEGER" />
+    <result column="prod_id" property="prodId" jdbcType="INTEGER" />
+    <result column="pname" property="pname" jdbcType="VARCHAR" />
+    <result column="ptype" property="ptype" jdbcType="VARCHAR" />
+    <result column="pcode" property="pcode" jdbcType="VARCHAR" />
+    <result column="packageid" property="packageid" jdbcType="VARCHAR" />
+    <result column="plan_amt" property="planAmt" jdbcType="INTEGER" />
+    <result column="split_amt" property="splitAmt" jdbcType="INTEGER" />
+    <result column="unalloc_amt" property="unallocAmt" jdbcType="INTEGER" />
+    <result column="real_amt" property="realAmt" jdbcType="INTEGER" />
+    <result column="height" property="height" jdbcType="INTEGER" />
+    <result column="arear" property="arear" jdbcType="CHAR" />
+    <result column="toaddress" property="toaddress" jdbcType="CHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="splitedstatus" property="splitedstatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    oid, work_order_id, sched_id, orderid, prod_id, pname, ptype, pcode, packageid, plan_amt, 
+    split_amt, unalloc_amt, real_amt, height, arear, toaddress, description, splitedstatus
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.SplitedOrderProdBridgeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from splited_order_prod_bridge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from splited_order_prod_bridge
+    where oid = #{oid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from splited_order_prod_bridge
+    where oid = #{oid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanyang.logistics.base.pojo.SplitedOrderProdBridgeExample" >
+    delete from splited_order_prod_bridge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanyang.logistics.base.pojo.SplitedOrderProdBridge" >
+    insert into splited_order_prod_bridge (oid, work_order_id, sched_id, 
+      orderid, prod_id, pname, 
+      ptype, pcode, packageid, 
+      plan_amt, split_amt, unalloc_amt, 
+      real_amt, height, arear, 
+      toaddress, description, splitedstatus
+      )
+    values (#{oid,jdbcType=INTEGER}, #{workOrderId,jdbcType=INTEGER}, #{schedId,jdbcType=INTEGER}, 
+      #{orderid,jdbcType=INTEGER}, #{prodId,jdbcType=INTEGER}, #{pname,jdbcType=VARCHAR}, 
+      #{ptype,jdbcType=VARCHAR}, #{pcode,jdbcType=VARCHAR}, #{packageid,jdbcType=VARCHAR}, 
+      #{planAmt,jdbcType=INTEGER}, #{splitAmt,jdbcType=INTEGER}, #{unallocAmt,jdbcType=INTEGER}, 
+      #{realAmt,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{arear,jdbcType=CHAR}, 
+      #{toaddress,jdbcType=CHAR}, #{description,jdbcType=VARCHAR}, #{splitedstatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.SplitedOrderProdBridge" >
+    insert into splited_order_prod_bridge
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        oid,
+      </if>
+      <if test="workOrderId != null" >
+        work_order_id,
+      </if>
+      <if test="schedId != null" >
+        sched_id,
+      </if>
+      <if test="orderid != null" >
+        orderid,
+      </if>
+      <if test="prodId != null" >
+        prod_id,
+      </if>
+      <if test="pname != null" >
+        pname,
+      </if>
+      <if test="ptype != null" >
+        ptype,
+      </if>
+      <if test="pcode != null" >
+        pcode,
+      </if>
+      <if test="packageid != null" >
+        packageid,
+      </if>
+      <if test="planAmt != null" >
+        plan_amt,
+      </if>
+      <if test="splitAmt != null" >
+        split_amt,
+      </if>
+      <if test="unallocAmt != null" >
+        unalloc_amt,
+      </if>
+      <if test="realAmt != null" >
+        real_amt,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="arear != null" >
+        arear,
+      </if>
+      <if test="toaddress != null" >
+        toaddress,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="splitedstatus != null" >
+        splitedstatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="workOrderId != null" >
+        #{workOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="schedId != null" >
+        #{schedId,jdbcType=INTEGER},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="prodId != null" >
+        #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="pname != null" >
+        #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="ptype != null" >
+        #{ptype,jdbcType=VARCHAR},
+      </if>
+      <if test="pcode != null" >
+        #{pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="packageid != null" >
+        #{packageid,jdbcType=VARCHAR},
+      </if>
+      <if test="planAmt != null" >
+        #{planAmt,jdbcType=INTEGER},
+      </if>
+      <if test="splitAmt != null" >
+        #{splitAmt,jdbcType=INTEGER},
+      </if>
+      <if test="unallocAmt != null" >
+        #{unallocAmt,jdbcType=INTEGER},
+      </if>
+      <if test="realAmt != null" >
+        #{realAmt,jdbcType=INTEGER},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="arear != null" >
+        #{arear,jdbcType=CHAR},
+      </if>
+      <if test="toaddress != null" >
+        #{toaddress,jdbcType=CHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="splitedstatus != null" >
+        #{splitedstatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanyang.logistics.base.pojo.SplitedOrderProdBridgeExample" resultType="java.lang.Integer" >
+    select count(*) from splited_order_prod_bridge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update splited_order_prod_bridge
+    <set >
+      <if test="record.oid != null" >
+        oid = #{record.oid,jdbcType=INTEGER},
+      </if>
+      <if test="record.workOrderId != null" >
+        work_order_id = #{record.workOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.schedId != null" >
+        sched_id = #{record.schedId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderid != null" >
+        orderid = #{record.orderid,jdbcType=INTEGER},
+      </if>
+      <if test="record.prodId != null" >
+        prod_id = #{record.prodId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pname != null" >
+        pname = #{record.pname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptype != null" >
+        ptype = #{record.ptype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcode != null" >
+        pcode = #{record.pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packageid != null" >
+        packageid = #{record.packageid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planAmt != null" >
+        plan_amt = #{record.planAmt,jdbcType=INTEGER},
+      </if>
+      <if test="record.splitAmt != null" >
+        split_amt = #{record.splitAmt,jdbcType=INTEGER},
+      </if>
+      <if test="record.unallocAmt != null" >
+        unalloc_amt = #{record.unallocAmt,jdbcType=INTEGER},
+      </if>
+      <if test="record.realAmt != null" >
+        real_amt = #{record.realAmt,jdbcType=INTEGER},
+      </if>
+      <if test="record.height != null" >
+        height = #{record.height,jdbcType=INTEGER},
+      </if>
+      <if test="record.arear != null" >
+        arear = #{record.arear,jdbcType=CHAR},
+      </if>
+      <if test="record.toaddress != null" >
+        toaddress = #{record.toaddress,jdbcType=CHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.splitedstatus != null" >
+        splitedstatus = #{record.splitedstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update splited_order_prod_bridge
+    set oid = #{record.oid,jdbcType=INTEGER},
+      work_order_id = #{record.workOrderId,jdbcType=INTEGER},
+      sched_id = #{record.schedId,jdbcType=INTEGER},
+      orderid = #{record.orderid,jdbcType=INTEGER},
+      prod_id = #{record.prodId,jdbcType=INTEGER},
+      pname = #{record.pname,jdbcType=VARCHAR},
+      ptype = #{record.ptype,jdbcType=VARCHAR},
+      pcode = #{record.pcode,jdbcType=VARCHAR},
+      packageid = #{record.packageid,jdbcType=VARCHAR},
+      plan_amt = #{record.planAmt,jdbcType=INTEGER},
+      split_amt = #{record.splitAmt,jdbcType=INTEGER},
+      unalloc_amt = #{record.unallocAmt,jdbcType=INTEGER},
+      real_amt = #{record.realAmt,jdbcType=INTEGER},
+      height = #{record.height,jdbcType=INTEGER},
+      arear = #{record.arear,jdbcType=CHAR},
+      toaddress = #{record.toaddress,jdbcType=CHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      splitedstatus = #{record.splitedstatus,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanyang.logistics.base.pojo.SplitedOrderProdBridge" >
+    update splited_order_prod_bridge
+    <set >
+      <if test="workOrderId != null" >
+        work_order_id = #{workOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="schedId != null" >
+        sched_id = #{schedId,jdbcType=INTEGER},
+      </if>
+      <if test="orderid != null" >
+        orderid = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="prodId != null" >
+        prod_id = #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="pname != null" >
+        pname = #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="ptype != null" >
+        ptype = #{ptype,jdbcType=VARCHAR},
+      </if>
+      <if test="pcode != null" >
+        pcode = #{pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="packageid != null" >
+        packageid = #{packageid,jdbcType=VARCHAR},
+      </if>
+      <if test="planAmt != null" >
+        plan_amt = #{planAmt,jdbcType=INTEGER},
+      </if>
+      <if test="splitAmt != null" >
+        split_amt = #{splitAmt,jdbcType=INTEGER},
+      </if>
+      <if test="unallocAmt != null" >
+        unalloc_amt = #{unallocAmt,jdbcType=INTEGER},
+      </if>
+      <if test="realAmt != null" >
+        real_amt = #{realAmt,jdbcType=INTEGER},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="arear != null" >
+        arear = #{arear,jdbcType=CHAR},
+      </if>
+      <if test="toaddress != null" >
+        toaddress = #{toaddress,jdbcType=CHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="splitedstatus != null" >
+        splitedstatus = #{splitedstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.SplitedOrderProdBridge" >
+    update splited_order_prod_bridge
+    set work_order_id = #{workOrderId,jdbcType=INTEGER},
+      sched_id = #{schedId,jdbcType=INTEGER},
+      orderid = #{orderid,jdbcType=INTEGER},
+      prod_id = #{prodId,jdbcType=INTEGER},
+      pname = #{pname,jdbcType=VARCHAR},
+      ptype = #{ptype,jdbcType=VARCHAR},
+      pcode = #{pcode,jdbcType=VARCHAR},
+      packageid = #{packageid,jdbcType=VARCHAR},
+      plan_amt = #{planAmt,jdbcType=INTEGER},
+      split_amt = #{splitAmt,jdbcType=INTEGER},
+      unalloc_amt = #{unallocAmt,jdbcType=INTEGER},
+      real_amt = #{realAmt,jdbcType=INTEGER},
+      height = #{height,jdbcType=INTEGER},
+      arear = #{arear,jdbcType=CHAR},
+      toaddress = #{toaddress,jdbcType=CHAR},
+      description = #{description,jdbcType=VARCHAR},
+      splitedstatus = #{splitedstatus,jdbcType=VARCHAR}
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+</mapper>

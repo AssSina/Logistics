@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sanyang.logistics.jaj.mapper.PrepareOutWarehouseMapper" >
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.PrepareOutWarehouse" >
+    <id column="preout_id" property="preoutId" jdbcType="INTEGER" />
+    <result column="pickout_prod_id" property="pickoutProdId" jdbcType="INTEGER" />
+    <result column="pickout_id" property="pickoutId" jdbcType="INTEGER" />
+    <result column="posn_id" property="posnId" jdbcType="INTEGER" />
+    <result column="prod_id" property="prodId" jdbcType="INTEGER" />
+    <result column="pname" property="pname" jdbcType="VARCHAR" />
+    <result column="ptype" property="ptype" jdbcType="VARCHAR" />
+    <result column="pcode" property="pcode" jdbcType="VARCHAR" />
+    <result column="package_name" property="packageName" jdbcType="VARCHAR" />
+    <result column="posn_code" property="posnCode" jdbcType="VARCHAR" />
+    <result column="preout_amt" property="preoutAmt" jdbcType="INTEGER" />
+    <result column="policy_id" property="policyId" jdbcType="VARCHAR" />
+    <result column="backup_area_code" property="backupAreaCode" jdbcType="VARCHAR" />
+    <result column="backupid" property="backupid" jdbcType="INTEGER" />
+    <result column="done_flag" property="doneFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    preout_id, pickout_prod_id, pickout_id, posn_id, prod_id, pname, ptype, pcode, package_name, 
+    posn_code, preout_amt, policy_id, backup_area_code, backupid, done_flag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.PrepareOutWarehouseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from prepare_out_warehouse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from prepare_out_warehouse
+    where preout_id = #{preoutId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from prepare_out_warehouse
+    where preout_id = #{preoutId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanyang.logistics.base.pojo.PrepareOutWarehouseExample" >
+    delete from prepare_out_warehouse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanyang.logistics.base.pojo.PrepareOutWarehouse" >
+    insert into prepare_out_warehouse (preout_id, pickout_prod_id, pickout_id, 
+      posn_id, prod_id, pname, 
+      ptype, pcode, package_name, 
+      posn_code, preout_amt, policy_id, 
+      backup_area_code, backupid, done_flag
+      )
+    values (#{preoutId,jdbcType=INTEGER}, #{pickoutProdId,jdbcType=INTEGER}, #{pickoutId,jdbcType=INTEGER}, 
+      #{posnId,jdbcType=INTEGER}, #{prodId,jdbcType=INTEGER}, #{pname,jdbcType=VARCHAR}, 
+      #{ptype,jdbcType=VARCHAR}, #{pcode,jdbcType=VARCHAR}, #{packageName,jdbcType=VARCHAR}, 
+      #{posnCode,jdbcType=VARCHAR}, #{preoutAmt,jdbcType=INTEGER}, #{policyId,jdbcType=VARCHAR}, 
+      #{backupAreaCode,jdbcType=VARCHAR}, #{backupid,jdbcType=INTEGER}, #{doneFlag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.PrepareOutWarehouse" >
+    insert into prepare_out_warehouse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="preoutId != null" >
+        preout_id,
+      </if>
+      <if test="pickoutProdId != null" >
+        pickout_prod_id,
+      </if>
+      <if test="pickoutId != null" >
+        pickout_id,
+      </if>
+      <if test="posnId != null" >
+        posn_id,
+      </if>
+      <if test="prodId != null" >
+        prod_id,
+      </if>
+      <if test="pname != null" >
+        pname,
+      </if>
+      <if test="ptype != null" >
+        ptype,
+      </if>
+      <if test="pcode != null" >
+        pcode,
+      </if>
+      <if test="packageName != null" >
+        package_name,
+      </if>
+      <if test="posnCode != null" >
+        posn_code,
+      </if>
+      <if test="preoutAmt != null" >
+        preout_amt,
+      </if>
+      <if test="policyId != null" >
+        policy_id,
+      </if>
+      <if test="backupAreaCode != null" >
+        backup_area_code,
+      </if>
+      <if test="backupid != null" >
+        backupid,
+      </if>
+      <if test="doneFlag != null" >
+        done_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="preoutId != null" >
+        #{preoutId,jdbcType=INTEGER},
+      </if>
+      <if test="pickoutProdId != null" >
+        #{pickoutProdId,jdbcType=INTEGER},
+      </if>
+      <if test="pickoutId != null" >
+        #{pickoutId,jdbcType=INTEGER},
+      </if>
+      <if test="posnId != null" >
+        #{posnId,jdbcType=INTEGER},
+      </if>
+      <if test="prodId != null" >
+        #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="pname != null" >
+        #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="ptype != null" >
+        #{ptype,jdbcType=VARCHAR},
+      </if>
+      <if test="pcode != null" >
+        #{pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="packageName != null" >
+        #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="posnCode != null" >
+        #{posnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="preoutAmt != null" >
+        #{preoutAmt,jdbcType=INTEGER},
+      </if>
+      <if test="policyId != null" >
+        #{policyId,jdbcType=VARCHAR},
+      </if>
+      <if test="backupAreaCode != null" >
+        #{backupAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="backupid != null" >
+        #{backupid,jdbcType=INTEGER},
+      </if>
+      <if test="doneFlag != null" >
+        #{doneFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanyang.logistics.base.pojo.PrepareOutWarehouseExample" resultType="java.lang.Integer" >
+    select count(*) from prepare_out_warehouse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update prepare_out_warehouse
+    <set >
+      <if test="record.preoutId != null" >
+        preout_id = #{record.preoutId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pickoutProdId != null" >
+        pickout_prod_id = #{record.pickoutProdId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pickoutId != null" >
+        pickout_id = #{record.pickoutId,jdbcType=INTEGER},
+      </if>
+      <if test="record.posnId != null" >
+        posn_id = #{record.posnId,jdbcType=INTEGER},
+      </if>
+      <if test="record.prodId != null" >
+        prod_id = #{record.prodId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pname != null" >
+        pname = #{record.pname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptype != null" >
+        ptype = #{record.ptype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcode != null" >
+        pcode = #{record.pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packageName != null" >
+        package_name = #{record.packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.posnCode != null" >
+        posn_code = #{record.posnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preoutAmt != null" >
+        preout_amt = #{record.preoutAmt,jdbcType=INTEGER},
+      </if>
+      <if test="record.policyId != null" >
+        policy_id = #{record.policyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backupAreaCode != null" >
+        backup_area_code = #{record.backupAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backupid != null" >
+        backupid = #{record.backupid,jdbcType=INTEGER},
+      </if>
+      <if test="record.doneFlag != null" >
+        done_flag = #{record.doneFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update prepare_out_warehouse
+    set preout_id = #{record.preoutId,jdbcType=INTEGER},
+      pickout_prod_id = #{record.pickoutProdId,jdbcType=INTEGER},
+      pickout_id = #{record.pickoutId,jdbcType=INTEGER},
+      posn_id = #{record.posnId,jdbcType=INTEGER},
+      prod_id = #{record.prodId,jdbcType=INTEGER},
+      pname = #{record.pname,jdbcType=VARCHAR},
+      ptype = #{record.ptype,jdbcType=VARCHAR},
+      pcode = #{record.pcode,jdbcType=VARCHAR},
+      package_name = #{record.packageName,jdbcType=VARCHAR},
+      posn_code = #{record.posnCode,jdbcType=VARCHAR},
+      preout_amt = #{record.preoutAmt,jdbcType=INTEGER},
+      policy_id = #{record.policyId,jdbcType=VARCHAR},
+      backup_area_code = #{record.backupAreaCode,jdbcType=VARCHAR},
+      backupid = #{record.backupid,jdbcType=INTEGER},
+      done_flag = #{record.doneFlag,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanyang.logistics.base.pojo.PrepareOutWarehouse" >
+    update prepare_out_warehouse
+    <set >
+      <if test="pickoutProdId != null" >
+        pickout_prod_id = #{pickoutProdId,jdbcType=INTEGER},
+      </if>
+      <if test="pickoutId != null" >
+        pickout_id = #{pickoutId,jdbcType=INTEGER},
+      </if>
+      <if test="posnId != null" >
+        posn_id = #{posnId,jdbcType=INTEGER},
+      </if>
+      <if test="prodId != null" >
+        prod_id = #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="pname != null" >
+        pname = #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="ptype != null" >
+        ptype = #{ptype,jdbcType=VARCHAR},
+      </if>
+      <if test="pcode != null" >
+        pcode = #{pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="packageName != null" >
+        package_name = #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="posnCode != null" >
+        posn_code = #{posnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="preoutAmt != null" >
+        preout_amt = #{preoutAmt,jdbcType=INTEGER},
+      </if>
+      <if test="policyId != null" >
+        policy_id = #{policyId,jdbcType=VARCHAR},
+      </if>
+      <if test="backupAreaCode != null" >
+        backup_area_code = #{backupAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="backupid != null" >
+        backupid = #{backupid,jdbcType=INTEGER},
+      </if>
+      <if test="doneFlag != null" >
+        done_flag = #{doneFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where preout_id = #{preoutId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.PrepareOutWarehouse" >
+    update prepare_out_warehouse
+    set pickout_prod_id = #{pickoutProdId,jdbcType=INTEGER},
+      pickout_id = #{pickoutId,jdbcType=INTEGER},
+      posn_id = #{posnId,jdbcType=INTEGER},
+      prod_id = #{prodId,jdbcType=INTEGER},
+      pname = #{pname,jdbcType=VARCHAR},
+      ptype = #{ptype,jdbcType=VARCHAR},
+      pcode = #{pcode,jdbcType=VARCHAR},
+      package_name = #{packageName,jdbcType=VARCHAR},
+      posn_code = #{posnCode,jdbcType=VARCHAR},
+      preout_amt = #{preoutAmt,jdbcType=INTEGER},
+      policy_id = #{policyId,jdbcType=VARCHAR},
+      backup_area_code = #{backupAreaCode,jdbcType=VARCHAR},
+      backupid = #{backupid,jdbcType=INTEGER},
+      done_flag = #{doneFlag,jdbcType=VARCHAR}
+    where preout_id = #{preoutId,jdbcType=INTEGER}
+  </update>
+</mapper>

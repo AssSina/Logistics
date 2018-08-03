@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sanyang.logistics.jaj.mapper.ScheduleMapper" >
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.Schedule" >
+    <id column="sched_id" property="schedId" jdbcType="INTEGER" />
+    <result column="region_id" property="regionId" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="exec_done_flag" property="execDoneFlag" jdbcType="VARCHAR" />
+    <result column="sched_type_id" property="schedTypeId" jdbcType="INTEGER" />
+    <result column="driver_type" property="driverType" jdbcType="INTEGER" />
+    <result column="truck_id" property="truckId" jdbcType="INTEGER" />
+    <result column="driver_id" property="driverId" jdbcType="INTEGER" />
+    <result column="third_party_id" property="thirdPartyId" jdbcType="INTEGER" />
+    <result column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="hacount" property="hacount" jdbcType="INTEGER" />
+    <result column="pcount" property="pcount" jdbcType="INTEGER" />
+    <result column="schstatus" property="schstatus" jdbcType="VARCHAR" />
+    <result column="fromaddress" property="fromaddress" jdbcType="VARCHAR" />
+    <result column="toaddress" property="toaddress" jdbcType="VARCHAR" />
+    <result column="cuname" property="cuname" jdbcType="VARCHAR" />
+    <result column="cuphone" property="cuphone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sched_id, region_id, create_date, update_date, exec_done_flag, sched_type_id, driver_type, 
+    truck_id, driver_id, third_party_id, end_date, hacount, pcount, schstatus, fromaddress, 
+    toaddress, cuname, cuphone
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.ScheduleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from schedule
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from schedule
+    where sched_id = #{schedId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from schedule
+    where sched_id = #{schedId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanyang.logistics.base.pojo.ScheduleExample" >
+    delete from schedule
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanyang.logistics.base.pojo.Schedule" >
+    insert into schedule (sched_id, region_id, create_date, 
+      update_date, exec_done_flag, sched_type_id, 
+      driver_type, truck_id, driver_id, 
+      third_party_id, end_date, hacount, 
+      pcount, schstatus, fromaddress, 
+      toaddress, cuname, cuphone
+      )
+    values (#{schedId,jdbcType=INTEGER}, #{regionId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{execDoneFlag,jdbcType=VARCHAR}, #{schedTypeId,jdbcType=INTEGER}, 
+      #{driverType,jdbcType=INTEGER}, #{truckId,jdbcType=INTEGER}, #{driverId,jdbcType=INTEGER}, 
+      #{thirdPartyId,jdbcType=INTEGER}, #{endDate,jdbcType=TIMESTAMP}, #{hacount,jdbcType=INTEGER}, 
+      #{pcount,jdbcType=INTEGER}, #{schstatus,jdbcType=VARCHAR}, #{fromaddress,jdbcType=VARCHAR}, 
+      #{toaddress,jdbcType=VARCHAR}, #{cuname,jdbcType=VARCHAR}, #{cuphone,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.Schedule" >
+    insert into schedule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schedId != null" >
+        sched_id,
+      </if>
+      <if test="regionId != null" >
+        region_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="execDoneFlag != null" >
+        exec_done_flag,
+      </if>
+      <if test="schedTypeId != null" >
+        sched_type_id,
+      </if>
+      <if test="driverType != null" >
+        driver_type,
+      </if>
+      <if test="truckId != null" >
+        truck_id,
+      </if>
+      <if test="driverId != null" >
+        driver_id,
+      </if>
+      <if test="thirdPartyId != null" >
+        third_party_id,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="hacount != null" >
+        hacount,
+      </if>
+      <if test="pcount != null" >
+        pcount,
+      </if>
+      <if test="schstatus != null" >
+        schstatus,
+      </if>
+      <if test="fromaddress != null" >
+        fromaddress,
+      </if>
+      <if test="toaddress != null" >
+        toaddress,
+      </if>
+      <if test="cuname != null" >
+        cuname,
+      </if>
+      <if test="cuphone != null" >
+        cuphone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schedId != null" >
+        #{schedId,jdbcType=INTEGER},
+      </if>
+      <if test="regionId != null" >
+        #{regionId,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="execDoneFlag != null" >
+        #{execDoneFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="schedTypeId != null" >
+        #{schedTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="driverType != null" >
+        #{driverType,jdbcType=INTEGER},
+      </if>
+      <if test="truckId != null" >
+        #{truckId,jdbcType=INTEGER},
+      </if>
+      <if test="driverId != null" >
+        #{driverId,jdbcType=INTEGER},
+      </if>
+      <if test="thirdPartyId != null" >
+        #{thirdPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hacount != null" >
+        #{hacount,jdbcType=INTEGER},
+      </if>
+      <if test="pcount != null" >
+        #{pcount,jdbcType=INTEGER},
+      </if>
+      <if test="schstatus != null" >
+        #{schstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="fromaddress != null" >
+        #{fromaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="toaddress != null" >
+        #{toaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cuname != null" >
+        #{cuname,jdbcType=VARCHAR},
+      </if>
+      <if test="cuphone != null" >
+        #{cuphone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanyang.logistics.base.pojo.ScheduleExample" resultType="java.lang.Integer" >
+    select count(*) from schedule
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update schedule
+    <set >
+      <if test="record.schedId != null" >
+        sched_id = #{record.schedId,jdbcType=INTEGER},
+      </if>
+      <if test="record.regionId != null" >
+        region_id = #{record.regionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.execDoneFlag != null" >
+        exec_done_flag = #{record.execDoneFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schedTypeId != null" >
+        sched_type_id = #{record.schedTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.driverType != null" >
+        driver_type = #{record.driverType,jdbcType=INTEGER},
+      </if>
+      <if test="record.truckId != null" >
+        truck_id = #{record.truckId,jdbcType=INTEGER},
+      </if>
+      <if test="record.driverId != null" >
+        driver_id = #{record.driverId,jdbcType=INTEGER},
+      </if>
+      <if test="record.thirdPartyId != null" >
+        third_party_id = #{record.thirdPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.endDate != null" >
+        end_date = #{record.endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.hacount != null" >
+        hacount = #{record.hacount,jdbcType=INTEGER},
+      </if>
+      <if test="record.pcount != null" >
+        pcount = #{record.pcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.schstatus != null" >
+        schstatus = #{record.schstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromaddress != null" >
+        fromaddress = #{record.fromaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toaddress != null" >
+        toaddress = #{record.toaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cuname != null" >
+        cuname = #{record.cuname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cuphone != null" >
+        cuphone = #{record.cuphone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update schedule
+    set sched_id = #{record.schedId,jdbcType=INTEGER},
+      region_id = #{record.regionId,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      exec_done_flag = #{record.execDoneFlag,jdbcType=VARCHAR},
+      sched_type_id = #{record.schedTypeId,jdbcType=INTEGER},
+      driver_type = #{record.driverType,jdbcType=INTEGER},
+      truck_id = #{record.truckId,jdbcType=INTEGER},
+      driver_id = #{record.driverId,jdbcType=INTEGER},
+      third_party_id = #{record.thirdPartyId,jdbcType=INTEGER},
+      end_date = #{record.endDate,jdbcType=TIMESTAMP},
+      hacount = #{record.hacount,jdbcType=INTEGER},
+      pcount = #{record.pcount,jdbcType=INTEGER},
+      schstatus = #{record.schstatus,jdbcType=VARCHAR},
+      fromaddress = #{record.fromaddress,jdbcType=VARCHAR},
+      toaddress = #{record.toaddress,jdbcType=VARCHAR},
+      cuname = #{record.cuname,jdbcType=VARCHAR},
+      cuphone = #{record.cuphone,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanyang.logistics.base.pojo.Schedule" >
+    update schedule
+    <set >
+      <if test="regionId != null" >
+        region_id = #{regionId,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="execDoneFlag != null" >
+        exec_done_flag = #{execDoneFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="schedTypeId != null" >
+        sched_type_id = #{schedTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="driverType != null" >
+        driver_type = #{driverType,jdbcType=INTEGER},
+      </if>
+      <if test="truckId != null" >
+        truck_id = #{truckId,jdbcType=INTEGER},
+      </if>
+      <if test="driverId != null" >
+        driver_id = #{driverId,jdbcType=INTEGER},
+      </if>
+      <if test="thirdPartyId != null" >
+        third_party_id = #{thirdPartyId,jdbcType=INTEGER},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hacount != null" >
+        hacount = #{hacount,jdbcType=INTEGER},
+      </if>
+      <if test="pcount != null" >
+        pcount = #{pcount,jdbcType=INTEGER},
+      </if>
+      <if test="schstatus != null" >
+        schstatus = #{schstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="fromaddress != null" >
+        fromaddress = #{fromaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="toaddress != null" >
+        toaddress = #{toaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cuname != null" >
+        cuname = #{cuname,jdbcType=VARCHAR},
+      </if>
+      <if test="cuphone != null" >
+        cuphone = #{cuphone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sched_id = #{schedId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.Schedule" >
+    update schedule
+    set region_id = #{regionId,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      exec_done_flag = #{execDoneFlag,jdbcType=VARCHAR},
+      sched_type_id = #{schedTypeId,jdbcType=INTEGER},
+      driver_type = #{driverType,jdbcType=INTEGER},
+      truck_id = #{truckId,jdbcType=INTEGER},
+      driver_id = #{driverId,jdbcType=INTEGER},
+      third_party_id = #{thirdPartyId,jdbcType=INTEGER},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      hacount = #{hacount,jdbcType=INTEGER},
+      pcount = #{pcount,jdbcType=INTEGER},
+      schstatus = #{schstatus,jdbcType=VARCHAR},
+      fromaddress = #{fromaddress,jdbcType=VARCHAR},
+      toaddress = #{toaddress,jdbcType=VARCHAR},
+      cuname = #{cuname,jdbcType=VARCHAR},
+      cuphone = #{cuphone,jdbcType=VARCHAR}
+    where sched_id = #{schedId,jdbcType=INTEGER}
+  </update>
+</mapper>

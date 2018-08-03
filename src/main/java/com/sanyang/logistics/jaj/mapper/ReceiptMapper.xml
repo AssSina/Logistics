@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sanyang.logistics.jaj.mapper.ReceiptMapper" >
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.Receipt" >
+    <id column="rcpt_id" property="rcptId" jdbcType="INTEGER" />
+    <result column="sched_id" property="schedId" jdbcType="INTEGER" />
+    <result column="wh_id" property="whId" jdbcType="INTEGER" />
+    <result column="plan_receipt_date" property="planReceiptDate" jdbcType="TIMESTAMP" />
+    <result column="status_id" property="statusId" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    rcpt_id, sched_id, wh_id, plan_receipt_date, status_id, create_date, update_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.ReceiptExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from receipt
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from receipt
+    where rcpt_id = #{rcptId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from receipt
+    where rcpt_id = #{rcptId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanyang.logistics.base.pojo.ReceiptExample" >
+    delete from receipt
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanyang.logistics.base.pojo.Receipt" >
+    insert into receipt (rcpt_id, sched_id, wh_id, 
+      plan_receipt_date, status_id, create_date, 
+      update_date)
+    values (#{rcptId,jdbcType=INTEGER}, #{schedId,jdbcType=INTEGER}, #{whId,jdbcType=INTEGER}, 
+      #{planReceiptDate,jdbcType=TIMESTAMP}, #{statusId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.Receipt" >
+    insert into receipt
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rcptId != null" >
+        rcpt_id,
+      </if>
+      <if test="schedId != null" >
+        sched_id,
+      </if>
+      <if test="whId != null" >
+        wh_id,
+      </if>
+      <if test="planReceiptDate != null" >
+        plan_receipt_date,
+      </if>
+      <if test="statusId != null" >
+        status_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rcptId != null" >
+        #{rcptId,jdbcType=INTEGER},
+      </if>
+      <if test="schedId != null" >
+        #{schedId,jdbcType=INTEGER},
+      </if>
+      <if test="whId != null" >
+        #{whId,jdbcType=INTEGER},
+      </if>
+      <if test="planReceiptDate != null" >
+        #{planReceiptDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statusId != null" >
+        #{statusId,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanyang.logistics.base.pojo.ReceiptExample" resultType="java.lang.Integer" >
+    select count(*) from receipt
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update receipt
+    <set >
+      <if test="record.rcptId != null" >
+        rcpt_id = #{record.rcptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.schedId != null" >
+        sched_id = #{record.schedId,jdbcType=INTEGER},
+      </if>
+      <if test="record.whId != null" >
+        wh_id = #{record.whId,jdbcType=INTEGER},
+      </if>
+      <if test="record.planReceiptDate != null" >
+        plan_receipt_date = #{record.planReceiptDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.statusId != null" >
+        status_id = #{record.statusId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update receipt
+    set rcpt_id = #{record.rcptId,jdbcType=INTEGER},
+      sched_id = #{record.schedId,jdbcType=INTEGER},
+      wh_id = #{record.whId,jdbcType=INTEGER},
+      plan_receipt_date = #{record.planReceiptDate,jdbcType=TIMESTAMP},
+      status_id = #{record.statusId,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanyang.logistics.base.pojo.Receipt" >
+    update receipt
+    <set >
+      <if test="schedId != null" >
+        sched_id = #{schedId,jdbcType=INTEGER},
+      </if>
+      <if test="whId != null" >
+        wh_id = #{whId,jdbcType=INTEGER},
+      </if>
+      <if test="planReceiptDate != null" >
+        plan_receipt_date = #{planReceiptDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statusId != null" >
+        status_id = #{statusId,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where rcpt_id = #{rcptId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.Receipt" >
+    update receipt
+    set sched_id = #{schedId,jdbcType=INTEGER},
+      wh_id = #{whId,jdbcType=INTEGER},
+      plan_receipt_date = #{planReceiptDate,jdbcType=TIMESTAMP},
+      status_id = #{statusId,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where rcpt_id = #{rcptId,jdbcType=INTEGER}
+  </update>
+</mapper>

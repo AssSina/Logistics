@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sanyang.logistics.jaj.mapper.RcptDamageMapper" >
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.RcptDamage" >
+    <id column="damageid" property="damageid" jdbcType="INTEGER" />
+    <result column="rcpt_id" property="rcptId" jdbcType="INTEGER" />
+    <result column="prod_id" property="prodId" jdbcType="INTEGER" />
+    <result column="damage_degree" property="damageDegree" jdbcType="VARCHAR" />
+    <result column="damagecount" property="damagecount" jdbcType="INTEGER" />
+    <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+    <result column="posn" property="posn" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    damageid, rcpt_id, prod_id, damage_degree, damagecount, bar_code, posn
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.RcptDamageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rcpt_damage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rcpt_damage
+    where damageid = #{damageid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rcpt_damage
+    where damageid = #{damageid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanyang.logistics.base.pojo.RcptDamageExample" >
+    delete from rcpt_damage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanyang.logistics.base.pojo.RcptDamage" >
+    insert into rcpt_damage (damageid, rcpt_id, prod_id, 
+      damage_degree, damagecount, bar_code, 
+      posn)
+    values (#{damageid,jdbcType=INTEGER}, #{rcptId,jdbcType=INTEGER}, #{prodId,jdbcType=INTEGER}, 
+      #{damageDegree,jdbcType=VARCHAR}, #{damagecount,jdbcType=INTEGER}, #{barCode,jdbcType=VARCHAR}, 
+      #{posn,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.RcptDamage" >
+    insert into rcpt_damage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="damageid != null" >
+        damageid,
+      </if>
+      <if test="rcptId != null" >
+        rcpt_id,
+      </if>
+      <if test="prodId != null" >
+        prod_id,
+      </if>
+      <if test="damageDegree != null" >
+        damage_degree,
+      </if>
+      <if test="damagecount != null" >
+        damagecount,
+      </if>
+      <if test="barCode != null" >
+        bar_code,
+      </if>
+      <if test="posn != null" >
+        posn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="damageid != null" >
+        #{damageid,jdbcType=INTEGER},
+      </if>
+      <if test="rcptId != null" >
+        #{rcptId,jdbcType=INTEGER},
+      </if>
+      <if test="prodId != null" >
+        #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="damageDegree != null" >
+        #{damageDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="damagecount != null" >
+        #{damagecount,jdbcType=INTEGER},
+      </if>
+      <if test="barCode != null" >
+        #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="posn != null" >
+        #{posn,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanyang.logistics.base.pojo.RcptDamageExample" resultType="java.lang.Integer" >
+    select count(*) from rcpt_damage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rcpt_damage
+    <set >
+      <if test="record.damageid != null" >
+        damageid = #{record.damageid,jdbcType=INTEGER},
+      </if>
+      <if test="record.rcptId != null" >
+        rcpt_id = #{record.rcptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.prodId != null" >
+        prod_id = #{record.prodId,jdbcType=INTEGER},
+      </if>
+      <if test="record.damageDegree != null" >
+        damage_degree = #{record.damageDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.damagecount != null" >
+        damagecount = #{record.damagecount,jdbcType=INTEGER},
+      </if>
+      <if test="record.barCode != null" >
+        bar_code = #{record.barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.posn != null" >
+        posn = #{record.posn,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rcpt_damage
+    set damageid = #{record.damageid,jdbcType=INTEGER},
+      rcpt_id = #{record.rcptId,jdbcType=INTEGER},
+      prod_id = #{record.prodId,jdbcType=INTEGER},
+      damage_degree = #{record.damageDegree,jdbcType=VARCHAR},
+      damagecount = #{record.damagecount,jdbcType=INTEGER},
+      bar_code = #{record.barCode,jdbcType=VARCHAR},
+      posn = #{record.posn,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanyang.logistics.base.pojo.RcptDamage" >
+    update rcpt_damage
+    <set >
+      <if test="rcptId != null" >
+        rcpt_id = #{rcptId,jdbcType=INTEGER},
+      </if>
+      <if test="prodId != null" >
+        prod_id = #{prodId,jdbcType=INTEGER},
+      </if>
+      <if test="damageDegree != null" >
+        damage_degree = #{damageDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="damagecount != null" >
+        damagecount = #{damagecount,jdbcType=INTEGER},
+      </if>
+      <if test="barCode != null" >
+        bar_code = #{barCode,jdbcType=VARCHAR},
+      </if>
+      <if test="posn != null" >
+        posn = #{posn,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where damageid = #{damageid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.RcptDamage" >
+    update rcpt_damage
+    set rcpt_id = #{rcptId,jdbcType=INTEGER},
+      prod_id = #{prodId,jdbcType=INTEGER},
+      damage_degree = #{damageDegree,jdbcType=VARCHAR},
+      damagecount = #{damagecount,jdbcType=INTEGER},
+      bar_code = #{barCode,jdbcType=VARCHAR},
+      posn = #{posn,jdbcType=VARCHAR}
+    where damageid = #{damageid,jdbcType=INTEGER}
+  </update>
+</mapper>

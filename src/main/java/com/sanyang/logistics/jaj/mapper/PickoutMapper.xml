@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sanyang.logistics.jaj.mapper.PickoutMapper" >
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.Pickout" >
+    <id column="pickout_id" property="pickoutId" jdbcType="INTEGER" />
+    <result column="sched_id" property="schedId" jdbcType="INTEGER" />
+    <result column="wh_id" property="whId" jdbcType="INTEGER" />
+    <result column="plan_pickout_date" property="planPickoutDate" jdbcType="TIMESTAMP" />
+    <result column="status_id" property="statusId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="done_flag" property="doneFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    pickout_id, sched_id, wh_id, plan_pickout_date, status_id, create_date, update_date, 
+    done_flag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.PickoutExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pickout
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pickout
+    where pickout_id = #{pickoutId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pickout
+    where pickout_id = #{pickoutId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanyang.logistics.base.pojo.PickoutExample" >
+    delete from pickout
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanyang.logistics.base.pojo.Pickout" >
+    insert into pickout (pickout_id, sched_id, wh_id, 
+      plan_pickout_date, status_id, create_date, 
+      update_date, done_flag)
+    values (#{pickoutId,jdbcType=INTEGER}, #{schedId,jdbcType=INTEGER}, #{whId,jdbcType=INTEGER}, 
+      #{planPickoutDate,jdbcType=TIMESTAMP}, #{statusId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{doneFlag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.Pickout" >
+    insert into pickout
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pickoutId != null" >
+        pickout_id,
+      </if>
+      <if test="schedId != null" >
+        sched_id,
+      </if>
+      <if test="whId != null" >
+        wh_id,
+      </if>
+      <if test="planPickoutDate != null" >
+        plan_pickout_date,
+      </if>
+      <if test="statusId != null" >
+        status_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="doneFlag != null" >
+        done_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pickoutId != null" >
+        #{pickoutId,jdbcType=INTEGER},
+      </if>
+      <if test="schedId != null" >
+        #{schedId,jdbcType=INTEGER},
+      </if>
+      <if test="whId != null" >
+        #{whId,jdbcType=INTEGER},
+      </if>
+      <if test="planPickoutDate != null" >
+        #{planPickoutDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statusId != null" >
+        #{statusId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doneFlag != null" >
+        #{doneFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanyang.logistics.base.pojo.PickoutExample" resultType="java.lang.Integer" >
+    select count(*) from pickout
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update pickout
+    <set >
+      <if test="record.pickoutId != null" >
+        pickout_id = #{record.pickoutId,jdbcType=INTEGER},
+      </if>
+      <if test="record.schedId != null" >
+        sched_id = #{record.schedId,jdbcType=INTEGER},
+      </if>
+      <if test="record.whId != null" >
+        wh_id = #{record.whId,jdbcType=INTEGER},
+      </if>
+      <if test="record.planPickoutDate != null" >
+        plan_pickout_date = #{record.planPickoutDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.statusId != null" >
+        status_id = #{record.statusId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.doneFlag != null" >
+        done_flag = #{record.doneFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update pickout
+    set pickout_id = #{record.pickoutId,jdbcType=INTEGER},
+      sched_id = #{record.schedId,jdbcType=INTEGER},
+      wh_id = #{record.whId,jdbcType=INTEGER},
+      plan_pickout_date = #{record.planPickoutDate,jdbcType=TIMESTAMP},
+      status_id = #{record.statusId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      done_flag = #{record.doneFlag,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanyang.logistics.base.pojo.Pickout" >
+    update pickout
+    <set >
+      <if test="schedId != null" >
+        sched_id = #{schedId,jdbcType=INTEGER},
+      </if>
+      <if test="whId != null" >
+        wh_id = #{whId,jdbcType=INTEGER},
+      </if>
+      <if test="planPickoutDate != null" >
+        plan_pickout_date = #{planPickoutDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statusId != null" >
+        status_id = #{statusId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doneFlag != null" >
+        done_flag = #{doneFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pickout_id = #{pickoutId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.Pickout" >
+    update pickout
+    set sched_id = #{schedId,jdbcType=INTEGER},
+      wh_id = #{whId,jdbcType=INTEGER},
+      plan_pickout_date = #{planPickoutDate,jdbcType=TIMESTAMP},
+      status_id = #{statusId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      done_flag = #{doneFlag,jdbcType=VARCHAR}
+    where pickout_id = #{pickoutId,jdbcType=INTEGER}
+  </update>
+</mapper>
