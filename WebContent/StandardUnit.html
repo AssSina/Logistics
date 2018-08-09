@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>标准单位管理</title>
+		<style type="text/css">
+			#div-select {
+				margin-top: 20px;
+			}
+		</style>
+		<!--导入核心bootstrap css样式-->
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<!--导入jQuery-->
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--导入核心Bootstrap js-->
+		<script src="js/bootstarp-3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+//			var str="1";
+			$(function() {
+				$("#tab").bootstrapTable({
+					url: "standardUnit/getStandardUnit.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+					queryParams:queryParams,//方法返回参数
+					columns: [{
+						title: "基本单位名称",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "基本单位描述",
+						field: 'description',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "所属类别",
+						field: 'catery',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "操作",
+						field: 'unitid',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele(" + row.unitid + ")'></button>";
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd(' + row.unitid + ')" data-target="#myModal2"></button>';
+							return d + u;
+						}
+					}]
+				})
+				
+				$("#but").click(function() {
+					$.post("standardUnit/insertStandardUnit.action",$("#form").serialize(),function(data) {
+							$("#myModal").modal("hide");
+							$("#tab").bootstrapTable("refresh");
+					})
+				})
+				
+				$("#but2").click(function() {
+					$.ajax({
+						type: "post",
+						url: "standardUnit/updateStandardUnit.action",
+						data: $("#form2").serialize(),
+						success: function(data) {
+							$("#myModal2").modal("hide");
+							$("#tab").bootstrapTable("refresh");
+						}
+					});
+				})
+				
+				$("#but3").click(function() {
+					$("#tab").bootstrapTable("refresh");
+				});
+				
+			})
+			
+			function queryParams(){
+				return {
+					'name':$("#name-select").val(),
+					'catery':$("#catery-select").val(),
+				}
+			}
+			
+			function dele(unitid) {
+				$.ajax({
+					type: "post",
+					url: "standardUnit/deleteStandardUnit.action",
+					data:"unitid=" + unitid,
+					success: function(data) {
+						$("#tab").bootstrapTable("refresh");
+					}
+				});
+			}
+			
+			function upd(unitid) {
+				$.ajax({
+					type: "post",
+					url: "standardUnit/getStandardUnitById.action",
+					data:"unitid=" + unitid,
+					dataType:"JSON",
+					success: function(data) {
+						$("#unitid").val(data.unitid);
+						$("#name").val(data.name);
+						$("#description").val(data.description);
+						$("#catery").val(data.catery);
+					}
+				});
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="form-group col-md-offset-4" id="div-select">
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="name-select" value="" placeholder="按单位名称查询">
+			</div>
+			<div class="col-md-2">
+				<select class="form-control" id="catery-select">
+					<option value="">请选择</option>
+					<option value="重量">重量</option>
+					<option value="长度">长度</option>
+					<option value="体积">体积</option>
+				</select>
+			</div>
+			<button type="button" id="but3" class="btn btn-info glyphicon glyphicon-search"></button>
+			<!-- 按钮触发模态框 添加-->
+			<button class="btn btn-success col-md-offset-1" data-toggle="modal" data-target="#myModal">添加单位</button>
+		</div>
+		<table class="table table-hover table-bordered" id="tab">
+
+		</table>
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">添加基本单位信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form" role="form">
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">基本单位名称</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="firstname" name="name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">基本单位描述</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="firstname" name="description">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">类别</label>
+								<div class="col-md-10">
+									<select class="form-control" name="catery">
+										<option value="重量">重量</option>
+										<option value="长度">长度</option>
+										<option value="体积">体积</option>
+									</select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="but" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">修改基本单位信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form2" role="form">
+							<input type="hidden" name="unitid" id="unitid" value="" />
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">基本单位名称</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="name" name="name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">基本单位描述</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="description" name="description">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">类别</label>
+								<div class="col-md-10">
+									<select class="form-control" id="catery" name="catery">
+										<option value="重量">重量</option>
+										<option value="长度">长度</option>
+										<option value="体积">体积</option>
+									</select>
+								</div>
+							</div>							
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="but2" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
+		
+	</body>
+
+</html>

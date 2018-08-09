@@ -12,8 +12,10 @@
     <result column="channel_flag" property="channelFlag" jdbcType="CHAR" />
     <result column="channel_id" property="channelId" jdbcType="INTEGER" />
     <result column="wh_id" property="whId" jdbcType="INTEGER" />
-    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate"/>
+    <result column="update_date" property="updateDate"/>
+    <result column="name" property="name"/>
+    <result column="channelno" property="channelno"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -116,7 +118,7 @@
     values (#{shelfId,jdbcType=INTEGER}, #{shelfNo,jdbcType=VARCHAR}, #{layer,jdbcType=INTEGER}, 
       #{psnum,jdbcType=INTEGER}, #{capacity,jdbcType=INTEGER}, #{volume,jdbcType=INTEGER}, 
       #{maxBearing,jdbcType=INTEGER}, #{channelFlag,jdbcType=CHAR}, #{channelId,jdbcType=INTEGER}, 
-      #{whId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      #{whId,jdbcType=INTEGER}, #{createDate}, #{updateDate}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.Shelf" >
@@ -152,9 +154,7 @@
       <if test="whId != null" >
         wh_id,
       </if>
-      <if test="createDate != null" >
         create_date,
-      </if>
       <if test="updateDate != null" >
         update_date,
       </if>
@@ -190,11 +190,11 @@
       <if test="whId != null" >
         #{whId,jdbcType=INTEGER},
       </if>
-      <if test="createDate != null" >
-        #{createDate,jdbcType=TIMESTAMP},
+      <if test="createDate == null" >
+        now(),
       </if>
       <if test="updateDate != null" >
-        #{updateDate,jdbcType=TIMESTAMP},
+        #{updateDate},
       </if>
     </trim>
   </insert>
@@ -238,10 +238,10 @@
         wh_id = #{record.whId,jdbcType=INTEGER},
       </if>
       <if test="record.createDate != null" >
-        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+        create_date = #{record.createDate},
       </if>
       <if test="record.updateDate != null" >
-        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+        update_date = #{record.updateDate},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -260,8 +260,8 @@
       channel_flag = #{record.channelFlag,jdbcType=CHAR},
       channel_id = #{record.channelId,jdbcType=INTEGER},
       wh_id = #{record.whId,jdbcType=INTEGER},
-      create_date = #{record.createDate,jdbcType=TIMESTAMP},
-      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
+      create_date = #{record.createDate},
+      update_date = #{record.updateDate}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -297,10 +297,10 @@
         wh_id = #{whId,jdbcType=INTEGER},
       </if>
       <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=TIMESTAMP},
+        create_date = #{createDate},
       </if>
-      <if test="updateDate != null" >
-        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      <if test="updateDate == null" >
+        update_date = now(),
       </if>
     </set>
     where shelf_id = #{shelfId,jdbcType=INTEGER}
@@ -316,8 +316,13 @@
       channel_flag = #{channelFlag,jdbcType=CHAR},
       channel_id = #{channelId,jdbcType=INTEGER},
       wh_id = #{whId,jdbcType=INTEGER},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_date = #{updateDate,jdbcType=TIMESTAMP}
+      create_date = #{createDate},
+      update_date = #{updateDate}
     where shelf_id = #{shelfId,jdbcType=INTEGER}
   </update>
+  
+  <select id="getShelf" resultMap="BaseResultMap">
+  	select b.*,w.name,c.channelno from shelf b,warehouse w,channel c 
+  	where b.wh_id=w.wh_id and c.channel_id=b.channel_id
+  </select>
 </mapper>

@@ -27,4 +27,6 @@ public interface ChannelMapper {
     int updateByPrimaryKeySelective(Channel record);
 
     int updateByPrimaryKey(Channel record);
+     
+    List<Channel> getChannel();
 }

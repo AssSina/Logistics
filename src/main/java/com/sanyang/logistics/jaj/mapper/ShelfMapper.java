@@ -27,4 +27,6 @@ public interface ShelfMapper {
     int updateByPrimaryKeySelective(Shelf record);
 
     int updateByPrimaryKey(Shelf record);
+    
+    List<Shelf> getShelf();
 }

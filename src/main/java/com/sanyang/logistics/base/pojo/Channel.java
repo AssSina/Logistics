@@ -6,6 +6,8 @@ public class Channel {
     private String channelno;
 
     private Integer whId;
+    
+    private String name;
 
     public Integer getChannelId() {
         return channelId;
@@ -30,4 +32,14 @@ public class Channel {
     public void setWhId(Integer whId) {
         this.whId = whId;
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+    
+    
 }

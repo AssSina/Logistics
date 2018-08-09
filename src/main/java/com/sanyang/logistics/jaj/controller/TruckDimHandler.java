@@ -23,9 +23,44 @@ public class TruckDimHandler {
 	
 	@RequestMapping("/getTruckDim")
 	@ResponseBody
-	public Object getTruckDim(){
-		List<TruckDim> truckDims=truckDimService.getTruckDim();
+	public Object getTruckDim(TruckDim truckDim){
+		List<TruckDim> truckDims=truckDimService.getTruckDim(truckDim);
 		 return truckDims;
+	}
+	
+	@RequestMapping("/insertTruckDim")
+	@ResponseBody
+	public String insertTruckDim(TruckDim truckDim){
+		truckDimService.insertTruckDim(truckDim);
+		return "1";
+	}
+	
+	@RequestMapping("/deleteTruckDim")
+	@ResponseBody
+	public int deleteTruckDim(Integer truckId){
+		truckDimService.deleteTruckDim(truckId);
+		return 1;
+	}
+	
+	@RequestMapping("/getTruckDimById")
+	@ResponseBody
+	public Object getTruckDimById(Integer truckId){
+		TruckDim truckDim=truckDimService.getTruckDimById(truckId);
+		return truckDim;
+	}
+	
+	@RequestMapping("/updateTruckDim")
+	@ResponseBody
+	public int updateTruckDim(TruckDim truckDim){
+		truckDimService.updateTruckDim(truckDim);
+		return 1;
+	}
+	
+	@RequestMapping("/getOwnerTypeDimById")
+	@ResponseBody
+	public Object getOwnerTypeDimById(){
+		List<TruckDim> truckDims=truckDimService.getOwnerTypeDimById();
+		return truckDims;
 	}
 
 }

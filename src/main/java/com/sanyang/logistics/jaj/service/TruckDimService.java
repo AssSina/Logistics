@@ -11,6 +11,16 @@ import com.sanyang.logistics.base.pojo.TruckDim;
  */
 public interface TruckDimService {
 
-	List<TruckDim> getTruckDim();
+	List<TruckDim> getTruckDim(TruckDim truckDim);
+
+	void insertTruckDim(TruckDim truckDim);
+
+	void deleteTruckDim(Integer truckId);
+
+	TruckDim getTruckDimById(Integer truckId);
+
+	void updateTruckDim(TruckDim truckDim);
+
+	List<TruckDim> getOwnerTypeDimById();
 
 }

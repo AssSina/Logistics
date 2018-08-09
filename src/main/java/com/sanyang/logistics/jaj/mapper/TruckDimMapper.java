@@ -32,5 +32,7 @@ public interface TruckDimMapper {
 
     int updateByPrimaryKey(TruckDim record);
 
-	List<TruckDim> getTruckDim();
+	List<TruckDim> getTruckDim(TruckDim truckDim);
+
+	List<TruckDim> getOwnerTypeDimById();
 }

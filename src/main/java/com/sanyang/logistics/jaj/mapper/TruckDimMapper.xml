@@ -6,12 +6,13 @@
     <result column="license" property="license" jdbcType="VARCHAR" />
     <result column="carry_capcty" property="carryCapcty" jdbcType="CHAR" />
     <result column="owner_type_id" property="ownerTypeId" jdbcType="INTEGER" />
-    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" />
+    <result column="update_date" property="updateDate" />
     <result column="trucktype" property="trucktype" jdbcType="VARCHAR" />
     <result column="truckstatus" property="truckstatus" jdbcType="VARCHAR" />
     <result column="trucklocation" property="trucklocation" jdbcType="VARCHAR" />
     <result column="truckage" property="truckage" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -111,7 +112,7 @@
       trucktype, truckstatus, trucklocation, 
       truckage)
     values (#{truckId,jdbcType=INTEGER}, #{license,jdbcType=VARCHAR}, #{carryCapcty,jdbcType=CHAR}, 
-      #{ownerTypeId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{ownerTypeId,jdbcType=INTEGER}, #{createDate}, #{updateDate}, 
       #{trucktype,jdbcType=VARCHAR}, #{truckstatus,jdbcType=VARCHAR}, #{trucklocation,jdbcType=VARCHAR}, 
       #{truckage,jdbcType=INTEGER})
   </insert>
@@ -130,9 +131,7 @@
       <if test="ownerTypeId != null" >
         owner_type_id,
       </if>
-      <if test="createDate != null" >
         create_date,
-      </if>
       <if test="updateDate != null" >
         update_date,
       </if>
@@ -162,11 +161,9 @@
       <if test="ownerTypeId != null" >
         #{ownerTypeId,jdbcType=INTEGER},
       </if>
-      <if test="createDate != null" >
-        #{createDate,jdbcType=TIMESTAMP},
-      </if>
+        now(),
       <if test="updateDate != null" >
-        #{updateDate,jdbcType=TIMESTAMP},
+        #{updateDate},
       </if>
       <if test="trucktype != null" >
         #{trucktype,jdbcType=VARCHAR},
@@ -204,10 +201,10 @@
         owner_type_id = #{record.ownerTypeId,jdbcType=INTEGER},
       </if>
       <if test="record.createDate != null" >
-        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+        create_date = #{record.createDate},
       </if>
       <if test="record.updateDate != null" >
-        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+        update_date = #{record.updateDate},
       </if>
       <if test="record.trucktype != null" >
         trucktype = #{record.trucktype,jdbcType=VARCHAR},
@@ -232,8 +229,8 @@
       license = #{record.license,jdbcType=VARCHAR},
       carry_capcty = #{record.carryCapcty,jdbcType=CHAR},
       owner_type_id = #{record.ownerTypeId,jdbcType=INTEGER},
-      create_date = #{record.createDate,jdbcType=TIMESTAMP},
-      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      create_date = #{record.createDate},
+      update_date = #{record.updateDate},
       trucktype = #{record.trucktype,jdbcType=VARCHAR},
       truckstatus = #{record.truckstatus,jdbcType=VARCHAR},
       trucklocation = #{record.trucklocation,jdbcType=VARCHAR},
@@ -255,10 +252,10 @@
         owner_type_id = #{ownerTypeId,jdbcType=INTEGER},
       </if>
       <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=TIMESTAMP},
+        create_date = #{createDate},
       </if>
-      <if test="updateDate != null" >
-        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      <if test="updateDate == null" >
+        update_date = now(),
       </if>
       <if test="trucktype != null" >
         trucktype = #{trucktype,jdbcType=VARCHAR},
@@ -280,8 +277,8 @@
     set license = #{license,jdbcType=VARCHAR},
       carry_capcty = #{carryCapcty,jdbcType=CHAR},
       owner_type_id = #{ownerTypeId,jdbcType=INTEGER},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      create_date = #{createDate},
+      update_date = #{updateDate},
       trucktype = #{trucktype,jdbcType=VARCHAR},
       truckstatus = #{truckstatus,jdbcType=VARCHAR},
       trucklocation = #{trucklocation,jdbcType=VARCHAR},
@@ -289,7 +286,17 @@
     where truck_id = #{truckId,jdbcType=INTEGER}
   </update>
   
-  <select id="getTruckDim" resultMap="BaseResultMap">
-  	select * from truck_dim
+  <select id="getTruckDim" resultMap="BaseResultMap" parameterType="truckdim">
+  	select * from truck_dim f,owner_type_dim d where f.owner_type_id=d.owner_type_id
+  	<if test="license !=null and license!=''">
+  		and license like '%${license}%'
+  	</if>
+  	<if test="trucktype !=null and trucktype !=''">
+  		and trucktype=#{trucktype}
+  	</if>
+  </select>
+  
+  <select id="getOwnerTypeDimById" resultMap="BaseResultMap">
+ 	select * from owner_type_dim
   </select>
 </mapper>

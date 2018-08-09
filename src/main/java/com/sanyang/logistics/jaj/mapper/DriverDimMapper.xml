@@ -10,7 +10,7 @@
     <result column="status" property="status" jdbcType="CHAR" />
     <result column="license" property="license" jdbcType="VARCHAR" />
     <result column="drivertype" property="drivertype" jdbcType="CHAR" />
-    <result column="to_date" property="toDate" jdbcType="TIMESTAMP" />
+    <result column="to_date" property="toDate" />
     <result column="contact" property="contact" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -111,7 +111,7 @@
       contact)
     values (#{driverId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{age,jdbcType=INTEGER}, #{driverage,jdbcType=INTEGER}, #{status,jdbcType=CHAR}, 
-      #{license,jdbcType=VARCHAR}, #{drivertype,jdbcType=CHAR}, #{toDate,jdbcType=TIMESTAMP}, 
+      #{license,jdbcType=VARCHAR}, #{drivertype,jdbcType=CHAR}, #{toDate}, 
       #{contact,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.DriverDim" >
@@ -174,7 +174,7 @@
         #{drivertype,jdbcType=CHAR},
       </if>
       <if test="toDate != null" >
-        #{toDate,jdbcType=TIMESTAMP},
+        #{toDate},
       </if>
       <if test="contact != null" >
         #{contact,jdbcType=VARCHAR},
@@ -215,7 +215,7 @@
         drivertype = #{record.drivertype,jdbcType=CHAR},
       </if>
       <if test="record.toDate != null" >
-        to_date = #{record.toDate,jdbcType=TIMESTAMP},
+        to_date = #{record.toDate},
       </if>
       <if test="record.contact != null" >
         contact = #{record.contact,jdbcType=VARCHAR},
@@ -235,7 +235,7 @@
       status = #{record.status,jdbcType=CHAR},
       license = #{record.license,jdbcType=VARCHAR},
       drivertype = #{record.drivertype,jdbcType=CHAR},
-      to_date = #{record.toDate,jdbcType=TIMESTAMP},
+      to_date = #{record.toDate},
       contact = #{record.contact,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -266,7 +266,7 @@
         drivertype = #{drivertype,jdbcType=CHAR},
       </if>
       <if test="toDate != null" >
-        to_date = #{toDate,jdbcType=TIMESTAMP},
+        to_date = #{toDate},
       </if>
       <if test="contact != null" >
         contact = #{contact,jdbcType=VARCHAR},
@@ -283,7 +283,7 @@
       status = #{status,jdbcType=CHAR},
       license = #{license,jdbcType=VARCHAR},
       drivertype = #{drivertype,jdbcType=CHAR},
-      to_date = #{toDate,jdbcType=TIMESTAMP},
+      to_date = #{toDate},
       contact = #{contact,jdbcType=VARCHAR}
     where driver_id = #{driverId,jdbcType=INTEGER}
   </update>
