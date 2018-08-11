@@ -6,7 +6,7 @@ import com.sanyang.logistics.base.pojo.DriverDim;
 import com.sanyang.logistics.base.pojo.DriverDimExample;
 
 /**
- * 司机数据访问层接口
+ * 货物数据访问层接口
  * @author asus
  *
  */

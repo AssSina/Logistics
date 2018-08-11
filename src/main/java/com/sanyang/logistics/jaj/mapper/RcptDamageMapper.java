@@ -27,4 +27,6 @@ public interface RcptDamageMapper {
     int updateByPrimaryKeySelective(RcptDamage record);
 
     int updateByPrimaryKey(RcptDamage record);
+    
+    List<RcptDamage> getRcptDamage(RcptDamage rcptDamage);
 }
