@@ -15,29 +15,13 @@
    
     <!-- 打开 annotation -->       
     <context:annotation-config/>
-    <!-- 自动扫描所有的dao组件 -->
+     <!-- 自动扫描所有的dao组件 -->
 	<context:component-scan base-package="com.sanyang" use-default-filters="false">
 	    <context:include-filter type="regex" expression="com.sanyang.logistics.*.dao.*"/>
 	    <context:include-filter type="regex" expression="com.sanyang.logistics.*.service.*"/>
 	</context:component-scan>
 	
-	<!-- 设置返回json的编码格式 -->
-	<bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
-	     <property name="supportedMediaTypes">
-	         <list>
-	             <value>application/json;charset=UTF-8</value>
-	         </list>
-	     </property>
-	 </bean>
-	 <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
-	 <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-	     <property name="messageConverters">
-	         <list>
-	             <ref bean="stringConverter" />
-	             <ref bean="jsonConverter" />
-	         </list>
-	     </property>
-	 </bean>
+
  
 	<!-- 引入配置文件 -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -59,7 +43,7 @@
 	    <property name="dataSource" ref="MyDataSource" />
 	    <property name="mapperLocations" value="classpath:com/sanyang/logistics/*/mapper/*Mapper.xml"/>
 	    <property name="configLocation" value="classpath:mybatis-config.xml" /> 
-	    <property name="typeAliasesPackage" value="com.sanyang.logistics.pojo"></property> 
+	    <property name="typeAliasesPackage" value="com.sanyang.logistics.base.pojo"></property> 
 	</bean>
 	
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"> 
@@ -87,7 +71,8 @@
  			<tx:method name="qyery*" read-only="false" propagation="NOT_SUPPORTED" /> 
  			<tx:method name="save*" propagation="REQUIRED" /> 
  			<tx:method name="update*" propagation="REQUIRED" /> 
- 			<tx:method name="delete*" propagation="REQUIRED" /> 
+ 			<tx:method name="delete*" propagation="REQUIRED" />
+ 			<tx:method name="select*" propagation="REQUIRED" />  
  		</tx:attributes> 
  	</tx:advice> 
 	

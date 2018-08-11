@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>货物管理</title>
+		<style type="text/css">
+			#div-select {
+				margin-top: 20px;
+			}
+		</style>
+		<!--导入核心bootstrap css样式-->
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<!--导入jQuery-->
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--导入核心Bootstrap js-->
+		<script src="js/bootstarp-3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+//			var str="1";
+			$(function() {
+				$("#tab").bootstrapTable({
+					url: "product/getProduct.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+					queryParams:queryParams,//方法返回参数
+					columns: [{
+						title: "货物名称",
+						field: 'pname',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "货物类别",
+						field: 'catery',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "产品型号",
+						field: 'pmodel',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "产品编码",
+						field: 'code',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "供应商",
+						field: 'provider',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "创建日期",
+						field: 'createDate',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "更新日期",
+						field: 'updateDate',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "货物状态",
+						field: 'status',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "操作",
+						field: 'pid',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele(" + row.pid + ")'></button>";
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd(' + row.pid + ')" data-target="#myModal2"></button>';
+							return d + u;
+						}
+					}]
+				})
+				
+				$("#but").click(function() {
+					$.post("product/insertProduct.action",$("#form").serialize(),function(data) {
+							$("#myModal").modal("hide");
+							$("#tab").bootstrapTable("refresh");
+					})
+				})
+				
+				$("#but2").click(function() {
+					$.ajax({
+						type: "post",
+						url: "product/updateProduct.action",
+						data: $("#form2").serialize(),
+						success: function(data) {
+							$("#myModal2").modal("hide");
+							$("#tab").bootstrapTable("refresh");
+						}
+					});
+				})
+				
+				$("#but3").click(function() {
+					$("#tab").bootstrapTable("refresh");
+				});
+				
+			})
+			
+			function queryParams(){
+				return {
+					'pname':$("#pname-select").val(),
+					'code':$("#code-select").val(),
+					'provider':$("#provider-select").val()
+				}
+			}
+			
+			function dele(pid) {
+				$.ajax({
+					type: "post",
+					url: "product/deleteProduct.action",
+					data:"pid=" + pid,
+					success: function(data) {
+						$("#tab").bootstrapTable("refresh");
+					}
+				});
+			}
+			
+			function upd(pid) {
+				$.ajax({
+					type: "post",
+					url: "product/getProductById.action",
+					data:"pid=" + pid,
+					dataType:"JSON",
+					success: function(data) {
+						$("#pid").val(data.pid)
+						$("#pname").val(data.pname);
+						$("#catery").val(data.catery);
+						$("#pmodel").val(data.pmodel);
+						$("#code").val(data.code);
+						$("#provider").val(data.provider);
+						$("#status").val(data.status);
+					}
+				});
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="form-group col-md-offset-2" id="div-select">
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="pname-select" value="" placeholder="按货物名称查询">
+			</div>
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="code-select" value="" placeholder="按货物编码查询">
+			</div>
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="provider-select" value="" placeholder="按供应商名称查询">
+			</div>
+			<!--<div class="col-md-2">
+				<select class="form-control" id="uid2" name="uid2">
+					<option value="0">--请选择--</option>
+				</select>
+			</div>-->
+			<button type="button" id="but3" class="btn btn-info glyphicon glyphicon-search"></button>
+			<!-- 按钮触发模态框 添加-->
+			<button class="btn btn-success col-md-offset-1" data-toggle="modal" data-target="#myModal">添加货物</button>
+		</div>
+		<table class="table table-hover table-bordered" id="tab">
+
+		</table>
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">添加货物信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form" role="form">
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">货物名称</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="firstname" name="pname">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">货物类别</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="firstname" name="catery">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">产品型号</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="firstname" name="pmodel">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">产品编码</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="firstname" name="code">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">供应商</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="firstname" name="provider">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">货物状态</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="firstname" name="status">
+								</div>
+							</div>
+				
+							
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="but" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">修改货物信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form2" role="form">
+							<input type="hidden" name="pid" id="pid" value="" />
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">货物名称</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="pname" name="pname">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">货物类别</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="catery" name="catery">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">产品型号</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="pmodel" name="pmodel">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">产品编码</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="code" name="code">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">供应商</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="provider" name="provider">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">货物状态</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="status" name="status">
+								</div>
+							</div>
+						</form>
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="but2" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
+		
+	</body>
+
+</html>

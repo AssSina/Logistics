@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sanyang.logistics.jaj.mapper.WarehouseMapper" >
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.Warehouse" >
+    <id column="wh_id" property="whId" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="whno" property="whno" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="principle" property="principle" jdbcType="VARCHAR" />
+    <result column="height" property="height" jdbcType="INTEGER" />
+    <result column="area" property="area" jdbcType="INTEGER" />
+    <result column="fireproof_level" property="fireproofLevel" jdbcType="INTEGER" />
+    <result column="whtype" property="whtype" jdbcType="INTEGER" />
+    <result column="material" property="material" jdbcType="VARCHAR" />
+    <result column="bearing_weigh" property="bearingWeigh" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate"/>
+    <result column="update_date" property="updateDate"/>
+    <result column="contact" property="contact" jdbcType="VARCHAR" />
+    <result column="firelevel" property="firelevel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    wh_id, type_id, name, whno, address, principle, height, area, fireproof_level, whtype, 
+    material, bearing_weigh, create_date, update_date, contact, firelevel
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.WarehouseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from warehouse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse
+    where wh_id = #{whId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from warehouse
+    where wh_id = #{whId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanyang.logistics.base.pojo.WarehouseExample" >
+    delete from warehouse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanyang.logistics.base.pojo.Warehouse" >
+    insert into warehouse (wh_id, type_id, name, 
+      whno, address, principle, 
+      height, area, fireproof_level, 
+      whtype, material, bearing_weigh, 
+      create_date, update_date, contact, 
+      firelevel)
+    values (#{whId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{whno,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{principle,jdbcType=VARCHAR}, 
+      #{height,jdbcType=INTEGER}, #{area,jdbcType=INTEGER}, #{fireproofLevel,jdbcType=INTEGER}, 
+      #{whtype,jdbcType=INTEGER}, #{material,jdbcType=VARCHAR}, #{bearingWeigh,jdbcType=INTEGER}, 
+      #{createDate}, #{updateDate}, #{contact,jdbcType=VARCHAR}, 
+      #{firelevel,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.Warehouse" >
+    insert into warehouse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="whId != null" >
+        wh_id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="whno != null" >
+        whno,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="principle != null" >
+        principle,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="fireproofLevel != null" >
+        fireproof_level,
+      </if>
+      <if test="whtype != null" >
+        whtype,
+      </if>
+      <if test="material != null" >
+        material,
+      </if>
+      <if test="bearingWeigh != null" >
+        bearing_weigh,
+      </if>
+        create_date,
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="contact != null" >
+        contact,
+      </if>
+      <if test="firelevel != null" >
+        firelevel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="whId != null" >
+        #{whId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="whno != null" >
+        #{whno,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="principle != null" >
+        #{principle,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=INTEGER},
+      </if>
+      <if test="fireproofLevel != null" >
+        #{fireproofLevel,jdbcType=INTEGER},
+      </if>
+      <if test="whtype != null" >
+        #{whtype,jdbcType=INTEGER},
+      </if>
+      <if test="material != null" >
+        #{material,jdbcType=VARCHAR},
+      </if>
+      <if test="bearingWeigh != null" >
+        #{bearingWeigh,jdbcType=INTEGER},
+      </if>
+        now(),
+      <if test="updateDate != null" >
+        #{updateDate},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="firelevel != null" >
+        #{firelevel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanyang.logistics.base.pojo.WarehouseExample" resultType="java.lang.Integer" >
+    select count(*) from warehouse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update warehouse
+    <set >
+      <if test="whId != null" >
+        wh_id = #{whId,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="whno != null" >
+        whno = #{whno,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="principle != null" >
+        principle = #{principle,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=INTEGER},
+      </if>
+      <if test="fireproofLevel != null" >
+        fireproof_level = #{fireproofLevel,jdbcType=INTEGER},
+      </if>
+      <if test="whtype != null" >
+        whtype = #{whtype,jdbcType=INTEGER},
+      </if>
+      <if test="material != null" >
+        material = #{material,jdbcType=VARCHAR},
+      </if>
+      <if test="bearingWeigh != null" >
+        bearing_weigh = #{bearingWeigh,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate},
+      </if>
+      <if test="contact != null" >
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="firelevel != null" >
+        firelevel = #{firelevel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update warehouse
+    set wh_id = #{whId,jdbcType=INTEGER},
+      type_id = #{typeId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      whno = #{whno,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      principle = #{principle,jdbcType=VARCHAR},
+      height = #{height,jdbcType=INTEGER},
+      area = #{area,jdbcType=INTEGER},
+      fireproof_level = #{fireproofLevel,jdbcType=INTEGER},
+      whtype = #{whtype,jdbcType=INTEGER},
+      material = #{material,jdbcType=VARCHAR},
+      bearing_weigh = #{bearingWeigh,jdbcType=INTEGER},
+      create_date = #{createDate},
+      update_date = #{updateDate},
+      contact = #{contact,jdbcType=VARCHAR},
+      firelevel = #{firelevel,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanyang.logistics.base.pojo.Warehouse" >
+    update warehouse
+    <set >
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="whno != null" >
+        whno = #{whno,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="principle != null" >
+        principle = #{principle,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=INTEGER},
+      </if>
+      <if test="fireproofLevel != null" >
+        fireproof_level = #{fireproofLevel,jdbcType=INTEGER},
+      </if>
+      <if test="whtype != null" >
+        whtype = #{whtype,jdbcType=INTEGER},
+      </if>
+      <if test="material != null" >
+        material = #{material,jdbcType=VARCHAR},
+      </if>
+      <if test="bearingWeigh != null" >
+        bearing_weigh = #{bearingWeigh,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate},
+      </if>
+      <if test="updateDate == null" >
+         update_date = now(),
+      </if>
+       <if test="contact != null" >
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="firelevel != null" >
+        firelevel = #{firelevel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where wh_id = #{whId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.Warehouse" >
+    update warehouse
+    set type_id = #{typeId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      whno = #{whno,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      principle = #{principle,jdbcType=VARCHAR},
+      height = #{height,jdbcType=INTEGER},
+      area = #{area,jdbcType=INTEGER},
+      fireproof_level = #{fireproofLevel,jdbcType=INTEGER},
+      whtype = #{whtype,jdbcType=INTEGER},
+      material = #{material,jdbcType=VARCHAR},
+      bearing_weigh = #{bearingWeigh,jdbcType=INTEGER},
+      create_date = #{createDate},
+      update_date = #{updateDate},
+      contact = #{contact,jdbcType=VARCHAR},
+      firelevel = #{firelevel,jdbcType=VARCHAR}
+    where wh_id = #{whId,jdbcType=INTEGER}
+  </update>
+  
+  
+</mapper>

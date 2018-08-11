@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sanyang.logistics.jaj.mapper.SysordersMapper" >
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.Sysorders" >
+    <id column="oid" property="oid" jdbcType="INTEGER" />
+    <result column="cus_order_no" property="cusOrderNo" jdbcType="VARCHAR" />
+    <result column="parent_oid" property="parentOid" jdbcType="INTEGER" />
+    <result column="cust_id" property="custId" jdbcType="INTEGER" />
+    <result column="sys_order_type_id" property="sysOrderTypeId" jdbcType="INTEGER" />
+    <result column="cust_order_type_id" property="custOrderTypeId" jdbcType="INTEGER" />
+    <result column="from_address" property="fromAddress" jdbcType="VARCHAR" />
+    <result column="to_address" property="toAddress" jdbcType="VARCHAR" />
+    <result column="to_customer" property="toCustomer" jdbcType="VARCHAR" />
+    <result column="from_warehouse" property="fromWarehouse" jdbcType="INTEGER" />
+    <result column="to_warehouse" property="toWarehouse" jdbcType="INTEGER" />
+    <result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+    <result column="product_count" property="productCount" jdbcType="INTEGER" />
+    <result column="trucktype" property="trucktype" jdbcType="VARCHAR" />
+    <result column="plan_trsprt_date" property="planTrsprtDate" jdbcType="TIMESTAMP" />
+    <result column="plan_arrival_date" property="planArrivalDate" jdbcType="TIMESTAMP" />
+    <result column="plan_out_date" property="planOutDate" jdbcType="TIMESTAMP" />
+    <result column="plan_in_date" property="planInDate" jdbcType="TIMESTAMP" />
+    <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR" />
+    <result column="contact_person" property="contactPerson" jdbcType="VARCHAR" />
+    <result column="take_money_flag" property="takeMoneyFlag" jdbcType="CHAR" />
+    <result column="truckflag" property="truckflag" jdbcType="CHAR" />
+    <result column="region_id" property="regionId" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="createperson" property="createperson" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    oid, cus_order_no, parent_oid, cust_id, sys_order_type_id, cust_order_type_id, from_address, 
+    to_address, to_customer, from_warehouse, to_warehouse, order_status, product_count, 
+    trucktype, plan_trsprt_date, plan_arrival_date, plan_out_date, plan_in_date, contact_phone, 
+    contact_person, take_money_flag, truckflag, region_id, createtime, description, createperson
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.SysordersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sysorders
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sysorders
+    where oid = #{oid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sysorders
+    where oid = #{oid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanyang.logistics.base.pojo.SysordersExample" >
+    delete from sysorders
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanyang.logistics.base.pojo.Sysorders" >
+    insert into sysorders (oid, cus_order_no, parent_oid, 
+      cust_id, sys_order_type_id, cust_order_type_id, 
+      from_address, to_address, to_customer, 
+      from_warehouse, to_warehouse, order_status, 
+      product_count, trucktype, plan_trsprt_date, 
+      plan_arrival_date, plan_out_date, plan_in_date, 
+      contact_phone, contact_person, take_money_flag, 
+      truckflag, region_id, createtime, 
+      description, createperson)
+    values (#{oid,jdbcType=INTEGER}, #{cusOrderNo,jdbcType=VARCHAR}, #{parentOid,jdbcType=INTEGER}, 
+      #{custId,jdbcType=INTEGER}, #{sysOrderTypeId,jdbcType=INTEGER}, #{custOrderTypeId,jdbcType=INTEGER}, 
+      #{fromAddress,jdbcType=VARCHAR}, #{toAddress,jdbcType=VARCHAR}, #{toCustomer,jdbcType=VARCHAR}, 
+      #{fromWarehouse,jdbcType=INTEGER}, #{toWarehouse,jdbcType=INTEGER}, #{orderStatus,jdbcType=INTEGER}, 
+      #{productCount,jdbcType=INTEGER}, #{trucktype,jdbcType=VARCHAR}, #{planTrsprtDate,jdbcType=TIMESTAMP}, 
+      #{planArrivalDate,jdbcType=TIMESTAMP}, #{planOutDate,jdbcType=TIMESTAMP}, #{planInDate,jdbcType=TIMESTAMP}, 
+      #{contactPhone,jdbcType=VARCHAR}, #{contactPerson,jdbcType=VARCHAR}, #{takeMoneyFlag,jdbcType=CHAR}, 
+      #{truckflag,jdbcType=CHAR}, #{regionId,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{description,jdbcType=VARCHAR}, #{createperson,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.Sysorders" >
+    insert into sysorders
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        oid,
+      </if>
+      <if test="cusOrderNo != null" >
+        cus_order_no,
+      </if>
+      <if test="parentOid != null" >
+        parent_oid,
+      </if>
+      <if test="custId != null" >
+        cust_id,
+      </if>
+      <if test="sysOrderTypeId != null" >
+        sys_order_type_id,
+      </if>
+      <if test="custOrderTypeId != null" >
+        cust_order_type_id,
+      </if>
+      <if test="fromAddress != null" >
+        from_address,
+      </if>
+      <if test="toAddress != null" >
+        to_address,
+      </if>
+      <if test="toCustomer != null" >
+        to_customer,
+      </if>
+      <if test="fromWarehouse != null" >
+        from_warehouse,
+      </if>
+      <if test="toWarehouse != null" >
+        to_warehouse,
+      </if>
+      <if test="orderStatus != null" >
+        order_status,
+      </if>
+      <if test="productCount != null" >
+        product_count,
+      </if>
+      <if test="trucktype != null" >
+        trucktype,
+      </if>
+      <if test="planTrsprtDate != null" >
+        plan_trsprt_date,
+      </if>
+      <if test="planArrivalDate != null" >
+        plan_arrival_date,
+      </if>
+      <if test="planOutDate != null" >
+        plan_out_date,
+      </if>
+      <if test="planInDate != null" >
+        plan_in_date,
+      </if>
+      <if test="contactPhone != null" >
+        contact_phone,
+      </if>
+      <if test="contactPerson != null" >
+        contact_person,
+      </if>
+      <if test="takeMoneyFlag != null" >
+        take_money_flag,
+      </if>
+      <if test="truckflag != null" >
+        truckflag,
+      </if>
+      <if test="regionId != null" >
+        region_id,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="createperson != null" >
+        createperson,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="cusOrderNo != null" >
+        #{cusOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="parentOid != null" >
+        #{parentOid,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null" >
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="sysOrderTypeId != null" >
+        #{sysOrderTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="custOrderTypeId != null" >
+        #{custOrderTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="fromAddress != null" >
+        #{fromAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="toAddress != null" >
+        #{toAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="toCustomer != null" >
+        #{toCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="fromWarehouse != null" >
+        #{fromWarehouse,jdbcType=INTEGER},
+      </if>
+      <if test="toWarehouse != null" >
+        #{toWarehouse,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="productCount != null" >
+        #{productCount,jdbcType=INTEGER},
+      </if>
+      <if test="trucktype != null" >
+        #{trucktype,jdbcType=VARCHAR},
+      </if>
+      <if test="planTrsprtDate != null" >
+        #{planTrsprtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planArrivalDate != null" >
+        #{planArrivalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planOutDate != null" >
+        #{planOutDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planInDate != null" >
+        #{planInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactPhone != null" >
+        #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPerson != null" >
+        #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="takeMoneyFlag != null" >
+        #{takeMoneyFlag,jdbcType=CHAR},
+      </if>
+      <if test="truckflag != null" >
+        #{truckflag,jdbcType=CHAR},
+      </if>
+      <if test="regionId != null" >
+        #{regionId,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanyang.logistics.base.pojo.SysordersExample" resultType="java.lang.Integer" >
+    select count(*) from sysorders
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sysorders
+    <set >
+      <if test="record.oid != null" >
+        oid = #{record.oid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cusOrderNo != null" >
+        cus_order_no = #{record.cusOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentOid != null" >
+        parent_oid = #{record.parentOid,jdbcType=INTEGER},
+      </if>
+      <if test="record.custId != null" >
+        cust_id = #{record.custId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sysOrderTypeId != null" >
+        sys_order_type_id = #{record.sysOrderTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.custOrderTypeId != null" >
+        cust_order_type_id = #{record.custOrderTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromAddress != null" >
+        from_address = #{record.fromAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toAddress != null" >
+        to_address = #{record.toAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toCustomer != null" >
+        to_customer = #{record.toCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromWarehouse != null" >
+        from_warehouse = #{record.fromWarehouse,jdbcType=INTEGER},
+      </if>
+      <if test="record.toWarehouse != null" >
+        to_warehouse = #{record.toWarehouse,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderStatus != null" >
+        order_status = #{record.orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.productCount != null" >
+        product_count = #{record.productCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.trucktype != null" >
+        trucktype = #{record.trucktype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planTrsprtDate != null" >
+        plan_trsprt_date = #{record.planTrsprtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planArrivalDate != null" >
+        plan_arrival_date = #{record.planArrivalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planOutDate != null" >
+        plan_out_date = #{record.planOutDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planInDate != null" >
+        plan_in_date = #{record.planInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.contactPhone != null" >
+        contact_phone = #{record.contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactPerson != null" >
+        contact_person = #{record.contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.takeMoneyFlag != null" >
+        take_money_flag = #{record.takeMoneyFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.truckflag != null" >
+        truckflag = #{record.truckflag,jdbcType=CHAR},
+      </if>
+      <if test="record.regionId != null" >
+        region_id = #{record.regionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createperson != null" >
+        createperson = #{record.createperson,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sysorders
+    set oid = #{record.oid,jdbcType=INTEGER},
+      cus_order_no = #{record.cusOrderNo,jdbcType=VARCHAR},
+      parent_oid = #{record.parentOid,jdbcType=INTEGER},
+      cust_id = #{record.custId,jdbcType=INTEGER},
+      sys_order_type_id = #{record.sysOrderTypeId,jdbcType=INTEGER},
+      cust_order_type_id = #{record.custOrderTypeId,jdbcType=INTEGER},
+      from_address = #{record.fromAddress,jdbcType=VARCHAR},
+      to_address = #{record.toAddress,jdbcType=VARCHAR},
+      to_customer = #{record.toCustomer,jdbcType=VARCHAR},
+      from_warehouse = #{record.fromWarehouse,jdbcType=INTEGER},
+      to_warehouse = #{record.toWarehouse,jdbcType=INTEGER},
+      order_status = #{record.orderStatus,jdbcType=INTEGER},
+      product_count = #{record.productCount,jdbcType=INTEGER},
+      trucktype = #{record.trucktype,jdbcType=VARCHAR},
+      plan_trsprt_date = #{record.planTrsprtDate,jdbcType=TIMESTAMP},
+      plan_arrival_date = #{record.planArrivalDate,jdbcType=TIMESTAMP},
+      plan_out_date = #{record.planOutDate,jdbcType=TIMESTAMP},
+      plan_in_date = #{record.planInDate,jdbcType=TIMESTAMP},
+      contact_phone = #{record.contactPhone,jdbcType=VARCHAR},
+      contact_person = #{record.contactPerson,jdbcType=VARCHAR},
+      take_money_flag = #{record.takeMoneyFlag,jdbcType=CHAR},
+      truckflag = #{record.truckflag,jdbcType=CHAR},
+      region_id = #{record.regionId,jdbcType=INTEGER},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      description = #{record.description,jdbcType=VARCHAR},
+      createperson = #{record.createperson,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanyang.logistics.base.pojo.Sysorders" >
+    update sysorders
+    <set >
+      <if test="cusOrderNo != null" >
+        cus_order_no = #{cusOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="parentOid != null" >
+        parent_oid = #{parentOid,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null" >
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="sysOrderTypeId != null" >
+        sys_order_type_id = #{sysOrderTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="custOrderTypeId != null" >
+        cust_order_type_id = #{custOrderTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="fromAddress != null" >
+        from_address = #{fromAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="toAddress != null" >
+        to_address = #{toAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="toCustomer != null" >
+        to_customer = #{toCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="fromWarehouse != null" >
+        from_warehouse = #{fromWarehouse,jdbcType=INTEGER},
+      </if>
+      <if test="toWarehouse != null" >
+        to_warehouse = #{toWarehouse,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null" >
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="productCount != null" >
+        product_count = #{productCount,jdbcType=INTEGER},
+      </if>
+      <if test="trucktype != null" >
+        trucktype = #{trucktype,jdbcType=VARCHAR},
+      </if>
+      <if test="planTrsprtDate != null" >
+        plan_trsprt_date = #{planTrsprtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planArrivalDate != null" >
+        plan_arrival_date = #{planArrivalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planOutDate != null" >
+        plan_out_date = #{planOutDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planInDate != null" >
+        plan_in_date = #{planInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactPhone != null" >
+        contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPerson != null" >
+        contact_person = #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="takeMoneyFlag != null" >
+        take_money_flag = #{takeMoneyFlag,jdbcType=CHAR},
+      </if>
+      <if test="truckflag != null" >
+        truckflag = #{truckflag,jdbcType=CHAR},
+      </if>
+      <if test="regionId != null" >
+        region_id = #{regionId,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createperson != null" >
+        createperson = #{createperson,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.Sysorders" >
+    update sysorders
+    set cus_order_no = #{cusOrderNo,jdbcType=VARCHAR},
+      parent_oid = #{parentOid,jdbcType=INTEGER},
+      cust_id = #{custId,jdbcType=INTEGER},
+      sys_order_type_id = #{sysOrderTypeId,jdbcType=INTEGER},
+      cust_order_type_id = #{custOrderTypeId,jdbcType=INTEGER},
+      from_address = #{fromAddress,jdbcType=VARCHAR},
+      to_address = #{toAddress,jdbcType=VARCHAR},
+      to_customer = #{toCustomer,jdbcType=VARCHAR},
+      from_warehouse = #{fromWarehouse,jdbcType=INTEGER},
+      to_warehouse = #{toWarehouse,jdbcType=INTEGER},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      product_count = #{productCount,jdbcType=INTEGER},
+      trucktype = #{trucktype,jdbcType=VARCHAR},
+      plan_trsprt_date = #{planTrsprtDate,jdbcType=TIMESTAMP},
+      plan_arrival_date = #{planArrivalDate,jdbcType=TIMESTAMP},
+      plan_out_date = #{planOutDate,jdbcType=TIMESTAMP},
+      plan_in_date = #{planInDate,jdbcType=TIMESTAMP},
+      contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      contact_person = #{contactPerson,jdbcType=VARCHAR},
+      take_money_flag = #{takeMoneyFlag,jdbcType=CHAR},
+      truckflag = #{truckflag,jdbcType=CHAR},
+      region_id = #{regionId,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR},
+      createperson = #{createperson,jdbcType=VARCHAR}
+    where oid = #{oid,jdbcType=INTEGER}
+  </update>
+</mapper>

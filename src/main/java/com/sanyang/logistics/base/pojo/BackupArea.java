@@ -8,6 +8,8 @@ public class BackupArea {
     private String code;
 
     private Integer whId;
+    
+    private String bname;
 
     public Integer getBackupAreaId() {
         return backupAreaId;
@@ -40,4 +42,14 @@ public class BackupArea {
     public void setWhId(Integer whId) {
         this.whId = whId;
     }
+
+	public String getBname() {
+		return bname;
+	}
+
+	public void setBname(String bname) {
+		this.bname = bname;
+	}
+    
+    
 }

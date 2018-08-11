@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sanyang.logistics.jaj.mapper.WorkOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.WorkOrder" >
+    <id column="workid" property="workid" jdbcType="INTEGER" />
+    <result column="orderid" property="orderid" jdbcType="INTEGER" />
+    <result column="from_wh_id" property="fromWhId" jdbcType="INTEGER" />
+    <result column="to_wh_id" property="toWhId" jdbcType="INTEGER" />
+    <result column="trnspt_flag" property="trnsptFlag" jdbcType="VARCHAR" />
+    <result column="trnspt_type_id" property="trnsptTypeId" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="from_address" property="fromAddress" jdbcType="VARCHAR" />
+    <result column="to_address" property="toAddress" jdbcType="VARCHAR" />
+    <result column="sendtime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="arrivetime" property="arrivetime" jdbcType="TIMESTAMP" />
+    <result column="productcount" property="productcount" jdbcType="INTEGER" />
+    <result column="sendcount" property="sendcount" jdbcType="INTEGER" />
+    <result column="plan_out_date" property="planOutDate" jdbcType="TIMESTAMP" />
+    <result column="plan_in_date" property="planInDate" jdbcType="TIMESTAMP" />
+    <result column="heightflag" property="heightflag" jdbcType="CHAR" />
+    <result column="heigtharear" property="heigtharear" jdbcType="VARCHAR" />
+    <result column="scheduletype" property="scheduletype" jdbcType="VARCHAR" />
+    <result column="productname" property="productname" jdbcType="VARCHAR" />
+    <result column="pcode" property="pcode" jdbcType="VARCHAR" />
+    <result column="ptype" property="ptype" jdbcType="VARCHAR" />
+    <result column="ppackage" property="ppackage" jdbcType="VARCHAR" />
+    <result column="workstatus" property="workstatus" jdbcType="VARCHAR" />
+    <result column="ordertype" property="ordertype" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    workid, orderid, from_wh_id, to_wh_id, trnspt_flag, trnspt_type_id, create_date, 
+    update_date, from_address, to_address, sendtime, arrivetime, productcount, sendcount, 
+    plan_out_date, plan_in_date, heightflag, heigtharear, scheduletype, productname, 
+    pcode, ptype, ppackage, workstatus, ordertype
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.WorkOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from work_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from work_order
+    where workid = #{workid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from work_order
+    where workid = #{workid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanyang.logistics.base.pojo.WorkOrderExample" >
+    delete from work_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanyang.logistics.base.pojo.WorkOrder" >
+    insert into work_order (workid, orderid, from_wh_id, 
+      to_wh_id, trnspt_flag, trnspt_type_id, 
+      create_date, update_date, from_address, 
+      to_address, sendtime, arrivetime, 
+      productcount, sendcount, plan_out_date, 
+      plan_in_date, heightflag, heigtharear, 
+      scheduletype, productname, pcode, 
+      ptype, ppackage, workstatus, 
+      ordertype)
+    values (#{workid,jdbcType=INTEGER}, #{orderid,jdbcType=INTEGER}, #{fromWhId,jdbcType=INTEGER}, 
+      #{toWhId,jdbcType=INTEGER}, #{trnsptFlag,jdbcType=VARCHAR}, #{trnsptTypeId,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{fromAddress,jdbcType=VARCHAR}, 
+      #{toAddress,jdbcType=VARCHAR}, #{sendtime,jdbcType=TIMESTAMP}, #{arrivetime,jdbcType=TIMESTAMP}, 
+      #{productcount,jdbcType=INTEGER}, #{sendcount,jdbcType=INTEGER}, #{planOutDate,jdbcType=TIMESTAMP}, 
+      #{planInDate,jdbcType=TIMESTAMP}, #{heightflag,jdbcType=CHAR}, #{heigtharear,jdbcType=VARCHAR}, 
+      #{scheduletype,jdbcType=VARCHAR}, #{productname,jdbcType=VARCHAR}, #{pcode,jdbcType=VARCHAR}, 
+      #{ptype,jdbcType=VARCHAR}, #{ppackage,jdbcType=VARCHAR}, #{workstatus,jdbcType=VARCHAR}, 
+      #{ordertype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.WorkOrder" >
+    insert into work_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="workid != null" >
+        workid,
+      </if>
+      <if test="orderid != null" >
+        orderid,
+      </if>
+      <if test="fromWhId != null" >
+        from_wh_id,
+      </if>
+      <if test="toWhId != null" >
+        to_wh_id,
+      </if>
+      <if test="trnsptFlag != null" >
+        trnspt_flag,
+      </if>
+      <if test="trnsptTypeId != null" >
+        trnspt_type_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="fromAddress != null" >
+        from_address,
+      </if>
+      <if test="toAddress != null" >
+        to_address,
+      </if>
+      <if test="sendtime != null" >
+        sendtime,
+      </if>
+      <if test="arrivetime != null" >
+        arrivetime,
+      </if>
+      <if test="productcount != null" >
+        productcount,
+      </if>
+      <if test="sendcount != null" >
+        sendcount,
+      </if>
+      <if test="planOutDate != null" >
+        plan_out_date,
+      </if>
+      <if test="planInDate != null" >
+        plan_in_date,
+      </if>
+      <if test="heightflag != null" >
+        heightflag,
+      </if>
+      <if test="heigtharear != null" >
+        heigtharear,
+      </if>
+      <if test="scheduletype != null" >
+        scheduletype,
+      </if>
+      <if test="productname != null" >
+        productname,
+      </if>
+      <if test="pcode != null" >
+        pcode,
+      </if>
+      <if test="ptype != null" >
+        ptype,
+      </if>
+      <if test="ppackage != null" >
+        ppackage,
+      </if>
+      <if test="workstatus != null" >
+        workstatus,
+      </if>
+      <if test="ordertype != null" >
+        ordertype,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="workid != null" >
+        #{workid,jdbcType=INTEGER},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="fromWhId != null" >
+        #{fromWhId,jdbcType=INTEGER},
+      </if>
+      <if test="toWhId != null" >
+        #{toWhId,jdbcType=INTEGER},
+      </if>
+      <if test="trnsptFlag != null" >
+        #{trnsptFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="trnsptTypeId != null" >
+        #{trnsptTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fromAddress != null" >
+        #{fromAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="toAddress != null" >
+        #{toAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="arrivetime != null" >
+        #{arrivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productcount != null" >
+        #{productcount,jdbcType=INTEGER},
+      </if>
+      <if test="sendcount != null" >
+        #{sendcount,jdbcType=INTEGER},
+      </if>
+      <if test="planOutDate != null" >
+        #{planOutDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planInDate != null" >
+        #{planInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="heightflag != null" >
+        #{heightflag,jdbcType=CHAR},
+      </if>
+      <if test="heigtharear != null" >
+        #{heigtharear,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduletype != null" >
+        #{scheduletype,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null" >
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="pcode != null" >
+        #{pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ptype != null" >
+        #{ptype,jdbcType=VARCHAR},
+      </if>
+      <if test="ppackage != null" >
+        #{ppackage,jdbcType=VARCHAR},
+      </if>
+      <if test="workstatus != null" >
+        #{workstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertype != null" >
+        #{ordertype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanyang.logistics.base.pojo.WorkOrderExample" resultType="java.lang.Integer" >
+    select count(*) from work_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update work_order
+    <set >
+      <if test="record.workid != null" >
+        workid = #{record.workid,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderid != null" >
+        orderid = #{record.orderid,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromWhId != null" >
+        from_wh_id = #{record.fromWhId,jdbcType=INTEGER},
+      </if>
+      <if test="record.toWhId != null" >
+        to_wh_id = #{record.toWhId,jdbcType=INTEGER},
+      </if>
+      <if test="record.trnsptFlag != null" >
+        trnspt_flag = #{record.trnsptFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trnsptTypeId != null" >
+        trnspt_type_id = #{record.trnsptTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fromAddress != null" >
+        from_address = #{record.fromAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toAddress != null" >
+        to_address = #{record.toAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendtime != null" >
+        sendtime = #{record.sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.arrivetime != null" >
+        arrivetime = #{record.arrivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.productcount != null" >
+        productcount = #{record.productcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.sendcount != null" >
+        sendcount = #{record.sendcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.planOutDate != null" >
+        plan_out_date = #{record.planOutDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planInDate != null" >
+        plan_in_date = #{record.planInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.heightflag != null" >
+        heightflag = #{record.heightflag,jdbcType=CHAR},
+      </if>
+      <if test="record.heigtharear != null" >
+        heigtharear = #{record.heigtharear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scheduletype != null" >
+        scheduletype = #{record.scheduletype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productname != null" >
+        productname = #{record.productname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcode != null" >
+        pcode = #{record.pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptype != null" >
+        ptype = #{record.ptype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ppackage != null" >
+        ppackage = #{record.ppackage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workstatus != null" >
+        workstatus = #{record.workstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordertype != null" >
+        ordertype = #{record.ordertype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update work_order
+    set workid = #{record.workid,jdbcType=INTEGER},
+      orderid = #{record.orderid,jdbcType=INTEGER},
+      from_wh_id = #{record.fromWhId,jdbcType=INTEGER},
+      to_wh_id = #{record.toWhId,jdbcType=INTEGER},
+      trnspt_flag = #{record.trnsptFlag,jdbcType=VARCHAR},
+      trnspt_type_id = #{record.trnsptTypeId,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      from_address = #{record.fromAddress,jdbcType=VARCHAR},
+      to_address = #{record.toAddress,jdbcType=VARCHAR},
+      sendtime = #{record.sendtime,jdbcType=TIMESTAMP},
+      arrivetime = #{record.arrivetime,jdbcType=TIMESTAMP},
+      productcount = #{record.productcount,jdbcType=INTEGER},
+      sendcount = #{record.sendcount,jdbcType=INTEGER},
+      plan_out_date = #{record.planOutDate,jdbcType=TIMESTAMP},
+      plan_in_date = #{record.planInDate,jdbcType=TIMESTAMP},
+      heightflag = #{record.heightflag,jdbcType=CHAR},
+      heigtharear = #{record.heigtharear,jdbcType=VARCHAR},
+      scheduletype = #{record.scheduletype,jdbcType=VARCHAR},
+      productname = #{record.productname,jdbcType=VARCHAR},
+      pcode = #{record.pcode,jdbcType=VARCHAR},
+      ptype = #{record.ptype,jdbcType=VARCHAR},
+      ppackage = #{record.ppackage,jdbcType=VARCHAR},
+      workstatus = #{record.workstatus,jdbcType=VARCHAR},
+      ordertype = #{record.ordertype,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanyang.logistics.base.pojo.WorkOrder" >
+    update work_order
+    <set >
+      <if test="orderid != null" >
+        orderid = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="fromWhId != null" >
+        from_wh_id = #{fromWhId,jdbcType=INTEGER},
+      </if>
+      <if test="toWhId != null" >
+        to_wh_id = #{toWhId,jdbcType=INTEGER},
+      </if>
+      <if test="trnsptFlag != null" >
+        trnspt_flag = #{trnsptFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="trnsptTypeId != null" >
+        trnspt_type_id = #{trnsptTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fromAddress != null" >
+        from_address = #{fromAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="toAddress != null" >
+        to_address = #{toAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="arrivetime != null" >
+        arrivetime = #{arrivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productcount != null" >
+        productcount = #{productcount,jdbcType=INTEGER},
+      </if>
+      <if test="sendcount != null" >
+        sendcount = #{sendcount,jdbcType=INTEGER},
+      </if>
+      <if test="planOutDate != null" >
+        plan_out_date = #{planOutDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planInDate != null" >
+        plan_in_date = #{planInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="heightflag != null" >
+        heightflag = #{heightflag,jdbcType=CHAR},
+      </if>
+      <if test="heigtharear != null" >
+        heigtharear = #{heigtharear,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduletype != null" >
+        scheduletype = #{scheduletype,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null" >
+        productname = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="pcode != null" >
+        pcode = #{pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ptype != null" >
+        ptype = #{ptype,jdbcType=VARCHAR},
+      </if>
+      <if test="ppackage != null" >
+        ppackage = #{ppackage,jdbcType=VARCHAR},
+      </if>
+      <if test="workstatus != null" >
+        workstatus = #{workstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertype != null" >
+        ordertype = #{ordertype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where workid = #{workid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.WorkOrder" >
+    update work_order
+    set orderid = #{orderid,jdbcType=INTEGER},
+      from_wh_id = #{fromWhId,jdbcType=INTEGER},
+      to_wh_id = #{toWhId,jdbcType=INTEGER},
+      trnspt_flag = #{trnsptFlag,jdbcType=VARCHAR},
+      trnspt_type_id = #{trnsptTypeId,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      from_address = #{fromAddress,jdbcType=VARCHAR},
+      to_address = #{toAddress,jdbcType=VARCHAR},
+      sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      arrivetime = #{arrivetime,jdbcType=TIMESTAMP},
+      productcount = #{productcount,jdbcType=INTEGER},
+      sendcount = #{sendcount,jdbcType=INTEGER},
+      plan_out_date = #{planOutDate,jdbcType=TIMESTAMP},
+      plan_in_date = #{planInDate,jdbcType=TIMESTAMP},
+      heightflag = #{heightflag,jdbcType=CHAR},
+      heigtharear = #{heigtharear,jdbcType=VARCHAR},
+      scheduletype = #{scheduletype,jdbcType=VARCHAR},
+      productname = #{productname,jdbcType=VARCHAR},
+      pcode = #{pcode,jdbcType=VARCHAR},
+      ptype = #{ptype,jdbcType=VARCHAR},
+      ppackage = #{ppackage,jdbcType=VARCHAR},
+      workstatus = #{workstatus,jdbcType=VARCHAR},
+      ordertype = #{ordertype,jdbcType=VARCHAR}
+    where workid = #{workid,jdbcType=INTEGER}
+  </update>
+</mapper>

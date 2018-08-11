@@ -1,6 +1,5 @@
 package com.sanyang.logistics.base.pojo;
 
-import java.util.Date;
 
 public class TruckDim {
     private Integer truckId;
@@ -11,9 +10,9 @@ public class TruckDim {
 
     private Integer ownerTypeId;
 
-    private Date createDate;
+    private String createDate;
 
-    private Date updateDate;
+    private String updateDate;
 
     private String trucktype;
 
@@ -22,8 +21,19 @@ public class TruckDim {
     private String trucklocation;
 
     private Integer truckage;
+    
+    private String name;
+    
 
-    public Integer getTruckId() {
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getTruckId() {
         return truckId;
     }
 
@@ -55,19 +65,19 @@ public class TruckDim {
         this.ownerTypeId = ownerTypeId;
     }
 
-    public Date getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
-    public Date getUpdateDate() {
+    public String getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(String updateDate) {
         this.updateDate = updateDate;
     }
 

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sanyang.logistics.jaj.mapper.CustomizedPackageMapper" >
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.CustomizedPackage" >
+    <id column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="pname" property="pname" jdbcType="VARCHAR" />
+    <result column="rules" property="rules" jdbcType="VARCHAR" />
+    <result column="rule_description" property="ruleDescription" jdbcType="VARCHAR" />
+    <result column="unit_weight" property="unitWeight" jdbcType="DOUBLE" />
+    <result column="unit_volume" property="unitVolume" jdbcType="REAL" />
+    <result column="unit_length" property="unitLength" jdbcType="REAL" />
+    <result column="unit_width" property="unitWidth" jdbcType="REAL" />
+    <result column="unit_height" property="unitHeight" jdbcType="REAL" />
+    <result column="unit_flag" property="unitFlag" jdbcType="CHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    pid, pname, rules, rule_description, unit_weight, unit_volume, unit_length, unit_width, 
+    unit_height, unit_flag, create_date, update_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.CustomizedPackageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customized_package
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from customized_package
+    where pid = #{pid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from customized_package
+    where pid = #{pid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanyang.logistics.base.pojo.CustomizedPackageExample" >
+    delete from customized_package
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanyang.logistics.base.pojo.CustomizedPackage" >
+    insert into customized_package (pid, pname, rules, 
+      rule_description, unit_weight, unit_volume, 
+      unit_length, unit_width, unit_height, 
+      unit_flag, create_date, update_date
+      )
+    values (#{pid,jdbcType=INTEGER}, #{pname,jdbcType=VARCHAR}, #{rules,jdbcType=VARCHAR}, 
+      #{ruleDescription,jdbcType=VARCHAR}, #{unitWeight,jdbcType=DOUBLE}, #{unitVolume,jdbcType=REAL}, 
+      #{unitLength,jdbcType=REAL}, #{unitWidth,jdbcType=REAL}, #{unitHeight,jdbcType=REAL}, 
+      #{unitFlag,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.CustomizedPackage" >
+    insert into customized_package
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="pname != null" >
+        pname,
+      </if>
+      <if test="rules != null" >
+        rules,
+      </if>
+      <if test="ruleDescription != null" >
+        rule_description,
+      </if>
+      <if test="unitWeight != null" >
+        unit_weight,
+      </if>
+      <if test="unitVolume != null" >
+        unit_volume,
+      </if>
+      <if test="unitLength != null" >
+        unit_length,
+      </if>
+      <if test="unitWidth != null" >
+        unit_width,
+      </if>
+      <if test="unitHeight != null" >
+        unit_height,
+      </if>
+      <if test="unitFlag != null" >
+        unit_flag,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="pname != null" >
+        #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="rules != null" >
+        #{rules,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleDescription != null" >
+        #{ruleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="unitWeight != null" >
+        #{unitWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="unitVolume != null" >
+        #{unitVolume,jdbcType=REAL},
+      </if>
+      <if test="unitLength != null" >
+        #{unitLength,jdbcType=REAL},
+      </if>
+      <if test="unitWidth != null" >
+        #{unitWidth,jdbcType=REAL},
+      </if>
+      <if test="unitHeight != null" >
+        #{unitHeight,jdbcType=REAL},
+      </if>
+      <if test="unitFlag != null" >
+        #{unitFlag,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanyang.logistics.base.pojo.CustomizedPackageExample" resultType="java.lang.Integer" >
+    select count(*) from customized_package
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update customized_package
+    <set >
+      <if test="record.pid != null" >
+        pid = #{record.pid,jdbcType=INTEGER},
+      </if>
+      <if test="record.pname != null" >
+        pname = #{record.pname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rules != null" >
+        rules = #{record.rules,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ruleDescription != null" >
+        rule_description = #{record.ruleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitWeight != null" >
+        unit_weight = #{record.unitWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="record.unitVolume != null" >
+        unit_volume = #{record.unitVolume,jdbcType=REAL},
+      </if>
+      <if test="record.unitLength != null" >
+        unit_length = #{record.unitLength,jdbcType=REAL},
+      </if>
+      <if test="record.unitWidth != null" >
+        unit_width = #{record.unitWidth,jdbcType=REAL},
+      </if>
+      <if test="record.unitHeight != null" >
+        unit_height = #{record.unitHeight,jdbcType=REAL},
+      </if>
+      <if test="record.unitFlag != null" >
+        unit_flag = #{record.unitFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update customized_package
+    set pid = #{record.pid,jdbcType=INTEGER},
+      pname = #{record.pname,jdbcType=VARCHAR},
+      rules = #{record.rules,jdbcType=VARCHAR},
+      rule_description = #{record.ruleDescription,jdbcType=VARCHAR},
+      unit_weight = #{record.unitWeight,jdbcType=DOUBLE},
+      unit_volume = #{record.unitVolume,jdbcType=REAL},
+      unit_length = #{record.unitLength,jdbcType=REAL},
+      unit_width = #{record.unitWidth,jdbcType=REAL},
+      unit_height = #{record.unitHeight,jdbcType=REAL},
+      unit_flag = #{record.unitFlag,jdbcType=CHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanyang.logistics.base.pojo.CustomizedPackage" >
+    update customized_package
+    <set >
+      <if test="pname != null" >
+        pname = #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="rules != null" >
+        rules = #{rules,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleDescription != null" >
+        rule_description = #{ruleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="unitWeight != null" >
+        unit_weight = #{unitWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="unitVolume != null" >
+        unit_volume = #{unitVolume,jdbcType=REAL},
+      </if>
+      <if test="unitLength != null" >
+        unit_length = #{unitLength,jdbcType=REAL},
+      </if>
+      <if test="unitWidth != null" >
+        unit_width = #{unitWidth,jdbcType=REAL},
+      </if>
+      <if test="unitHeight != null" >
+        unit_height = #{unitHeight,jdbcType=REAL},
+      </if>
+      <if test="unitFlag != null" >
+        unit_flag = #{unitFlag,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.CustomizedPackage" >
+    update customized_package
+    set pname = #{pname,jdbcType=VARCHAR},
+      rules = #{rules,jdbcType=VARCHAR},
+      rule_description = #{ruleDescription,jdbcType=VARCHAR},
+      unit_weight = #{unitWeight,jdbcType=DOUBLE},
+      unit_volume = #{unitVolume,jdbcType=REAL},
+      unit_length = #{unitLength,jdbcType=REAL},
+      unit_width = #{unitWidth,jdbcType=REAL},
+      unit_height = #{unitHeight,jdbcType=REAL},
+      unit_flag = #{unitFlag,jdbcType=CHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+</mapper>

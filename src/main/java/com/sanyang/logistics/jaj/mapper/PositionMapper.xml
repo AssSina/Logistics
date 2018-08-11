@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sanyang.logistics.jaj.mapper.PositionMapper" >
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.Position" >
+    <id column="posn_id" property="posnId" jdbcType="INTEGER" />
+    <result column="posn_code" property="posnCode" jdbcType="VARCHAR" />
+    <result column="shelf_id" property="shelfId" jdbcType="INTEGER" />
+    <result column="wh_id" property="whId" jdbcType="INTEGER" />
+    <result column="posn_no" property="posnNo" jdbcType="VARCHAR" />
+    <result column="capacity" property="capacity" jdbcType="INTEGER" />
+    <result column="available_capacity" property="availableCapacity" jdbcType="INTEGER" />
+    <result column="occupy_amt" property="occupyAmt" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    posn_id, posn_code, shelf_id, wh_id, posn_no, capacity, available_capacity, occupy_amt
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.PositionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from position
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from position
+    where posn_id = #{posnId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from position
+    where posn_id = #{posnId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanyang.logistics.base.pojo.PositionExample" >
+    delete from position
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanyang.logistics.base.pojo.Position" >
+    insert into position (posn_id, posn_code, shelf_id, 
+      wh_id, posn_no, capacity, 
+      available_capacity, occupy_amt)
+    values (#{posnId,jdbcType=INTEGER}, #{posnCode,jdbcType=VARCHAR}, #{shelfId,jdbcType=INTEGER}, 
+      #{whId,jdbcType=INTEGER}, #{posnNo,jdbcType=VARCHAR}, #{capacity,jdbcType=INTEGER}, 
+      #{availableCapacity,jdbcType=INTEGER}, #{occupyAmt,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.Position" >
+    insert into position
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="posnId != null" >
+        posn_id,
+      </if>
+      <if test="posnCode != null" >
+        posn_code,
+      </if>
+      <if test="shelfId != null" >
+        shelf_id,
+      </if>
+      <if test="whId != null" >
+        wh_id,
+      </if>
+      <if test="posnNo != null" >
+        posn_no,
+      </if>
+      <if test="capacity != null" >
+        capacity,
+      </if>
+      <if test="availableCapacity != null" >
+        available_capacity,
+      </if>
+      <if test="occupyAmt != null" >
+        occupy_amt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="posnId != null" >
+        #{posnId,jdbcType=INTEGER},
+      </if>
+      <if test="posnCode != null" >
+        #{posnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shelfId != null" >
+        #{shelfId,jdbcType=INTEGER},
+      </if>
+      <if test="whId != null" >
+        #{whId,jdbcType=INTEGER},
+      </if>
+      <if test="posnNo != null" >
+        #{posnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="capacity != null" >
+        #{capacity,jdbcType=INTEGER},
+      </if>
+      <if test="availableCapacity != null" >
+        #{availableCapacity,jdbcType=INTEGER},
+      </if>
+      <if test="occupyAmt != null" >
+        #{occupyAmt,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanyang.logistics.base.pojo.PositionExample" resultType="java.lang.Integer" >
+    select count(*) from position
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update position
+    <set >
+      <if test="record.posnId != null" >
+        posn_id = #{record.posnId,jdbcType=INTEGER},
+      </if>
+      <if test="record.posnCode != null" >
+        posn_code = #{record.posnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shelfId != null" >
+        shelf_id = #{record.shelfId,jdbcType=INTEGER},
+      </if>
+      <if test="record.whId != null" >
+        wh_id = #{record.whId,jdbcType=INTEGER},
+      </if>
+      <if test="record.posnNo != null" >
+        posn_no = #{record.posnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.capacity != null" >
+        capacity = #{record.capacity,jdbcType=INTEGER},
+      </if>
+      <if test="record.availableCapacity != null" >
+        available_capacity = #{record.availableCapacity,jdbcType=INTEGER},
+      </if>
+      <if test="record.occupyAmt != null" >
+        occupy_amt = #{record.occupyAmt,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update position
+    set posn_id = #{record.posnId,jdbcType=INTEGER},
+      posn_code = #{record.posnCode,jdbcType=VARCHAR},
+      shelf_id = #{record.shelfId,jdbcType=INTEGER},
+      wh_id = #{record.whId,jdbcType=INTEGER},
+      posn_no = #{record.posnNo,jdbcType=VARCHAR},
+      capacity = #{record.capacity,jdbcType=INTEGER},
+      available_capacity = #{record.availableCapacity,jdbcType=INTEGER},
+      occupy_amt = #{record.occupyAmt,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanyang.logistics.base.pojo.Position" >
+    update position
+    <set >
+      <if test="posnCode != null" >
+        posn_code = #{posnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shelfId != null" >
+        shelf_id = #{shelfId,jdbcType=INTEGER},
+      </if>
+      <if test="whId != null" >
+        wh_id = #{whId,jdbcType=INTEGER},
+      </if>
+      <if test="posnNo != null" >
+        posn_no = #{posnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="capacity != null" >
+        capacity = #{capacity,jdbcType=INTEGER},
+      </if>
+      <if test="availableCapacity != null" >
+        available_capacity = #{availableCapacity,jdbcType=INTEGER},
+      </if>
+      <if test="occupyAmt != null" >
+        occupy_amt = #{occupyAmt,jdbcType=INTEGER},
+      </if>
+    </set>
+    where posn_id = #{posnId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.Position" >
+    update position
+    set posn_code = #{posnCode,jdbcType=VARCHAR},
+      shelf_id = #{shelfId,jdbcType=INTEGER},
+      wh_id = #{whId,jdbcType=INTEGER},
+      posn_no = #{posnNo,jdbcType=VARCHAR},
+      capacity = #{capacity,jdbcType=INTEGER},
+      available_capacity = #{availableCapacity,jdbcType=INTEGER},
+      occupy_amt = #{occupyAmt,jdbcType=INTEGER}
+    where posn_id = #{posnId,jdbcType=INTEGER}
+  </update>
+</mapper>

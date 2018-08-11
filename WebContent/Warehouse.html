@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>仓库基础数据维护</title>
+		<style type="text/css">
+			#div-select {
+				margin-top: 20px;
+			}
+		</style>
+		<!--导入核心bootstrap css样式-->
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<!--导入jQuery-->
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--导入核心Bootstrap js-->
+		<script src="js/bootstarp-3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+//			var str="1";
+			$(function() {
+				$("#tab").bootstrapTable({
+					url: "warehouse/getWarehouse.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+					queryParams:queryParams,//方法返回参数
+					columns: [{
+						title: "仓库名称",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "仓库编号",
+						field: 'whno',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "创建时间",
+						field: 'createDate',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "负责人",
+						field: 'contact',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "更新仓库",
+						field: 'whId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd(' + row.whId + ')" data-target="#myModal2"></button>';
+							return u;
+						}
+					},{
+						title: "更新备货区",
+						field: 'whId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal"  data-target="#myModal3"></button>';
+							return u;
+						}
+					},{
+						title: "更新通道",
+						field: 'whId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal"  data-target="#myModal4"></button>';
+							return u;
+						}
+					},{
+						title: "更新货架",
+						field: 'whId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal"  data-target="#myModal5"></button>';
+							return u;
+						}
+					},{
+						title: "删除",
+						field: 'whId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele(" + row.whId + ")'></button>";
+							return d;
+						}
+					}]
+				})
+				
+				$("#tab2").bootstrapTable({
+					url: "backupArea/getBackupArea.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+					columns: [{
+						title: "备货区名称",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "备货区编号",
+						field: 'code',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "所属仓库",
+						field: 'bname',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "操作",
+						field: 'backupAreaId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele2(" + row.backupAreaId + ")'></button>";
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd2(' + row.backupAreaId + ')" data-target="#myModal7"></button>';
+							return d + u;
+						}
+					}]
+				})
+				
+				$("#tab3").bootstrapTable({
+					url: "channel/getChannel.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+					columns: [{
+						title: "通道编号",
+						field: 'channelId',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "通道名称",
+						field: 'channelno',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "所属仓库",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "操作",
+						field: 'channelId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele3(" + row.channelId + ")'></button>";
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd3(' + row.channelId + ')" data-target="#myModal9"></button>';
+							return d + u;
+						}
+					}]
+				})
+				
+				$("#tab4").bootstrapTable({
+					url: "shelf/getShelf.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+//					queryParams:queryParams,//方法返回参数
+					columns: [{
+						title: "货架编号",
+						field: 'shelfNo',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "货架层数",
+						field: 'layer',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "最大承重量(吨)",
+						field: 'maxBearing',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "最大体积(m³)",
+						field: 'volume',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "临近通道",
+						field: 'channelno',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "临近通道的方位",
+						field: 'channelFlag',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "所属仓库",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "创建时间",
+						field: 'createDate',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "更新时间",
+						field: 'updateDate',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "操作",
+						field: 'shelfId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele4(" + row.shelfId + ")'></button>";
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd4(' + row.shelfId + ')" data-target="#myModal11"></button>';
+							return d + u;
+						}
+					}]
+				})
+				
+				$.getJSON("warehouse/getWarehouseType.action", function(data) {
+					$.each(data, function(m, n) {
+						$("#typeId1,#typeId2").append("<option value='" + n.typeId + "'>" + n.name + "</option>")
+					});
+				})
+				
+				$.getJSON("warehouse/getWarehouse.action", function(data) {
+					$.each(data, function(m, n) {
+						$("#whId1,#whId2,#whId3,#whId4,#whId5,#whId6").append("<option value='" + n.whId + "'>" + n.name + "</option>")
+					});
+				})
+				
+				$.getJSON("channel/getChannel.action.action", function(data) {
+					$.each(data, function(m, n) {
+						$("#channelId1,#channelId2").append("<option value='" + n.channelId + "'>" + n.channelno + "</option>")
+					});
+				})
+				
+				$("#but").click(function() {
+					$.post("warehouse/insertWarehouse.action",$("#form").serialize(),function(data) {
+							$("#myModal").modal("hide");
+							$("#tab").bootstrapTable("refresh");
+					})
+				})
+				
+				
+				$("#but2").click(function() {
+					$.ajax({
+						type: "post",
+						url: "warehouse/updateWarehouse.action",
+						data: $("#form2").serialize(),
+						success: function(data) {
+							$("#myModal2").modal("hide");
+							$("#tab").bootstrapTable("refresh");
+						}
+					});
+				})
+				
+				$("#but3").click(function() {
+					$("#tab").bootstrapTable("refresh");
+				});
+				
+				$("#bbut").click(function() {
+					$.post("backupArea/insertBackupArea.action",$("#form3").serialize(),function(data) {
+							$("#myModal6").modal("hide");
+							$("#tab2").bootstrapTable("refresh");
+					})
+				})
+				
+				$("#bbut2").click(function() {
+					$.post("backupArea/updateBackupArea.action",$("#form4").serialize(),function(data) {
+							$("#myModal7").modal("hide");
+							$("#tab2").bootstrapTable("refresh");
+					})
+				})
+				
+				$("#cbut").click(function() {
+					$.post("channel/insertChannel.action",$("#form5").serialize(),function(data) {
+							$("#myModal8").modal("hide");
+							$("#tab3").bootstrapTable("refresh");
+					})
+				})
+				
+				$("#cbut2").click(function() {
+					$.post("channel/updateChannel.action",$("#form6").serialize(),function(data) {
+							$("#myModal9").modal("hide");
+							$("#tab3").bootstrapTable("refresh");
+					})
+				})
+				
+				$("#sbut").click(function() {
+					$.post("shelf/insertShelf.action",$("#form7").serialize(),function(data) {
+							$("#myModal10").modal("hide");
+							$("#tab4").bootstrapTable("refresh");
+					})
+				})
+				
+				$("#sbut2").click(function() {
+					$.post("shelf/updateShelf.action",$("#form8").serialize(),function(data) {
+							$("#myModal11").modal("hide");
+							$("#tab4").bootstrapTable("refresh");
+					})
+				})
+				
+				
+			})
+			
+			function queryParams(){
+				return {
+					'name':$("#name-select").val(),
+					'whno':$("#whno-select").val(),
+					'contact':$("#contact-select").val()
+				}
+			}
+			
+			function dele(whId) {
+				$.ajax({
+					type: "post",
+					url: "warehouse/deleteWarehouse.action",
+					data:"whId=" + whId,
+					success: function(data) {
+						$("#tab").bootstrapTable("refresh");
+					}
+				});
+			}
+			
+			function dele2(backupAreaId) {
+				$.ajax({
+					type: "post",
+					url: "backupArea/deleteBackupArea.action",
+					data:"backupAreaId=" + backupAreaId,
+					success: function(data) {
+						$("#tab2").bootstrapTable("refresh");
+					}
+				});
+			}
+			
+			function dele3(channelId) {
+				$.ajax({
+					type: "post",
+					url: "channel/deleteChannel.action",
+					data:"channelId=" + channelId,
+					success: function(data) {
+						$("#tab3").bootstrapTable("refresh");
+					}
+				});
+			}
+			
+			function dele4(shelfId) {
+				$.ajax({
+					type: "post",
+					url: "shelf/deleteShelf.action",
+					data:"shelfId=" + shelfId,
+					success: function(data) {
+						$("#tab4").bootstrapTable("refresh");
+					}
+				});
+			}
+			
+			function upd(whId) {
+				$.ajax({
+					type: "post",
+					url: "warehouse/getWarehouseById.action",
+					data:"whId=" + whId,
+					dataType:"JSON",
+					success: function(data) {
+						$("#whId").val(data.whId)
+						$("#name").val(data.name);
+						$("#whno").val(data.whno);
+						$("#address").val(data.address);
+						$("#height").val(data.height);
+						$("#area").val(data.area);
+						$("#typeId2").val(data.typeId);
+						$("#contact").val(data.contact);
+					}
+				});
+			}
+			
+			function upd2(backupAreaId) {
+				$.ajax({
+					type: "post",
+					url: "backupArea/getBackupAreaById.action",
+					data:"backupAreaId=" + backupAreaId,
+					dataType:"JSON",
+					success: function(data) {
+						$("#backupAreaId").val(data.backupAreaId)
+						$("#bname").val(data.name);
+						$("#code").val(data.code);
+						$("#whId2").val(data.whId);
+					}
+				});
+			}
+			
+			function upd3(channelId) {
+				$.ajax({
+					type: "post",
+					url: "channel/getChannelById.action",
+					data:"channelId=" + channelId,
+					dataType:"JSON",
+					success: function(data) {
+						$("#channelId").val(data.channelId)
+						$("#channelno").val(data.channelno);
+						$("#whId4").val(data.whId);
+					}
+				});
+			}
+			
+			function upd4(shelfId) {
+				$.ajax({
+					type: "post",
+					url: "shelf/getShelfById.action",
+					data:"shelfId=" + shelfId,
+					dataType:"JSON",
+					success: function(data) {
+						$("#shelfId").val(data.shelfId);
+						$("#shelfNo").val(data.shelfNo);
+						$("#layer").val(data.layer);
+						$("#psnum").val(data.psnum);
+						$("#capacity").val(data.capacity);
+						$("#volume").val(data.volume);
+						$("#maxBearing").val(data.maxBearing);
+						$("#channelFlag").val(data.channelFlag);
+						$("#channelId2").val(data.channelId);
+						$("#whId6").val(data.whId);
+					}
+				});
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="form-group col-md-offset-2" id="div-select">
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="name-select" value="" placeholder="按仓库名称查询">
+			</div>
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="whno-select" value="" placeholder="按仓库编号查询">
+			</div>
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="contact-select" value="" placeholder="按负责人查询">
+			</div>
+			<!--<div class="col-md-2">
+				<select class="form-control" id="uid2" name="uid2">
+					<option value="0">--请选择--</option>
+				</select>
+			</div>-->
+			<button type="button" id="but3" class="btn btn-info glyphicon glyphicon-search"></button>
+			<!-- 按钮触发模态框 添加-->
+			<button class="btn btn-success col-md-offset-1" data-toggle="modal" data-target="#myModal">添加商品</button>
+		</div>
+		<table class="table table-hover table-bordered" id="tab">
+
+		</table>
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">添加仓库信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form" role="form">
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">仓库名称</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="firstname" name="name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">仓库编号</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="firstname" name="whno">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">负责人</label>
+								<div class=" col-md-10">
+									<input type="text" class="form-control" id="firstname" name="contact">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">高度（米）</label>
+								<div class=" col-md-10">
+									<input type="text" class="form-control" id="firstname" name="height">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">面积（㎡）</label>
+								<div class=" col-md-10">
+									<input type="text" class="form-control" id="firstname" name="area">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">仓库类型</label>
+								<div class=" col-md-10">
+									<select class="form-control" id="typeId1" name="typeId">
+										
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">地址</label>
+								<div class=" col-md-10">
+									<input type="text" class="form-control" id="firstname" name="address">
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="but" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">修改仓库信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form2" role="form">
+							<input type="hidden" name="whId" id="whId" value="" />
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">仓库名称</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="name" name="name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">仓库编号</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="whno" name="whno">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">负责人</label>
+								<div class=" col-md-10">
+									<input type="text" class="form-control" id="contact" name="contact">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">高度（米）</label>
+								<div class=" col-md-10">
+									<input type="text" class="form-control" id="height" name="height">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">面积（㎡）</label>
+								<div class=" col-md-10">
+									<input type="text" class="form-control" id="area" name="area">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">仓库类型</label>
+								<div class=" col-md-10">
+									<select class="form-control" id="typeId2" name="typeId">
+										
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">地址</label>
+								<div class=" col-md-10">
+									<input type="text" class="form-control" id="address" name="address">
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="but2" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content"style="width: 1000px;">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">备货区信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<table class="table table-hover table-bordered" id="tab2">
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" data-toggle="modal"  data-target="#myModal6" class="btn btn-success">添加备货区</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content"style="width: 1000px;">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">仓库通道信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<table class="table table-hover table-bordered" id="tab3">
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" data-toggle="modal"  data-target="#myModal8" class="btn btn-success">添加仓库通道信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content"style="width: 1150px;margin-left: -120px;">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">货架信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<table class="table table-hover table-bordered" id="tab4">
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" data-toggle="modal"  data-target="#myModal10" class="btn btn-success">添加货架信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
+		<div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">添加备货区信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form3" role="form">
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">备货区名称</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" name="name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">备货区编号</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" name="code">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">所属仓库</label>
+								<div class=" col-md-10">
+									<select class="form-control" id="whId1" name="whId">
+									</select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="bbut" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
+		<div class="modal fade" id="myModal7" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">修改备货区信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form4" role="form">
+							<input type="hidden" name="backupAreaId" id="backupAreaId" value="" />
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">备货区名称</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="bname" name="name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">备货区编号</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="code" name="code">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">所属仓库</label>
+								<div class=" col-md-10">
+									<select class="form-control" id="whId2" name="whId">
+									</select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="bbut2" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
+		<div class="modal fade" id="myModal8" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">添加通道信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form5" role="form">
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">通道名称</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" name="channelno">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">所属仓库</label>
+								<div class=" col-md-10">
+									<select class="form-control" id="whId3" name="whId">
+									</select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="cbut" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
+		<div class="modal fade" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">修改通道信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form6" role="form">
+								<input type="hidden" class="form-control" id="channelId" name="channelId">
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">通道名称</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="channelno" name="channelno">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">所属仓库</label>
+								<div class=" col-md-10">
+									<select class="form-control" id="whId4" name="whId">
+									</select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="cbut2" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
+		<div class="modal fade" id="myModal10" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">添加货架信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form7" role="form">
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">货架编号</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" name="shelfNo">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">货架层数</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" name="layer">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">层内库位数</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" name="psnum">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">库位容量</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" name="capacity">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">最大体积</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" name="volume">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">最大承重量</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" name="maxBearing">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">临近通道</label>
+								<div class=" col-md-10">
+									<select class="form-control" id="channelId1" name="channelId">
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">临近通道方向</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" name="channelFlag">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">所属仓库</label>
+								<div class=" col-md-10">
+									<select class="form-control" id="whId5" name="whId">
+									</select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="sbut" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
+		<div class="modal fade" id="myModal11" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">修改货架信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form8" role="form">
+							<input type="hidden" id="shelfId" name="shelfId">
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">货架编号</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="shelfNo" name="shelfNo">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">货架层数</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="layer" name="layer">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">层内库位数</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="psnum" name="psnum">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">库位容量</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="capacity" name="capacity">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">最大体积</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="volume" name="volume">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">最大承重量</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="maxBearing" name="maxBearing">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">临近通道</label>
+								<div class=" col-md-10">
+									<select class="form-control" id="channelId2" name="channelId">
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">临近通道方向</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="channelFlag" name="channelFlag">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">所属仓库</label>
+								<div class=" col-md-10">
+									<select class="form-control" id="whId6" name="whId">
+									</select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="sbut2" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+	</body>
+
+</html>

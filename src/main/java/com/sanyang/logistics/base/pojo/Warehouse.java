@@ -1,7 +1,5 @@
 package com.sanyang.logistics.base.pojo;
 
-import java.util.Date;
-
 public class Warehouse {
     private Integer whId;
 
@@ -27,9 +25,9 @@ public class Warehouse {
 
     private Integer bearingWeigh;
 
-    private Date createDate;
+    private String createDate;
 
-    private Date updateDate;
+    private String updateDate;
 
     private String contact;
 
@@ -131,19 +129,19 @@ public class Warehouse {
         this.bearingWeigh = bearingWeigh;
     }
 
-    public Date getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
-    public Date getUpdateDate() {
+    public String getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(String updateDate) {
         this.updateDate = updateDate;
     }
 
