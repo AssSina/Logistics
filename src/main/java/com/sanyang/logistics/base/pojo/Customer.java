@@ -80,4 +80,11 @@ public class Customer {
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
     }
+
+	@Override
+	public String toString() {
+		return "Customer [cid=" + cid + ", cname=" + cname + ", address=" + address + ", contact=" + contact + ", fax="
+				+ fax + ", zip=" + zip + ", principal=" + principal + ", description=" + description + "]";
+	}
+    
 }
