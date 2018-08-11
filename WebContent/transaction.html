@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-        		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
 		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/bootstarp-3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 
@@ -12,23 +12,22 @@
 		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
 
-         
-        <script type="text/javascript">
-        	$(function(){
-        		$("#tab").bootstrapTable({
-        			url: "ddgl/tolistcust.action",
+		<script type="text/javascript">
+			$(function() {
+				$("#tab").bootstrapTable({
+					url: "ddgl/tolistcust.action",
 					pageSize: 10,
 					pagination: true,
-					type:"post",
+					type: "post",
 					queryParams: "queryParams",
 					columns: [{
 							title: '订单编',
 							align: 'center',
 							formatter: function(value, row, index) {
-							return '<a href="#" onclick="selsys('+row.oid+','+row.sysOrderTypeId+')">'+row.cusOrderNo+'</a>'
-							
-						}
-							
+								return '<a href="#" onclick="selsys(' + row.oid + ',' + row.sysOrderTypeId + ')">' + row.cusOrderNo + '</a>'
+
+							}
+
 						}, {
 							field: 'description',
 							title: '订单描述',
@@ -37,39 +36,34 @@
 							field: 'statusname',
 							title: '订单状态',
 							align: 'center'
-						},{
+						}, {
 							field: 'typename',
 							title: '订单类别',
 							align: 'center'
 						}, {
-						field: 'pid',
-						title: '操作',
-						align: 'center',
-						formatter: function(value, row, index) {
-							return '<butten onclick="selectbyoid(' + row.oid + ')" class="btn btn-default" name="" >更新</butten><butten onclick="deleteShangp(' + row.oid + ')" class="btn btn-danger" name="" >删除</butten>'
+							field: 'pid',
+							title: '操作',
+							align: 'center',
+							formatter: function(value, row, index) {
+								return '<butten onclick="selectbyoid(' + row.oid + ')" class="btn btn-default" name="" >更新</butten><butten onclick="deleteShangp(' + row.oid + ')" class="btn btn-danger" name="" >删除</butten>'
 
+							}
 						}
-					}
 
 					]
-        			
-        		})
-        		
 
-        		$("#sel").click(function() {
+				})
+
+				$("#sel").click(function() {
 					$("#tab").bootstrapTable('refresh')
 				})
-        		
-        		
-        		
-        		
-        		
-        		$.getJSON("ddgl/tolistsys.action", function(data) {
+
+				$.getJSON("ddgl/tolistsys.action", function(data) {
 					for(i = 0; i < data.length; i++) {
 						$("#ysfs").append("<option value=" + data[i].oid + ">" + data[i].trucktype + "</option>");
 					}
 				})
-        		$.getJSON("ddgl/tolistwar.action", function(data) {
+				$.getJSON("ddgl/tolistwar.action", function(data) {
 					for(i = 0; i < data.length; i++) {
 						$("#yck,#k4").append("<option value=" + data[i].whId + ">" + data[i].name + "</option>");
 					}
@@ -80,7 +74,7 @@
 					}
 				})
 				$.getJSON("ddgl/tolistmer.action", function(data) {
-					
+
 					for(i = 0; i < data.length; i++) {
 						$("#mc,#khmc,#k1").append("<option value=" + data[i].cid + ">" + data[i].cname + "</option>");
 					}
@@ -90,64 +84,58 @@
 						$("#xtdd").append("<option value=" + data[i].orderTypeId + ">" + data[i].typename + "</option>");
 					}
 				})
-				
-				$("#button1").click(function(){
-					
-					
+
+				$("#button1").click(function() {
+
 					var str = $("#addorder").serialize();
 					$.ajax({
-						type:"post",
-						url:"ddgl/addorder.action",
-						data:str,
-						success:function(data){
+						type: "post",
+						url: "ddgl/addorder.action",
+						data: str,
+						success: function(data) {
 							$("#myModal11").modal("hide");
 							$.getJSON("ddgl/tolistdname.action", function(data) {
 								for(i = 0; i < data.length; i++) {
-								$("#ddlx").append("<option value=" + data[i].custOrdertypeId + ">" + data[i].name + "</option>");
-							}
-						})
-							
+									$("#ddlx").append("<option value=" + data[i].custOrdertypeId + ">" + data[i].name + "</option>");
+								}
+							})
+
 							alert("添加成功!");
 						}
 					});
-					
+
 				})
-				
-				
-				$("#button2").click(function(){
-					
-					
+
+				$("#button2").click(function() {
+
 					var str = $("#addcustomer").serialize();
 					$.ajax({
-						type:"post",
-						url:"ddgl/addcustomer.action",
-						data:str,
-						success:function(data){
+						type: "post",
+						url: "ddgl/addcustomer.action",
+						data: str,
+						success: function(data) {
 							$("#myModal22").modal("hide");
-							
+
 							alert("添加成功!");
 						}
 					});
-					
+
 				})
-				
-				
-        		
-        	})
-        	
-        	
-        	function selsys(oid,sysOrderTypeId){
-        		$("#tab2,#tab3").bootstrapTable({
-        			url: "ddgl/tolisthwqd.action",
+
+			})
+
+			function selsys(oid, sysOrderTypeId) {
+				$("#tab2,#tab3").bootstrapTable({
+					url: "ddgl/tolisthwqd.action",
 					pageSize: 3,
 					pagination: true,
-					type:"post",
-					queryParams: "oid="+oid,
+					type: "post",
+					queryParams: "oid=" + oid,
 					columns: [{
 							field: 'pname',
 							title: '货物名称',
 							align: 'center',
-							
+
 						}, {
 							field: 'code',
 							title: '货物编码',
@@ -156,106 +144,98 @@
 							field: 'pmodel',
 							title: '货物型号',
 							align: 'center'
-						},{
+						}, {
 							field: 'pcount',
 							title: '计划数量',
 							align: 'center'
-						},{
+						}, {
 							field: 'ruleDescription',
 							title: '包装单位',
 							align: 'center'
-						},{
+						}, {
 							field: 'status',
 							title: '物品状态',
 							align: 'center'
 						}
 
 					]
-        			
-        		})	
-        		
-        		
-        		if (sysOrderTypeId==1) {
-        			//出库
-        			$("#myModalck").modal("show");
-        			$.ajax({
-					type: "post",
-					url: "ddgl/selbyoidsys.action",
-					data:"oid="+oid,
-					success: function(data) {
-						
-						$("#t1").html(data.cname);
-						$("#t2").html(data.cusOrderNo);
-						$("#t3").html(data.name);
-						$("#t4").html(data.toAddress);
-						$("#t5").html(data.toCustomer);
-						$("#t6").html(data.trucktype);
-						$("#t7").html(data.planTrsprtDate);
-						$("#t8").html(data.planArrivalDate);
-						$("#t9").html(data.planOutDate);
-						$("#t10").html(data.contactPerson);
-						$("#t11").html(data.contactPhone);
-						$("#t12").html(data.description);
-						
-						if (data.truckflag=='Y') {
-							$("#che1").append("是否运输&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input checked='checked' type='checkbox'>");
-							
-						} else{
-							$("#che1").append("是否运输&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='checkbox'>");
-							
-						}
 
-						
-						
-						
-						if (data.takeMoneyFlag=='Y') {
-							$("#che2").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input checked='checked' type='checkbox'>");
-						} else{
-							$("#che2").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='checkbox'>");
+				})
+
+				if(sysOrderTypeId == 1) {
+					//出库
+					$("#myModalck").modal("show");
+					$.ajax({
+						type: "post",
+						url: "ddgl/selbyoidsys.action",
+						data: "oid=" + oid,
+						success: function(data) {
+
+							$("#t1").html(data.cname);
+							$("#t2").html(data.cusOrderNo);
+							$("#t3").html(data.name);
+							$("#t4").html(data.toAddress);
+							$("#t5").html(data.toCustomer);
+							$("#t6").html(data.trucktype);
+							$("#t7").html(data.planTrsprtDate);
+							$("#t8").html(data.planArrivalDate);
+							$("#t9").html(data.planOutDate);
+							$("#t10").html(data.contactPerson);
+							$("#t11").html(data.contactPhone);
+							$("#t12").html(data.description);
+
+							if(data.truckflag == 'Y') {
+								$("#che1").append("是否运输&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input checked='checked' type='checkbox'>");
+
+							} else {
+								$("#che1").append("是否运输&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='checkbox'>");
+
+							}
+
+							if(data.takeMoneyFlag == 'Y') {
+								$("#che2").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input checked='checked' type='checkbox'>");
+							} else {
+								$("#che2").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='checkbox'>");
+							}
+
 						}
-						
-					}
-				});
-        			
-        		} else{
-        			//入库
-        			$("#myModalrk").modal("show");
-        		$.ajax({
-					type: "post",
-					url: "ddgl/selbyoid.action",
-					data:"oid="+oid,
-					success: function(data) {
-						
-						$("#kh").html(data.cname);
-						$("#dd").html(data.cusOrderNo);
-						$("#dz").val(data.fromAddress);
-						$("#mb").html(data.name);
-						$("#ys").html(data.planTrsprtDate);
-						$("#ddrq").html(data.planArrivalDate);
-						$("#rk").html(data.planInDate);
-						$("#lxr").html(data.contactPerson);
-						$("#dh").html(data.contactPhone);
-						$("#ms").html(data.description);
-						
-						if (data.truckflag=='Y') {
-							$("#che3").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input checked='checked' type='checkbox'>");
-							
-						} else{
-							$("#che3").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='checkbox'>");
-							
+					});
+
+				} else {
+					//入库
+					$("#myModalrk").modal("show");
+					$.ajax({
+						type: "post",
+						url: "ddgl/selbyoid.action",
+						data: "oid=" + oid,
+						success: function(data) {
+
+							$("#kh").html(data.cname);
+							$("#dd").html(data.cusOrderNo);
+							$("#dz").val(data.fromAddress);
+							$("#mb").html(data.name);
+							$("#ys").html(data.planTrsprtDate);
+							$("#ddrq").html(data.planArrivalDate);
+							$("#rk").html(data.planInDate);
+							$("#lxr").html(data.contactPerson);
+							$("#dh").html(data.contactPhone);
+							$("#ms").html(data.description);
+
+							if(data.truckflag == 'Y') {
+								$("#che3").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input checked='checked' type='checkbox'>");
+
+							} else {
+								$("#che3").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='checkbox'>");
+
+							}
 						}
-					}
-				});
-        			
-        		}
-        		
-        	}
-        	
-        	
-        	
-        	
-        	
-        	function queryParams() {
+					});
+
+				}
+
+			}
+
+			function queryParams() {
 				return {
 					'cusOrderNo': $("#cus").val(),
 					'cname': $("#cna").val(),
@@ -263,68 +243,82 @@
 					'description': $("#des").val(),
 					'planTrsprtDate': $("#trs").val(),
 					'planArrivalDate': $("#arr").val()
-					
+
 				}
 			}
-        	
-        	function deleteShangp(oid){
-        		$.ajax({
+
+			function deleteShangp(oid) {
+				$.ajax({
 					type: "post",
 					url: "ddgl/delsys.action",
-					data:"oid="+oid,
+					data: "oid=" + oid,
 					success: function(data) {
 						$("#tab").bootstrapTable("refresh");
 						alert("删除成功!");
-					} 
+					}
 				});
-        		
-        	}
-        	
-        	function selectbyoid(oid){
-        		$("#myModalupdsys").modal("show");
-        		$.ajax({
-        			type:"post",
-        			url:"ddgl/selectbyoid.action",
-        			data:"oid="+oid,
-        			success: function(data) {
-        				
-        				$("#k2").val();
-        				$("#k5").val();
-        				$("#k6").val();
-        				$("#k8").val();
-        				$("#k9").val();
-        				$("#k10").val();
-        				$("#k11").val();
-        				$("#k12").val();
-        				
-        				$("#k1").val();
-        				$("#k3").val();
-        				$("#k4").val();
-        				$("#k7").val();
-        			}
-        		});
-        	
-        	}
-        	
-        </script>
-        
-        
-        
-<title>交易</title>
-</head>
 
-<body>
-	
-	<!-- 查看出库订单 -->
-<div class="modal fade bs-example-modal-lg" id="myModalck" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><b>查看出库订单</b></h4>
-      </div>
-      <div class="modal-body">
-        <form>
+			}
+
+			function selectbyoid(oid) {
+				$("#myModalupdsys").modal("show");
+				$.ajax({
+					type: "post",
+					url: "ddgl/selectbyoid.action",
+					data: "oid=" + oid,
+					success: function(data) {
+
+						$("#k1").val(data.cid);
+						$("#k2").val(data.cusOrderNo);
+						$("#k3").val(data.custId);
+						$("#k4").val(data.fromWarehouse);
+						$("#k5").val(data.toAddress);
+						$("#k6").val(data.toCustomer);
+						$("#k7").val(data.trucktype);
+
+						$("#k10").val(data.contactPerson);
+						$("#k11").val(data.contactPhone);
+						$("#k12").val(data.description);
+
+						$("#k8").val(data.planTrsprtDate);
+						$("#k9").val(data.planOutDate);
+						$("#k13").val(data.planArrivalDate);
+						//      				
+						if(data.truckflag == 'Y') {
+							$("#c1").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input checked='checked' type='checkbox'>");
+
+						} else {
+							$("#c1").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='checkbox'>");
+
+						}
+
+						if(data.takeMoneyFlag == 'Y') {
+							$("#c2").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input checked='checked' type='checkbox'>");
+						} else {
+							$("#c2").append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='checkbox'>");
+						}
+
+					}
+				});
+
+			}
+		</script>
+
+		<title>交易</title>
+	</head>
+
+	<body>
+
+		<!-- 查看出库订单 -->
+		<div class="modal fade bs-example-modal-lg" id="myModalck" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel"><b>查看出库订单</b></h4>
+					</div>
+					<div class="modal-body">
+						<form>
 							<table width="700" height="350">
 								<tr>
 									<td width="100"></td>
@@ -333,26 +327,26 @@
 									<td>客户订单号</td>
 									<td id="t2"></td>
 								</tr>
-								
+
 								<tr>
 									<td></td>
 									<td>源仓库</td>
-									<td  id="t3"></td>
+									<td id="t3"></td>
 									<td>收货地址</td>
-									<td  id="t4"></td>
+									<td id="t4"></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td></td>
 									<td></td>
 									<td>目标客户</td>
-									<td  id="t5"></td>
+									<td id="t5"></td>
 								</tr>
-									<td></td>
-									<td class="checkbox" id="che1"></td>
-									<td></td>
-									<td>运输方式</td>
-									<td  id="t6"></td>
+								<td></td>
+								<td class="checkbox" id="che1"></td>
+								<td></td>
+								<td>运输方式</td>
+								<td id="t6"></td>
 								</tr>
 								<tr>
 									<td></td>
@@ -378,151 +372,141 @@
 								<tr>
 									<td></td>
 									<td>联系人</td>
-									<td  id="t10"></td>
+									<td id="t10"></td>
 									<td>联系电话</td>
 									<td id="t11"><input type="text" id="" value="" /></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>订单描述</td>
-									<td colspan="3"><textarea  id="t12" name="" rows="" cols="40"></textarea></td>
-									
-								</tr>
-								
-							</table>
-							
-							</form>
-							<br />
-							<br />
-							<b>货物清单</b>
-							<br /><br />
-							<!-- 显示货物清单 -->
- 			<table id="tab2" class="table"></table>
-							
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-      </div>
-    </div>
-  </div>
-</div>
-	
-	
-	
+									<td colspan="3"><textarea id="t12" name="" rows="" cols="40"></textarea></td>
 
-<!-- 查看入库订单 -->
-<div class="modal fade bs-example-modal-lg" id="myModalrk" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><b>查看入库订单 </b></h4>
-      </div>
-      <div class="modal-body">
-      	
-      	<table width="800" height="300">
-								<tr>
-									<td width="100"></td>
-									<td width="100">客户名称</td>
-									<td width="300" id="kh">
-										
-									</td>
-									<td width="100">客户订单号</td>
-									<td id="dd"></td>
 								</tr>
-								<tr>
-									<td></td>
-									<td>源地址</td>
-									<td><textarea id="dz" rows="" cols="40"></textarea>
-									</td>
-									<td>目标仓库</td>
-									<td id="mb"></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td class="checkbox" id="che3">是否运输</td>
-									<td>
-										
-									</td>
+
+							</table>
+
+						</form>
+						<br />
+						<br />
+						<b>货物清单</b>
+						<br /><br />
+						<!-- 显示货物清单 -->
+						<table id="tab2" class="table"></table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 查看入库订单 -->
+		<div class="modal fade bs-example-modal-lg" id="myModalrk" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel"><b>查看入库订单 </b></h4>
+					</div>
+					<div class="modal-body">
+
+						<table width="800" height="300">
+							<tr>
+								<td width="100"></td>
+								<td width="100">客户名称</td>
+								<td width="300" id="kh">
+
+								</td>
+								<td width="100">客户订单号</td>
+								<td id="dd"></td>
+							</tr>
+							<tr>
 								<td></td>
-									<td></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>计划运输日期</td>
-									<td id="ys"></td>
-									<td>计划到达日期</td>
-									<td id="ddrq"></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>计划入库日期</td>
-									<td id="rk"></td>
-									<td></td>
-									<td></td>
-								</tr>
-								
-								
-								<tr>
-									<td></td>
-									<td>联系人</td>
-									<td id="lxr"></td>
-									<td>联系电话</td>
-									<td id="dh"></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>订单描述</td>
-									<td id="ms" colspan="3"></td>
-									
-								</tr>
-								 
-							</table>
-      	<br />
-							<br />
-							<b>货物清单</b>
-							<br /><br />
-							<!-- 显示货物清单 -->
- 			<table id="tab3" class="table"></table>
-      	
-      	
-      	
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-      </div>
-    </div>
-  </div>
-</div>
-	
-	
+								<td>源地址</td>
+								<td><textarea id="dz" rows="" cols="40"></textarea>
+								</td>
+								<td>目标仓库</td>
+								<td id="mb"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="checkbox" id="che3">是否运输</td>
+								<td>
 
-	
+								</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>计划运输日期</td>
+								<td id="ys"></td>
+								<td>计划到达日期</td>
+								<td id="ddrq"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>计划入库日期</td>
+								<td id="rk"></td>
+								<td></td>
+								<td></td>
+							</tr>
 
-			<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModaladdsys">
+							<tr>
+								<td></td>
+								<td>联系人</td>
+								<td id="lxr"></td>
+								<td>联系电话</td>
+								<td id="dh"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>订单描述</td>
+								<td id="ms" colspan="3"></td>
+
+							</tr>
+
+						</table>
+						<br />
+						<br />
+						<b>货物清单</b>
+						<br /><br />
+						<!-- 显示货物清单 -->
+						<table id="tab3" class="table"></table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModaladdsys">
   创建出户订单
 </button>
 
-<!-- 创建出户订单 -->
-<div class="modal fade bs-example-modal-lg" id="myModaladdsys" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><b>创建出户订单</b></h4>
-      </div>
-      <div class="modal-body">
-        <form>
+		<!-- 创建出户订单 -->
+		<div class="modal fade bs-example-modal-lg" id="myModaladdsys" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel"><b>创建出户订单</b></h4>
+					</div>
+					<div class="modal-body">
+						<form>
 							<table width="800" height="450">
 								<tr>
 									<td width="100"></td>
 									<td>客户名称</td>
 									<td width="230">
 										<select style="width: 200px;" name="" id="khmc" class="form-control">
-											
+
 										</select>
-										
+
 									</td>
 									<td>客户订单号</td>
 									<td><input type="text" id="" value="" /></td>
@@ -533,17 +517,18 @@
 									<td>
 										<table>
 											<tr>
-												<td><select style="width: 120px;" name="" id="ddlx" class="form-control">
-											
-										</select></td>
 												<td>
-													<a href="#"><img href="#" src="images/add.jpg" data-toggle="modal" data-target="#myModal11"/></a>
-											
+													<select style="width: 120px;" name="" id="ddlx" class="form-control">
+
+													</select>
+												</td>
+												<td>
+													<a href="#"><img href="#" src="images/add.jpg" data-toggle="modal" data-target="#myModal11" /></a>
+
 												</td>
 											</tr>
 										</table>
-										
-										
+
 									</td>
 									<td></td>
 									<td></td>
@@ -553,7 +538,7 @@
 									<td>源仓库</td>
 									<td>
 										<select style="width: 100px;" name="" id="yck" class="form-control">
-											
+
 										</select>
 									</td>
 									<td>收货地址</td>
@@ -569,12 +554,12 @@
 											<tr>
 												<td><textarea name="" rows="" cols="40"></textarea></td>
 												<td>
-													<a href="#"><img href="#" src="images/add.jpg" data-toggle="modal" data-target="#myModal22"/></a>
-											
+													<a href="#"><img href="#" src="images/add.jpg" data-toggle="modal" data-target="#myModal22" /></a>
+
 												</td>
 											</tr>
 										</table>
-										</td>
+									</td>
 								</tr>
 								<tr>
 									<td></td>
@@ -622,161 +607,153 @@
 									<td></td>
 									<td>订单描述</td>
 									<td colspan="3"><textarea name="" rows="" cols="40"></textarea></td>
-									
+
 								</tr>
-								
+
 							</table>
-							
-							</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary">保存&下一个</button>
-      </div>
-    </div>
-  </div>
-</div>
 
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-primary">保存&下一个</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
+		<!-- 创建客户类型订单 -->
+		<div class="modal fade" id="myModal11" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel"><b>创建客户类型订单</b></h4>
+					</div>
+					<div class="modal-body">
 
+						<form id="addorder">
+							<table width="500" height="180">
+								<tr>
+									<td rowspan="4" width="50"></td>
+									<td>客户名称</td>
+									<td>
+										<select style="width: 230px;" name="cid" id="mc" class="form-control">
 
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>系统订单</td>
+									<td>
+										<select style="width: 230px;" name="sysordertypeId" id="xtdd" class="form-control">
 
-<!-- 创建客户类型订单 -->
-<div class="modal fade" id="myModal11" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><b>创建客户类型订单</b></h4>
-      </div>
-      <div class="modal-body">
-        
-        <form id="addorder">
-        <table width="500" height="180">
-        	<tr>
-        		<td rowspan="4" width="50"></td>
-        		<td>客户名称</td>
-        		<td>
-        			<select style="width: 230px;" name="cid" id="mc" class="form-control">
-						
-					</select>
-        		</td>
-        	</tr>
-        	<tr>
-        		<td>系统订单</td>
-        		<td>
-        			<select style="width: 230px;" name="sysordertypeId" id="xtdd" class="form-control">
-						
-					</select>
-        			
-        		</td>
-        	</tr>
-        	<tr>
-        		<td>名称</td>
-        		<td><input style="width: 250px;" type="text" class="form-control" name="name"></td>
-        	</tr>
-        	<tr>
-        		<td>描述</td>
-        		<td>
-        			<textarea name="description" rows="" cols="45"></textarea>
-        		</td>
-        	</tr>
-        </table>
-        </form>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" id="button1" class="btn btn-primary">添加</button>
-       
-      </div>
-    </div>
-  </div>
-</div>
+										</select>
 
+									</td>
+								</tr>
+								<tr>
+									<td>名称</td>
+									<td><input style="width: 250px;" type="text" class="form-control" name="name"></td>
+								</tr>
+								<tr>
+									<td>描述</td>
+									<td>
+										<textarea name="description" rows="" cols="45"></textarea>
+									</td>
+								</tr>
+							</table>
+						</form>
 
-<!-- 创建客户信息 -->
-<div class="modal fade" id="myModal22" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><b>创建客户信息</b></h4>
-      </div>
-      <div class="modal-body">
-        
-        <form id="addcustomer">
-        <table width="500" height="320">
-        	<tr>
-        		<td rowspan="7" width="50"></td>
-        		<td>客户名称</td>
-        		<td>
-        			<input style="width: 200px;" type="text" class="form-control" name="cname">
-        		</td>
-        	</tr>
-        	<tr>
-        		<td>地址</td>
-        		<td>
-        			<textarea name="address" rows="" cols="45"></textarea>
-        		</td>
-        	</tr>
-        	<tr>
-        		<td>电话</td>
-        		<td><input style="width: 200px;" type="text" class="form-control" name="contact"></td>
-        	</tr>
-        	<tr>
-        		<td>传真</td>
-        		<td>
-        			<input style="width: 200px;" type="text" class="form-control" name="fax">
-        		</td>
-        	</tr>
-        	<tr>
-        		<td>邮编</td>
-        		<td><input style="width: 200px;" type="text" class="form-control" name="zip"></td>
-        	</tr>
-        	<tr>
-        		<td>负责人</td>
-        		<td><input style="width: 200px;" type="text" class="form-control" name="principal"></td>
-        	</tr>
-        	<tr>
-        		<td>描述</td>
-        		<td><input style="width: 200px;" type="text" class="form-control" name="description"></td>
-        	</tr>
-        </table>
-        </form>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" id="button2" class="btn btn-primary">添加</button>
-       
-      </div>
-    </div>
-  </div>
-</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="button1" class="btn btn-primary">添加</button>
 
+					</div>
+				</div>
+			</div>
+		</div>
 
+		<!-- 创建客户信息 -->
+		<div class="modal fade" id="myModal22" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel"><b>创建客户信息</b></h4>
+					</div>
+					<div class="modal-body">
 
+						<form id="addcustomer">
+							<table width="500" height="320">
+								<tr>
+									<td rowspan="7" width="50"></td>
+									<td>客户名称</td>
+									<td>
+										<input style="width: 200px;" type="text" class="form-control" name="cname">
+									</td>
+								</tr>
+								<tr>
+									<td>地址</td>
+									<td>
+										<textarea name="address" rows="" cols="45"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td>电话</td>
+									<td><input style="width: 200px;" type="text" class="form-control" name="contact"></td>
+								</tr>
+								<tr>
+									<td>传真</td>
+									<td>
+										<input style="width: 200px;" type="text" class="form-control" name="fax">
+									</td>
+								</tr>
+								<tr>
+									<td>邮编</td>
+									<td><input style="width: 200px;" type="text" class="form-control" name="zip"></td>
+								</tr>
+								<tr>
+									<td>负责人</td>
+									<td><input style="width: 200px;" type="text" class="form-control" name="principal"></td>
+								</tr>
+								<tr>
+									<td>描述</td>
+									<td><input style="width: 200px;" type="text" class="form-control" name="description"></td>
+								</tr>
+							</table>
+						</form>
 
-<!-- 修改订单订单 -->
-<div class="modal fade bs-example-modal-lg" id="myModalupdsys" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><b>修改订单</b></h4>
-      </div>
-      <div class="modal-body">
-        <form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="button2" class="btn btn-primary">添加</button>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 修改订单订单 -->
+		<div class="modal fade bs-example-modal-lg" id="myModalupdsys" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel"><b>修改订单</b></h4>
+					</div>
+					<div class="modal-body">
+						<form>
 							<table width="800" height="450">
 								<tr>
 									<td width="100"></td>
 									<td>客户名称</td>
 									<td width="230">
 										<select style="width: 200px;" name="" id="k1" class="form-control">
-											
+
 										</select>
-										
+
 									</td>
 									<td>客户订单号</td>
 									<td><input type="text" id="k2" value="" /></td>
@@ -786,10 +763,9 @@
 									<td>客户订单类型</td>
 									<td>
 										<select style="width: 120px;" name="" id="k3" class="form-control">
-											
+
 										</select>
-										
-										
+
 									</td>
 									<td></td>
 									<td></td>
@@ -799,7 +775,7 @@
 									<td>源仓库</td>
 									<td>
 										<select style="width: 100px;" name="" id="k4" class="form-control">
-											
+
 										</select>
 									</td>
 									<td>收货地址</td>
@@ -810,15 +786,15 @@
 									<td></td>
 									<td></td>
 									<td>目标客户</td>
-									<td><textarea name=""  id="k6" rows="" cols="40"></textarea></td>
+									<td><textarea name="" id="k6" rows="" cols="40"></textarea></td>
 								</tr>
 								<tr>
 									<td></td>
-									<td class="checkbox">是否运输&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox"></td>
+									<td class="checkbox" id="c1">是否运输</td>
 									<td></td>
 									<td>运输方式</td>
 									<td>
-										<select style="width: 80px;"  id="k7" name="" class="form-control">
+										<select style="width: 80px;" id="k7" name="" class="form-control">
 											<option value="铁路">铁路</option>
 											<option value="公路">公路</option>
 											<option value="航空">航空</option>
@@ -828,7 +804,7 @@
 								</tr>
 								<tr>
 									<td></td>
-									<td class="checkbox">是否收款&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox"></td>
+									<td class="checkbox" id="c2">是否收款</td>
 									<td></td>
 									<td></td>
 									<td></td>
@@ -836,14 +812,14 @@
 								<tr>
 									<td></td>
 									<td>计划运输日期</td>
-									<td><input  id="k8" type="date"></td>
+									<td><input id="k8" type="datetime"></td>
 									<td>计划到达日期</td>
-									<td><input type="date"></td>
+									<td><input id="k13" type="datetime"></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>计划出库日期</td>
-									<td><input id="k9" type="date"></td>
+									<td><input id="k9" type="datetime"></td>
 									<td></td>
 									<td></td>
 								</tr>
@@ -852,73 +828,51 @@
 									<td>联系人</td>
 									<td><input id="k10" type="text" id="" value="" /></td>
 									<td>联系电话</td>
-									<td><input id="k11" type="text" id="" value="" /></td>
+							 		<td><input id="k11" type="text" id="" value="" /></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>订单描述</td>
 									<td colspan="3"><textarea id="k12" name="" rows="" cols="40"></textarea></td>
-									
+
 								</tr>
-								
+
 							</table>
-							
-							</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary">保存&下一个</button>
-      </div>
-    </div>
-  </div>
-</div>
 
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-primary">保存&下一个</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
+		<from>
+			<table align="center">
+				<tr>
+					<td>&nbsp;</td>
+					<td><input class="form-control" type="text" name="cusOrderNo" id="cus" value="" placeholder="订单编号"/></td>
+					<td>&nbsp;</td>
+					<td><input class="form-control" type="text" name="cname" id="cna" value=""  placeholder="客户名称"/></td>
+					<td>&nbsp;</td>
+					<td><input class="form-control" type="text" name="statusname" id="sta" value=""  placeholder="订单状态"/></td>
+					<td>&nbsp;</td>
+					<td><input class="form-control" type="text" name="description" id="des" value=""  placeholder="订单描述"/></td>
+					<td>&nbsp;订单开始时间</td>
+					<td><input class="form-control" type="date" name="planTrsprtDate" id="trs" value="" /></td>
+					<td>&nbsp;订单结束时间</td>
+					<td><input class="form-control" type="date" name="planArrivalDate" id="arr" value="" /></td>
+					<td>&nbsp;<input class="btn btn-success" type="submit" id="sel" name="" value="查 询" /></td>
+				</tr>
+			</table>
+		</from>
+		<br />
 
+		<!-- 显示客户订单 -->
+		<table id="tab" class="table table-hover"></table>
 
+	</body>
 
-
-
-
-
-
-
-
-<from>
-	<table align="center">
-		<tr>
-			<td>订单编号</td>
-			<td><input class="form-control" type="text" name="cusOrderNo" id="cus" value="" /></td>
-			<td>&nbsp;客户名称</td>
-			<td><input class="form-control"  type="text" name="cname" id="cna" value="" /></td>
-			<td>&nbsp;订单状态</td>
-			<td><input class="form-control"  type="text" name="statusname" id="sta" value="" /></td>
-			<td>&nbsp;订单描述</td>
-			<td><input class="form-control"  type="text" name="description" id="des" value="" /></td>
-			<td>&nbsp;订单开始时间</td>
-			<td><input class="form-control"  type="date" name="planTrsprtDate" id="trs" value="" /></td>
-			<td>&nbsp;订单结束时间</td>
-			<td><input class="form-control"  type="date" name="planArrivalDate" id="arr" value="" /></td>
-			<td>&nbsp;<input class="btn btn-success" type="submit" id="sel" name="" value="查 询"/></td>
-		</tr>
-	</table>
-</from>
-<br />
-
-<!-- 显示客户订单 -->
- 	<table id="tab" class="table-hover"></table>
-			
-
-			
-
-			
-			
-			
-			
-
-
-
-
-
-</body>
 </html>

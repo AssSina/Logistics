@@ -100,6 +100,8 @@ public class SysorderProduct {
 
     private Date updateDate;
 
+   
+    
     public Integer getOid() {
         return oid;
     }

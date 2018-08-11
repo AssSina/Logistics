@@ -13,7 +13,7 @@
 
 <result jdbcType="INTEGER" property="sysOrderTypeId" column="sys_order_type_id"/>
 
-<result jdbcType="INTEGER" property="custOrderTypeId" column="cust_order_type_id"/>
+<result jdbcType="INTEGER" property="custId" column="cust_order_type_id"/>
 
 <result jdbcType="VARCHAR" property="fromAddress" column="from_address"/>
 
