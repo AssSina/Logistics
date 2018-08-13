@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#div-select {
+				margin-top: 20px;
+				margin-left: 30px;
+			}
+		</style>
+		<!--导入核心bootstrap css样式-->
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<!--导入jQuery-->
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--导入核心Bootstrap js-->
+		<script src="js/bootstarp-3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("#tab").bootstrapTable({
+					url: "rcptDamage/getRcptDamage.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+					queryParams:queryParams,//方法返回参数
+					columns: [{
+						title: "货物名称",
+						field: 'pname',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "货物编号",
+						field: 'code',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "货物型号",
+						field: 'pmodel',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "条形码",
+						field: 'barCode',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "存放库位",
+						field: 'posn',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "所在仓库",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "货损程度",
+						field: 'damageDegree',
+						align: 'center',
+						valign: 'middle',
+					}]
+				})
+				
+				$.getJSON("warehouse/getWarehouse.action", function(data) {
+					$.each(data, function(m, n) {
+						$("#name-select").append("<option value='" + n.name + "'>" + n.name + "</option>")
+					});
+				})
+				
+				$("#but3").click(function() {
+					$("#tab").bootstrapTable("refresh");
+				});
+				
+				
+			})
+			
+			function queryParams(){
+				return {
+					'name':$("#name-select").val(),
+					'code':$("#code-select").val(),
+					'pmodel':$("#pmodel-select").val(),
+					'barCode':$("#barCode-select").val(),
+					'damageDegree':$("#damageDegree-select").val(),
+					'pname':$("#pname-select").val()
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div class="form-group" id="div-select">
+			<form class="form-inline">
+			<div class="col-md-2">
+				<input type="text" class="form-control" id="pname-select" value="" placeholder="按货物名称查询">
+			</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" id="code-select" value="" placeholder="按货物编号查询">
+			</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" id="pmodel-select" value="" placeholder="按货物型号查询">
+			</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" id="barCode-select" value="" placeholder="按条形码查询">
+			</div>
+			<div class="col-md-2">
+				<input type="text" class="form-control" id="damageDegree-select" value="" placeholder="按损坏程度查询">
+			</div>
+			<div class="col-md-2">
+				<select class="form-control" id="name-select" >
+					<option value="">--请选择--</option>
+				</select>
+			</div>
+			<button type="button" id="but3" style="margin-left:-70px ;" class="btn btn-info glyphicon glyphicon-search"></button>
+		</form>
+		</div>
+		<table class="table table-hover table-bordered" id="tab">
+
+		</table>
+	</body>
+</html>

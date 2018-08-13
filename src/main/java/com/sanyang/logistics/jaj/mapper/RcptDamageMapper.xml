@@ -9,6 +9,10 @@
     <result column="damagecount" property="damagecount" jdbcType="INTEGER" />
     <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
     <result column="posn" property="posn" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pname" property="pname" jdbcType="VARCHAR" />
+    <result column="pmodel" property="pmodel" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -240,4 +244,27 @@
       posn = #{posn,jdbcType=VARCHAR}
     where damageid = #{damageid,jdbcType=INTEGER}
   </update>
+  
+  <select id="getRcptDamage" resultMap="BaseResultMap" parameterType="rcptdamage">
+  	select r.*,w.name,p.pname,p.pmodel,p.code from rcpt_damage r,product p,receipt re,warehouse w
+	where r.prod_id=p.pid and r.rcpt_id=re.rcpt_id and re.wh_id=w.wh_id
+	<if test="name!=null and name!=''">
+		and name='%${name}%'
+	</if>
+	<if test="pname!=null and pname!=''">
+		and pname='%${pname}%'
+	</if>
+	<if test="pmodel!=null and pmodel!=''">
+		and pmodel='%${pmodel}%'
+	</if>
+	<if test="code!=null and code!=''">
+		and code='%${code}%'
+	</if>
+	<if test="barCode!=null and barCode!=''">
+		and bar_code='%${barCode}%'
+	</if>
+	<if test="damageDegree!=null and damageDegree!=''">
+		and damage_degree=#{damageDegree}
+	</if> 
+  </select>
 </mapper>

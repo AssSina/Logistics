@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sanyang.logistics.base.pojo.DriverDim;
+import com.sanyang.logistics.base.pojo.DriverDimExample;
 import com.sanyang.logistics.jaj.dao.DriverDimDao;
 
 /**
@@ -20,9 +21,31 @@ public class DriverDimServiceImp implements DriverDimService {
 	private DriverDimDao driverDimDao;
 	
 	@Override
-	public List<DriverDim> getDriverDim() {
+	public List<DriverDim> getDriverDim(DriverDimExample example) {
 		// TODO Auto-generated method stub
-		return driverDimDao.getDriverDim();
+		return driverDimDao.getDriverDim(example);
+	}
+
+	@Override
+	public void insertDriverDim(DriverDim driverDim) {
+		// TODO Auto-generated method stub
+		driverDimDao.insertDriverDim(driverDim);
+	}
+
+	@Override
+	public void deleteDriverDim(Integer driverId) {
+		driverDimDao.deleteDriverDim(driverId);
+	}
+
+	@Override
+	public DriverDim getDriverDimById(Integer driverId) {
+		// TODO Auto-generated method stub
+		return driverDimDao.getDriverDimById(driverId);
+	}
+
+	@Override
+	public void updateDriverDim(DriverDim driverDim) {
+		driverDimDao.updateDriverDim(driverDim);
 	}
 
 }

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>司机管理</title>
+		<style type="text/css">
+			#div-select {
+				margin-top: 20px;
+			}
+		</style>
+		<!--导入核心bootstrap css样式-->
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<!--导入jQuery-->
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--导入核心Bootstrap js-->
+		<script src="js/bootstarp-3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+//			var str="1";
+			$(function() {
+				$("#tab").bootstrapTable({
+					url: "driverDim/getDriverDim.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+					queryParams:queryParams,//方法返回参数
+					columns: [{
+						title: "司机编号",
+						field: 'driverId',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "司机姓名",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "性别",
+						field: 'sex',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "年龄",
+						field: 'age',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "驾龄",
+						field: 'driverage',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "状态",
+						field: 'status',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "驾证编号",
+						field: 'license',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "驾证类型",
+						field: 'drivertype',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "领证日期",
+						field: 'toDate',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "联系电话",
+						field: 'contact',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "操作",
+						field: 'driverId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele(" + row.driverId + ")'></button>";
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd(' + row.driverId + ')" data-target="#myModal2"></button>';
+							return d + u;
+						}
+					}]
+				})
+				
+				$("#but").click(function() {
+					$.post("driverDim/insertDriverDim.action",$("#form").serialize(),function(data) {
+							$("#myModal").modal("hide");
+							$("#tab").bootstrapTable("refresh");
+					})
+				})
+				
+				$("#but2").click(function() {
+					$.ajax({
+						type: "post",
+						url: "driverDim/updateDriverDim.action",
+						data: $("#form2").serialize(),
+						success: function(data) {
+							$("#myModal2").modal("hide");
+							$("#tab").bootstrapTable("refresh");
+						}
+					});
+				})
+				
+				$("#but3").click(function() {
+					$("#tab").bootstrapTable("refresh");
+				});
+				
+			})
+			
+			function queryParams(){
+				return {
+					'name':$("#name-select").val(),
+					'driverage':$("#driverage-select").val(),
+					'drivertype':$("#drivertype-select").val()
+				}
+			}
+			
+			function dele(driverId) {
+				$.ajax({
+					type: "post",
+					url: "driverDim/deleteDriverDim.action",
+					data:"driverId=" + driverId,
+					success: function(data) {
+						$("#tab").bootstrapTable("refresh");
+					}
+				});
+			}
+			
+			function upd(driverId) {
+				$.ajax({
+					type: "post",
+					url: "driverDim/getDriverDimById.action",
+					data:"driverId=" + driverId,
+					dataType:"JSON",
+					success: function(data) {
+						$("#driverId").val(data.driverId)
+						$("#name").val(data.name);
+						if (data.sex=="男") {
+							$("#sex1").attr("checked", true);
+						} else if(data.sex=="女"){
+							$("#sex2").attr("checked", true);
+						}
+						$("#age").val(data.age);
+						$("#driverage").val(data.driverage);
+						$("#status").val(data.status);
+						$("#license").val(data.license);
+						$("#drivertype").val(data.drivertype);
+						$("#to_date").val(data.toDate);
+						$("#contact").val(data.contact);
+					}
+				});
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="form-group col-md-offset-2" id="div-select">
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="name-select" value="" placeholder="按司机名称查询">
+			</div>
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="driverage-select" value="" placeholder="按司机驾龄查询">
+			</div>
+			<div class="col-md-3">
+				<input type="text" class="form-control" id="drivertype-select" value="" placeholder="按驾证类型查询">
+			</div>
+			<!--<div class="col-md-2">
+				<select class="form-control" id="uid2" name="uid2">
+					<option value="0">--请选择--</option>
+				</select>
+			</div>-->
+			<button type="button" id="but3" class="btn btn-info glyphicon glyphicon-search"></button>
+			<!-- 按钮触发模态框 添加-->
+			<button class="btn btn-success col-md-offset-1" data-toggle="modal" data-target="#myModal">添加司机</button>
+		</div>
+		<table class="table table-hover table-bordered" id="tab">
+
+		</table>
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">添加司机信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form" role="form">
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">司机姓名</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="firstname" name="name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">性别</label>
+								<div class="col-md-10">
+									<label class="radio-inline">
+										  <input type="radio" name="sex" id="inlineRadio1" checked="checked" value="男"> 男
+									</label>
+									<label class="radio-inline">
+										  <input type="radio" name="sex" id="inlineRadio2" value="女"> 女
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">年龄</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="firstname" name="age">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">驾龄</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="firstname" name="driverage">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">状态</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="firstname" name="status">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">驾证编号</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="firstname" name="license">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">驾证类型</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="firstname" name="drivertype">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">领证日期</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="firstname" name="toDate">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">联系电话</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="firstname" name="contact">
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="but" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">修改司机信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form2" role="form">
+							<input type="hidden" name="driverId" id="driverId" value="" />
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">司机姓名</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="name" name="name">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">性别</label>
+								<div class="col-md-10">
+									<label class="radio-inline">
+										  <input type="radio" name="sex" id="sex1" checked="checked" value="男"> 男
+									</label>
+									<label class="radio-inline">
+										  <input type="radio" name="sex" id="sex2" value="女"> 女
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">年龄</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="age" name="age">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">驾龄</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="driverage" name="driverage">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">状态</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="status" name="status">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">驾证编号</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="license" name="license">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">驾证类型</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="drivertype" name="drivertype">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">领证日期</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="to_date" name="toDate">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-2 control-label">联系电话</label>
+								<div class="radio col-md-10">
+									<input type="text" class="form-control" id="contact" name="contact">
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="but2" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
+		
+	</body>
+
+</html>

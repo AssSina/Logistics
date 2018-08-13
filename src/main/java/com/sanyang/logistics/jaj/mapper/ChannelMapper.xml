@@ -5,6 +5,7 @@
     <id column="channel_id" property="channelId" jdbcType="INTEGER" />
     <result column="channelno" property="channelno" jdbcType="VARCHAR" />
     <result column="wh_id" property="whId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -178,4 +179,7 @@
       wh_id = #{whId,jdbcType=INTEGER}
     where channel_id = #{channelId,jdbcType=INTEGER}
   </update>
+  <select id="getChannel" resultMap="BaseResultMap">
+  	select b.*,w.name from channel b,warehouse w where b.wh_id=w.wh_id
+  </select>
 </mapper>

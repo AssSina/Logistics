@@ -1,6 +1,5 @@
 package com.sanyang.logistics.base.pojo;
 
-
 public class Product {
     private Integer pid;
 
@@ -70,21 +69,6 @@ public class Product {
         this.provider = provider == null ? null : provider.trim();
     }
 
-    public String getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(String createDate) {
-		this.createDate = createDate;
-	}
-
-	public String getUpdateDate() {
-		return updateDate;
-	}
-
-	public void setUpdateDate(String updateDate) {
-		this.updateDate = updateDate;
-	}
 
 	public Integer getPackageId() {
         return packageId;
@@ -101,4 +85,22 @@ public class Product {
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
     }
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
+	}
+    
+    
 }

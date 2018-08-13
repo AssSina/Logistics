@@ -19,9 +19,39 @@ public class TruckDimServiceImp implements TruckDimService{
 	private TruckDimDao truckDimDao;
 	
 	@Override
-	public List<TruckDim> getTruckDim() {
+	public List<TruckDim> getTruckDim(TruckDim truckDim) {
 		// TODO Auto-generated method stub
-		return truckDimDao.getTruckDim();
+		return truckDimDao.getTruckDim(truckDim);
+	}
+
+	@Override
+	public void insertTruckDim(TruckDim truckDim) {
+		// TODO Auto-generated method stub
+		truckDimDao.insertTruckDim(truckDim);
+	}
+
+	@Override
+	public void deleteTruckDim(Integer truckId) {
+		// TODO Auto-generated method stub
+		truckDimDao.deleteTruckDim(truckId);
+	}
+
+	@Override
+	public TruckDim getTruckDimById(Integer truckId) {
+		// TODO Auto-generated method stub
+		return truckDimDao.getTruckDimById(truckId);
+	}
+
+	@Override
+	public void updateTruckDim(TruckDim truckDim) {
+		// TODO Auto-generated method stub
+		truckDimDao.updateTruckDim(truckDim);
+	}
+
+	@Override
+	public List<TruckDim> getOwnerTypeDimById() {
+		// TODO Auto-generated method stub
+		return truckDimDao.getOwnerTypeDimById();
 	}
 
 }

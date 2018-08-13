@@ -14,6 +14,14 @@ public class RcptDamage {
     private String barCode;
 
     private String posn;
+    
+    private String name;
+    
+    private String pname;
+    
+    private String pmodel;
+    
+    private String code;
 
     public Integer getDamageid() {
         return damageid;
@@ -70,4 +78,45 @@ public class RcptDamage {
     public void setPosn(String posn) {
         this.posn = posn == null ? null : posn.trim();
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+
+	public String getPmodel() {
+		return pmodel;
+	}
+
+	public void setPmodel(String pmodel) {
+		this.pmodel = pmodel;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	@Override
+	public String toString() {
+		return "RcptDamage [damageid=" + damageid + ", rcptId=" + rcptId + ", prodId=" + prodId + ", damageDegree="
+				+ damageDegree + ", damagecount=" + damagecount + ", barCode=" + barCode + ", posn=" + posn + ", name="
+				+ name + ", pname=" + pname + ", pmodel=" + pmodel + ", code=" + code + "]";
+	}
+    
+    
 }

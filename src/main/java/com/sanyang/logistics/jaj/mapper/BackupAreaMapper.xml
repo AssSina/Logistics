@@ -6,6 +6,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="wh_id" property="whId" jdbcType="INTEGER" />
+    <result column="bname" property="bname" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -193,4 +194,8 @@
       wh_id = #{whId,jdbcType=INTEGER}
     where backup_area_id = #{backupAreaId,jdbcType=INTEGER}
   </update>
+  
+  <select id="getBackupArea" resultMap="BaseResultMap">
+  	select b.*,w.name bname from backup_area b,warehouse w where b.wh_id=w.wh_id
+  </select>
 </mapper>

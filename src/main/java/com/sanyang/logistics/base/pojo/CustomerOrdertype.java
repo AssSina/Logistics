@@ -7,11 +7,13 @@ public class CustomerOrdertype {
 
     private Integer sysordertypeId;
 
-    private Integer name;
+    private String name;
 
     private String description;
+    
 
-    public Integer getCustOrdertypeId() {
+
+	public Integer getCustOrdertypeId() {
         return custOrdertypeId;
     }
 
@@ -35,11 +37,11 @@ public class CustomerOrdertype {
         this.sysordertypeId = sysordertypeId;
     }
 
-    public Integer getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Integer name) {
+    public void setName(String name) {
         this.name = name;
     }
 

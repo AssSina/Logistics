@@ -27,4 +27,6 @@ public interface BackupAreaMapper {
     int updateByPrimaryKeySelective(BackupArea record);
 
     int updateByPrimaryKey(BackupArea record);
+    
+    List<BackupArea> getBackupArea();
 }
