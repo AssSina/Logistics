@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+		<!--导入核心bootstrap css样式-->
+		<link rel="stylesheet" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<!--导入jQuery-->
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--导入核心bootstrap js-->
+		<script src="js/bootstarp-3.3.7/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+
+		<!--导入table css样式-->
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+
+       
+       <script type="text/javascript">
+       				$(function(){
+       					$("#hwxx").bootstrapTable({
+       						url: "product/getpro.action",
+							pagination: true,
+							pageSize: 4,
+							columns: [{
+									field: 'pid',
+									title: '货物编号',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'pname',
+									title: '货物名称',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'catery',
+									title: '货物类型',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'pmodel',
+									title: '产品型号',
+									align: 'center',
+									valign: 'middle',
+								},  {
+									field: 'code',
+									title: '产品编码',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'provider',
+									title: '供应商',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'createDate',
+									title: '创建日期',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'updateDate',
+									title: '更新日期',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'package_id',
+									title: '包装定制',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'status',
+									title: '货物状态',
+									align: 'center',
+									valign: 'middle',
+								},{
+									field: 'caozuo',
+									title: '操作',
+									align: 'center',
+									valign: 'middle',
+									formatter: function(value, row, index) {
+										return "<button onclick='dele(" + row.schedTypeId + ")' class='btn btn-danger'>删除</button>";
+										
+									}
+								}
+							]
+       			});
+       				
+       				
+       					$("#sjxx").bootstrapTable({
+       						url: "driverdim/getdriverdim.action",
+							pagination: true,
+							pageSize: 4,
+							columns: [{
+									field: 'driverId',
+									title: '司机编号',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'name',
+									title: '姓名',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'sex',
+									title: '性别',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'age',
+									title: '年龄',
+									align: 'center',
+									valign: 'middle',
+								},  {
+									field: 'driverage',
+									title: '驾龄',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'status',
+									title: '状态',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'license',
+									title: '驾证编号',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'drivertype',
+									title: '驾证类型',
+									align: 'center',
+									valign: 'middle',
+								}, 
+								  {
+									field: 'toDate',
+									title: '领证日期',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'contact',
+									title: '联系电话',
+									align: 'center',
+									valign: 'middle',
+								},{
+									field: 'caozuo',
+									title: '操作',
+									align: 'center',
+									valign: 'middle',
+									formatter: function(value, row, index) {
+										return "<button onclick='dele(" + row.schedTypeId + ")' class='btn btn-danger'>删除</button>";
+										
+									}
+								}
+							]
+       			});
+       			
+       			
+       			$("#clxx").bootstrapTable({
+       						url: "truckdim/gettru.action",
+							pagination: true,
+							pageSize: 4,
+							columns: [{
+									field: 'truckId',
+									title: '车辆编号',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'license',
+									title: '车牌号',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'carryCapcty',
+									title: '最大载重量',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'ownerTypeId',
+									title: '所有者',
+									align: 'center',
+									valign: 'middle',
+								},  {
+									field: 'createDate',
+									title: '创建时间',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'updateDate',
+									title: '更新时间',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'trucktype',
+									title: '车辆类型',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'truckstatus',
+									title: '车辆状态',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'trucklocation',
+									title: '所在位置',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'truckage',
+									title: '驾驶年龄',
+									align: 'center',
+									valign: 'middle',
+								},{
+									field: 'caozuo',
+									title: '操作',
+									align: 'center',
+									valign: 'middle',
+									formatter: function(value, row, index) {
+										return "<button onclick='dele(" + row.schedTypeId + ")' class='btn btn-danger'>删除</button>";
+										
+									}
+								}
+							]
+       				})
+       			
+       			$("#cysxxw").bootstrapTable({
+       						url: "thirdparty/getthir.action",
+							pagination: true,
+							pageSize: 4,
+							columns: [{
+									field: 'thirdPartyId',
+									title: '承运编号',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'name',
+									title: '承运方名称',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'address',
+									title: '地址',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'contact',
+									title: '联系人',
+									align: 'center',
+									valign: 'middle',
+								},  {
+									field: 'description',
+									title: '备注',
+									align: 'center',
+									valign: 'middle',
+								},{
+									field: 'caozuo',
+									title: '操作',
+									align: 'center',
+									valign: 'middle',
+									formatter: function(value, row, index) {
+										return "<button onclick='dele(" + row.schedTypeId + ")' class='btn btn-danger'>删除</button>";
+										
+									}
+								}
+							]
+       				})
+       			
+       				})
+       	
+//    	function dele(sched_type_id) {
+//				$.ajax({
+//					url: "scheduletype/deleteoneid.action?id="+sched_type_id,
+//					type: "post",
+//					success: function(data) {
+//						$("#tables001").bootstrapTable('refresh');
+//					}
+//				})
+//			}
+       	
+       	
+       	
+       </script>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</head>
+	<body>
+		<h4>货物信息</h4><button id="zdhw"><a href="addhwxx.html">指定货物</a></button>
+		<table id="hwxx"></table>
+		
+		<h4>车辆信息</h4><button id="zdcl"><a>指定车辆</a></button>
+		<table id="clxx"></table>
+		
+		<h4>司机信息</h4><button id="zdsj"><a>指定司机</a></button>
+		<table id="sjxx"></table>
+		
+		<h4>承运商信息</h4><button id="zdcys"><a>指定承运商</a></button>
+		<table id="cysxxw"></table>
+		
+	</body>
+</html>
