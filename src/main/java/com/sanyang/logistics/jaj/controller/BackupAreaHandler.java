@@ -23,8 +23,8 @@ public class BackupAreaHandler {
 	
 	@RequestMapping("/getBackupArea")
 	@ResponseBody
-	public Object getBackupArea(){
-		List<BackupArea> BackupAreas=backupAreaService.getBackupArea();
+	public Object getBackupArea(Integer whId){
+		List<BackupArea> BackupAreas=backupAreaService.getBackupArea(whId);
 		return BackupAreas;
 	}
 	

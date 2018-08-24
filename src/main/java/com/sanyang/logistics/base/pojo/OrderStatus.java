@@ -1,33 +1,51 @@
 package com.sanyang.logistics.base.pojo;
 
 public class OrderStatus {
-    private Integer sid;
+	
+	private Integer sid;
+	private String statusname;
+	private String description;
+	
+public OrderStatus() {
+	// TODO Auto-generated constructor stub
+}
 
-    private String statusname;
+public OrderStatus(Integer sid, String statusname, String description) {
+	super();
+	this.sid = sid;
+	this.statusname = statusname;
+	this.description = description;
+}
 
-    private String description;
+public Integer getSid() {
+	return sid;
+}
 
-    public Integer getSid() {
-        return sid;
-    }
+public void setSid(Integer sid) {
+	this.sid = sid;
+}
 
-    public void setSid(Integer sid) {
-        this.sid = sid;
-    }
+public String getStatusname() {
+	return statusname;
+}
 
-    public String getStatusname() {
-        return statusname;
-    }
+public void setStatusname(String statusname) {
+	this.statusname = statusname;
+}
 
-    public void setStatusname(String statusname) {
-        this.statusname = statusname == null ? null : statusname.trim();
-    }
+public String getDescription() {
+	return description;
+}
 
-    public String getDescription() {
-        return description;
-    }
+public void setDescription(String description) {
+	this.description = description;
+}
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
+@Override
+public String toString() {
+	return "OrderStatus [sid=" + sid + ", statusname=" + statusname + ", description=" + description + "]";
+}
+
+
+
 }

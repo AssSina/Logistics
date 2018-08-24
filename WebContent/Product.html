@@ -67,6 +67,14 @@
 						align: 'center',
 						valign: 'middle',
 					},{
+						title: "选择库位",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-edit" data-toggle="modal" onclick="find(' + row.pid + ')" data-target="#myModal3"></button>';
+							return u;
+						}
+					},{
 						title: "操作",
 						field: 'pid',
 						align: 'center',
@@ -77,6 +85,31 @@
 							return d + u;
 						}
 					}]
+				})
+				
+				$.getJSON("warehouse/getWarehouse.action", function(data) {
+					$.each(data, function(m, n) {
+						$("#whId").append("<option value='" + n.whId + "'>" + n.name + "</option>")
+					});
+				})
+				
+				$("#whId").change(function(){	
+					$("#posnId").empty();
+					$.ajax({
+						type:"post",
+						url:"prodPosnBridge/getPositionByWhId.action",
+						data:"whId="+$(this).val()+"&prodId="+$("#prodId1").val(),
+						dataType:"JSON",
+						success: function(data){
+						$.each(data, function(m, n) {
+							$("#posnId").append("<option value='" + n.posnId + "'>" + n.posnCode + "</option>")
+						});
+					}
+					});
+				})
+				
+				$("#ref").click(function(){
+					$("#tab2").bootstrapTable("destroy");	
 				})
 				
 				$("#but").click(function() {
@@ -101,6 +134,13 @@
 				$("#but3").click(function() {
 					$("#tab").bootstrapTable("refresh");
 				});
+				
+				$("#btn1").click(function(){
+					$.post("prodPosnBridge/insertProdPosnBridge.action",$("#form3").serialize(),function(data) {
+							$("#myModal4").modal("hide");
+							$("#tab2").bootstrapTable("refresh");
+					})
+				})
 				
 			})
 			
@@ -140,6 +180,56 @@
 					}
 				});
 			}
+			
+			function find(pid){
+				$("#prodId1").val(pid);
+				$("#tab2").bootstrapTable({
+					url: "prodPosnBridge/getProdPosnBridge.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+					queryParams:{"prodId":pid},//方法返回参数
+					columns: [{
+						title: "库位编号",
+						field: 'posnCode',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "所属货架",
+						field: 'shelfNo',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "所属仓库",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "库位容量",
+						field: 'capacity',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "操作",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele2(" + row.oid + ")'></button>";
+							return d;
+						}
+					}]
+				})
+			}
+			
+			function dele2(oid) {
+					$.ajax({
+						type: "post",
+						url: "prodPosnBridge/deleteProdPosnBridge.action",
+						data:"oid=" + oid,
+						success: function(data) {
+							$("#tab2").bootstrapTable("refresh");
+						}
+					});
+				}
 		</script>
 	</head>
 
@@ -286,7 +376,72 @@
 			<!-- /.modal -->
 		</div>
 		
-		
-	</body>
+		<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">库位信息</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<table class="table table-hover table-bordered" id="tab2">
 
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="ref">关闭</button>
+						<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal4">添加库位</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+	</body>
+	
+	<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" align="center" id="myModalLabel">添加库位</h4>
+					</div>
+					<!--模态框内容-->
+					<div class="modal-body">
+						<form class="form-horizontal" id="form3" role="form">
+							<input type="hidden" name="prodId" id="prodId1" value="" />
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">库位容量</label>
+								<div class="col-md-3">
+									<input type="text" class="form-control" name="occupyAmt">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">所属仓库</label>
+								<div class="col-md-3">
+									<select class="form-control" id="whId" name="whId">
+										<option value="0">--请选择--</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="firstname" class="col-md-2 control-label">所属库位</label>
+								<div class="col-md-3">
+									<select class="form-control" id="posnId" name="posnId">
+									</select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="btn1" class="btn btn-primary">提交信息</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+	
 </html>

@@ -1,183 +1,259 @@
 package com.sanyang.logistics.base.pojo;
 
 public class SplitedOrderProdBridge {
-    private Integer oid;
+	
+	Integer oid;
+	Integer work_order_id;
+	Integer sched_id;
+	Integer orderid;
+	Integer prod_id;
+	String ptype;
+	String pcode;
+	String packageid;
+	Integer plan_amt;
+	Integer split_amt;
+	 Integer unalloc_amt;
+	Integer real_amt;
+	Integer height;
+	Integer arear;
+	Integer toaddress;
+	String description;
+	String splitedstatus;
+	
+	
+	private String pname;
+	private String code;
+	private String pmodel;
+	private Integer pcount  ;
+	private String package_name;
+	private String status;
+	
+	
+	public String getCode() {
+		return code;
+	}
 
-    private Integer workOrderId;
+	public void setCode(String code) {
+		this.code = code;
+	}
 
-    private Integer schedId;
+	public String getPmodel() {
+		return pmodel;
+	}
 
-    private Integer orderid;
+	public void setPmodel(String pmodel) {
+		this.pmodel = pmodel;
+	}
 
-    private Integer prodId;
+	public Integer getPcount() {
+		return pcount;
+	}
 
-    private String pname;
+	public void setPcount(Integer pcount) {
+		this.pcount = pcount;
+	}
 
-    private String ptype;
+	public String getPackage_name() {
+		return package_name;
+	}
 
-    private String pcode;
+	public void setPackage_name(String package_name) {
+		this.package_name = package_name;
+	}
 
-    private String packageid;
+	public String getStatus() {
+		return status;
+	}
 
-    private Integer planAmt;
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-    private Integer splitAmt;
+	public SplitedOrderProdBridge() {
+		// TODO Auto-generated constructor stub
+	}
 
-    private Integer unallocAmt;
+	public SplitedOrderProdBridge(Integer oid, Integer work_order_id, Integer sched_id, Integer orderid,
+			Integer prod_id, String pname, String ptype, String pcode, String packageid, Integer plan_amt,
+			Integer split_amt, Integer unalloc_amt, Integer real_amt, Integer height, Integer arear, Integer toaddress,
+			String description, String splitedstatus) {
+		super();
+		this.oid = oid;
+		this.work_order_id = work_order_id;
+		this.sched_id = sched_id;
+		this.orderid = orderid;
+		this.prod_id = prod_id;
+		this.pname = pname;
+		this.ptype = ptype;
+		this.pcode = pcode;
+		this.packageid = packageid;
+		this.plan_amt = plan_amt;
+		this.split_amt = split_amt;
+		this.unalloc_amt = unalloc_amt;
+		this.real_amt = real_amt;
+		this.height = height;
+		this.arear = arear;
+		this.toaddress = toaddress;
+		this.description = description;
+		this.splitedstatus = splitedstatus;
+	}
 
-    private Integer realAmt;
+	public Integer getOid() {
+		return oid;
+	}
 
-    private Integer height;
+	public void setOid(Integer oid) {
+		this.oid = oid;
+	}
 
-    private String arear;
+	public Integer getWork_order_id() {
+		return work_order_id;
+	}
 
-    private String toaddress;
+	public void setWork_order_id(Integer work_order_id) {
+		this.work_order_id = work_order_id;
+	}
 
-    private String description;
+	public Integer getSched_id() {
+		return sched_id;
+	}
 
-    private String splitedstatus;
+	public void setSched_id(Integer sched_id) {
+		this.sched_id = sched_id;
+	}
 
-    public Integer getOid() {
-        return oid;
-    }
+	public Integer getOrderid() {
+		return orderid;
+	}
 
-    public void setOid(Integer oid) {
-        this.oid = oid;
-    }
+	public void setOrderid(Integer orderid) {
+		this.orderid = orderid;
+	}
 
-    public Integer getWorkOrderId() {
-        return workOrderId;
-    }
+	public Integer getProd_id() {
+		return prod_id;
+	}
 
-    public void setWorkOrderId(Integer workOrderId) {
-        this.workOrderId = workOrderId;
-    }
+	public void setProd_id(Integer prod_id) {
+		this.prod_id = prod_id;
+	}
 
-    public Integer getSchedId() {
-        return schedId;
-    }
+	public String getPname() {
+		return pname;
+	}
 
-    public void setSchedId(Integer schedId) {
-        this.schedId = schedId;
-    }
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
 
-    public Integer getOrderid() {
-        return orderid;
-    }
+	public String getPtype() {
+		return ptype;
+	}
 
-    public void setOrderid(Integer orderid) {
-        this.orderid = orderid;
-    }
+	public void setPtype(String ptype) {
+		this.ptype = ptype;
+	}
 
-    public Integer getProdId() {
-        return prodId;
-    }
+	public String getPcode() {
+		return pcode;
+	}
 
-    public void setProdId(Integer prodId) {
-        this.prodId = prodId;
-    }
+	public void setPcode(String pcode) {
+		this.pcode = pcode;
+	}
 
-    public String getPname() {
-        return pname;
-    }
+	public String getPackageid() {
+		return packageid;
+	}
 
-    public void setPname(String pname) {
-        this.pname = pname == null ? null : pname.trim();
-    }
+	public void setPackageid(String packageid) {
+		this.packageid = packageid;
+	}
 
-    public String getPtype() {
-        return ptype;
-    }
+	public Integer getPlan_amt() {
+		return plan_amt;
+	}
 
-    public void setPtype(String ptype) {
-        this.ptype = ptype == null ? null : ptype.trim();
-    }
+	public void setPlan_amt(Integer plan_amt) {
+		this.plan_amt = plan_amt;
+	}
 
-    public String getPcode() {
-        return pcode;
-    }
+	public Integer getSplit_amt() {
+		return split_amt;
+	}
 
-    public void setPcode(String pcode) {
-        this.pcode = pcode == null ? null : pcode.trim();
-    }
+	public void setSplit_amt(Integer split_amt) {
+		this.split_amt = split_amt;
+	}
 
-    public String getPackageid() {
-        return packageid;
-    }
+	public Integer getUnalloc_amt() {
+		return unalloc_amt;
+	}
 
-    public void setPackageid(String packageid) {
-        this.packageid = packageid == null ? null : packageid.trim();
-    }
+	public void setUnalloc_amt(Integer unalloc_amt) {
+		this.unalloc_amt = unalloc_amt;
+	}
 
-    public Integer getPlanAmt() {
-        return planAmt;
-    }
+	public Integer getReal_amt() {
+		return real_amt;
+	}
 
-    public void setPlanAmt(Integer planAmt) {
-        this.planAmt = planAmt;
-    }
+	public void setReal_amt(Integer real_amt) {
+		this.real_amt = real_amt;
+	}
 
-    public Integer getSplitAmt() {
-        return splitAmt;
-    }
+	public Integer getHeight() {
+		return height;
+	}
 
-    public void setSplitAmt(Integer splitAmt) {
-        this.splitAmt = splitAmt;
-    }
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
 
-    public Integer getUnallocAmt() {
-        return unallocAmt;
-    }
+	public Integer getArear() {
+		return arear;
+	}
 
-    public void setUnallocAmt(Integer unallocAmt) {
-        this.unallocAmt = unallocAmt;
-    }
+	public void setArear(Integer arear) {
+		this.arear = arear;
+	}
 
-    public Integer getRealAmt() {
-        return realAmt;
-    }
+	public Integer getToaddress() {
+		return toaddress;
+	}
 
-    public void setRealAmt(Integer realAmt) {
-        this.realAmt = realAmt;
-    }
+	public void setToaddress(Integer toaddress) {
+		this.toaddress = toaddress;
+	}
 
-    public Integer getHeight() {
-        return height;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public String getArear() {
-        return arear;
-    }
+	public String getSplitedstatus() {
+		return splitedstatus;
+	}
 
-    public void setArear(String arear) {
-        this.arear = arear == null ? null : arear.trim();
-    }
+	public void setSplitedstatus(String splitedstatus) {
+		this.splitedstatus = splitedstatus;
+	}
 
-    public String getToaddress() {
-        return toaddress;
-    }
-
-    public void setToaddress(String toaddress) {
-        this.toaddress = toaddress == null ? null : toaddress.trim();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
-
-    public String getSplitedstatus() {
-        return splitedstatus;
-    }
-
-    public void setSplitedstatus(String splitedstatus) {
-        this.splitedstatus = splitedstatus == null ? null : splitedstatus.trim();
-    }
+	@Override
+	public String toString() {
+		return "SplitedOrderProdBridge [oid=" + oid + ", work_order_id=" + work_order_id + ", sched_id=" + sched_id
+				+ ", orderid=" + orderid + ", prod_id=" + prod_id + ", pname=" + pname + ", ptype=" + ptype + ", pcode="
+				+ pcode + ", packageid=" + packageid + ", plan_amt=" + plan_amt + ", split_amt=" + split_amt
+				+ ", unalloc_amt=" + unalloc_amt + ", real_amt=" + real_amt + ", height=" + height + ", arear=" + arear
+				+ ", toaddress=" + toaddress + ", description=" + description + ", splitedstatus=" + splitedstatus
+				+ "]";
+	}
+	
+	
+	
+	
+	
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sanyang.logistics.base.pojo.RcptDamage;
 import com.sanyang.logistics.jaj.service.RcptDamageService;
 
-@RequestMapping("rcptDamage")
+@RequestMapping("/rcptDamage")
 @Controller
 public class RcptDamageHandler {
 
@@ -20,6 +20,7 @@ public class RcptDamageHandler {
 	@RequestMapping("getRcptDamage")
 	@ResponseBody
 	public Object getRcptDamage(RcptDamage rcptDamage){
+//		System.out.println(rcptDamage+"<<<<<<<<<<<<<");
 		List<RcptDamage> rcptDamages = rcptDamageService.getRcptDamage(rcptDamage);
 		return rcptDamages;
 	}

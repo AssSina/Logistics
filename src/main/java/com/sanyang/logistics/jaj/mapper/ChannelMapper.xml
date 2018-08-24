@@ -179,7 +179,7 @@
       wh_id = #{whId,jdbcType=INTEGER}
     where channel_id = #{channelId,jdbcType=INTEGER}
   </update>
-  <select id="getChannel" resultMap="BaseResultMap">
-  	select b.*,w.name from channel b,warehouse w where b.wh_id=w.wh_id
+  <select id="getChannel" resultMap="BaseResultMap" parameterType="Integer">
+  	select b.*,w.name from channel b,warehouse w where b.wh_id=w.wh_id and b.wh_id=#{whId}
   </select>
 </mapper>

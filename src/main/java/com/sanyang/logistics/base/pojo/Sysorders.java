@@ -1,8 +1,25 @@
 package com.sanyang.logistics.base.pojo;
 
-import java.util.Date;
 
 public class Sysorders {
+
+	 private String pname;
+	 private Integer pid;
+	 private String code;
+	 private String pmodel;
+	 
+	 private Integer workid;
+	 
+	 private String rules;
+	
+	private Integer pcount;
+	
+	private Integer scount;
+	
+	 private String s;
+	 
+	 private String ss;
+	
     private Integer oid;
 
     private String cusOrderNo;
@@ -108,12 +125,107 @@ public class Sysorders {
 
     private String updateDate;
 
+    
 
 
     private String firelevel;
 
+    
+    
+    private Integer zxc[];
+    
+    private Integer qqq[];
 
-    public Integer getSid() {
+
+	public Integer[] getZxc() {
+		return zxc;
+	}
+
+	public void setZxc(Integer[] zxc) {
+		this.zxc = zxc;
+	}
+
+	public Integer[] getQqq() {
+		return qqq;
+	}
+
+	public void setQqq(Integer[] qqq) {
+		this.qqq = qqq;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public Integer getPid() {
+		return pid;
+	}
+
+	public void setPid(Integer pid) {
+		this.pid = pid;
+	}
+
+	public Integer getPcount() {
+		return pcount;
+	}
+
+	public void setPcount(Integer pcount) {
+		this.pcount = pcount;
+	}
+
+	public Integer getScount() {
+		return scount;
+	}
+
+	public void setScount(Integer scount) {
+		this.scount = scount;
+	}
+
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getPmodel() {
+		return pmodel;
+	}
+
+	public void setPmodel(String pmodel) {
+		this.pmodel = pmodel;
+	}
+
+	public String getRules() {
+		return rules;
+	}
+
+	public void setRules(String rules) {
+		this.rules = rules;
+	}
+
+	public String getS() {
+		return s;
+	}
+
+	public void setS(String s) {
+		this.s = s;
+	}
+
+	public String getSs() {
+		return ss;
+	}
+
+	public void setSs(String ss) {
+		this.ss = ss;
+	}
+
+	public Integer getSid() {
 		return sid;
 	}
 
@@ -175,6 +287,14 @@ public class Sysorders {
 
 	public Integer getTypeId() {
 		return typeId;
+	}
+
+	public Integer getWorkid() {
+		return workid;
+	}
+
+	public void setWorkid(Integer workid) {
+		this.workid = workid;
 	}
 
 	public void setTypeId(Integer typeId) {

@@ -1,5 +1,6 @@
 package com.sanyang.logistics.jaj.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,15 @@ public class TruckDimHandler {
 		return truckDim;
 	}
 	
+	@RequestMapping("/getTruckDimByIds")
+	@ResponseBody
+	public Object getTruckDimByIds(Integer truckId){
+		TruckDim truckDim=truckDimService.getTruckDimById(truckId);
+		List<TruckDim> list=new ArrayList<>();
+		list.add(truckDim);
+		return list;
+	}
+	
 	@RequestMapping("/updateTruckDim")
 	@ResponseBody
 	public int updateTruckDim(TruckDim truckDim){
@@ -62,5 +72,7 @@ public class TruckDimHandler {
 		List<TruckDim> truckDims=truckDimService.getOwnerTypeDimById();
 		return truckDims;
 	}
+	
+	
 
 }

@@ -4,22 +4,25 @@
   <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.Schedule" >
     <id column="sched_id" property="schedId" jdbcType="INTEGER" />
     <result column="region_id" property="regionId" jdbcType="INTEGER" />
-    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate"/>
+    <result column="update_date" property="updateDate"/>
     <result column="exec_done_flag" property="execDoneFlag" jdbcType="VARCHAR" />
     <result column="sched_type_id" property="schedTypeId" jdbcType="INTEGER" />
     <result column="driver_type" property="driverType" jdbcType="INTEGER" />
     <result column="truck_id" property="truckId" jdbcType="INTEGER" />
     <result column="driver_id" property="driverId" jdbcType="INTEGER" />
     <result column="third_party_id" property="thirdPartyId" jdbcType="INTEGER" />
-    <result column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="end_date" property="endDate"/>
     <result column="hacount" property="hacount" jdbcType="INTEGER" />
     <result column="pcount" property="pcount" jdbcType="INTEGER" />
     <result column="schstatus" property="schstatus" jdbcType="VARCHAR" />
     <result column="fromaddress" property="fromaddress" jdbcType="VARCHAR" />
     <result column="toaddress" property="toaddress" jdbcType="VARCHAR" />
+    <result column="fromaddresszb" property="fromaddresszb" jdbcType="VARCHAR" />
+    <result column="toaddresszb" property="toaddresszb" jdbcType="VARCHAR" />
     <result column="cuname" property="cuname" jdbcType="VARCHAR" />
     <result column="cuphone" property="cuphone" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -82,7 +85,7 @@
   <sql id="Base_Column_List" >
     sched_id, region_id, create_date, update_date, exec_done_flag, sched_type_id, driver_type, 
     truck_id, driver_id, third_party_id, end_date, hacount, pcount, schstatus, fromaddress, 
-    toaddress, cuname, cuphone
+    fromaddresszb,toaddress,toaddresszb, cuname, cuphone
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.ScheduleExample" >
     select
@@ -122,10 +125,10 @@
       pcount, schstatus, fromaddress, 
       toaddress, cuname, cuphone
       )
-    values (#{schedId,jdbcType=INTEGER}, #{regionId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{execDoneFlag,jdbcType=VARCHAR}, #{schedTypeId,jdbcType=INTEGER}, 
+    values (#{schedId,jdbcType=INTEGER}, #{regionId,jdbcType=INTEGER}, #{createDate}, 
+      #{updateDate}, #{execDoneFlag,jdbcType=VARCHAR}, #{schedTypeId,jdbcType=INTEGER}, 
       #{driverType,jdbcType=INTEGER}, #{truckId,jdbcType=INTEGER}, #{driverId,jdbcType=INTEGER}, 
-      #{thirdPartyId,jdbcType=INTEGER}, #{endDate,jdbcType=TIMESTAMP}, #{hacount,jdbcType=INTEGER}, 
+      #{thirdPartyId,jdbcType=INTEGER}, #{endDate}, #{hacount,jdbcType=INTEGER}, 
       #{pcount,jdbcType=INTEGER}, #{schstatus,jdbcType=VARCHAR}, #{fromaddress,jdbcType=VARCHAR}, 
       #{toaddress,jdbcType=VARCHAR}, #{cuname,jdbcType=VARCHAR}, #{cuphone,jdbcType=VARCHAR}
       )
@@ -139,9 +142,7 @@
       <if test="regionId != null" >
         region_id,
       </if>
-      <if test="createDate != null" >
         create_date,
-      </if>
       <if test="updateDate != null" >
         update_date,
       </if>
@@ -181,6 +182,12 @@
       <if test="toaddress != null" >
         toaddress,
       </if>
+      <if test="fromaddresszb != null" >
+        fromaddresszb,
+      </if>
+      <if test="toaddresszb != null" >
+        toaddresszb,
+      </if>
       <if test="cuname != null" >
         cuname,
       </if>
@@ -195,11 +202,9 @@
       <if test="regionId != null" >
         #{regionId,jdbcType=INTEGER},
       </if>
-      <if test="createDate != null" >
-        #{createDate,jdbcType=TIMESTAMP},
-      </if>
+        now(),
       <if test="updateDate != null" >
-        #{updateDate,jdbcType=TIMESTAMP},
+        #{updateDate},
       </if>
       <if test="execDoneFlag != null" >
         #{execDoneFlag,jdbcType=VARCHAR},
@@ -220,7 +225,7 @@
         #{thirdPartyId,jdbcType=INTEGER},
       </if>
       <if test="endDate != null" >
-        #{endDate,jdbcType=TIMESTAMP},
+        #{endDate},
       </if>
       <if test="hacount != null" >
         #{hacount,jdbcType=INTEGER},
@@ -236,6 +241,12 @@
       </if>
       <if test="toaddress != null" >
         #{toaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="fromaddresszb != null" >
+        #{fromaddresszb,jdbcType=VARCHAR},
+      </if>
+      <if test="toaddresszb != null" >
+        #{toaddresszb,jdbcType=VARCHAR},
       </if>
       <if test="cuname != null" >
         #{cuname,jdbcType=VARCHAR},
@@ -261,10 +272,10 @@
         region_id = #{record.regionId,jdbcType=INTEGER},
       </if>
       <if test="record.createDate != null" >
-        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+        create_date = #{record.createDate},
       </if>
       <if test="record.updateDate != null" >
-        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+        update_date = #{record.updateDate},
       </if>
       <if test="record.execDoneFlag != null" >
         exec_done_flag = #{record.execDoneFlag,jdbcType=VARCHAR},
@@ -285,7 +296,7 @@
         third_party_id = #{record.thirdPartyId,jdbcType=INTEGER},
       </if>
       <if test="record.endDate != null" >
-        end_date = #{record.endDate,jdbcType=TIMESTAMP},
+        end_date = #{record.endDate},
       </if>
       <if test="record.hacount != null" >
         hacount = #{record.hacount,jdbcType=INTEGER},
@@ -317,15 +328,15 @@
     update schedule
     set sched_id = #{record.schedId,jdbcType=INTEGER},
       region_id = #{record.regionId,jdbcType=INTEGER},
-      create_date = #{record.createDate,jdbcType=TIMESTAMP},
-      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      create_date = #{record.createDate},
+      update_date = #{record.updateDate},
       exec_done_flag = #{record.execDoneFlag,jdbcType=VARCHAR},
       sched_type_id = #{record.schedTypeId,jdbcType=INTEGER},
       driver_type = #{record.driverType,jdbcType=INTEGER},
       truck_id = #{record.truckId,jdbcType=INTEGER},
       driver_id = #{record.driverId,jdbcType=INTEGER},
       third_party_id = #{record.thirdPartyId,jdbcType=INTEGER},
-      end_date = #{record.endDate,jdbcType=TIMESTAMP},
+      end_date = #{record.endDate},
       hacount = #{record.hacount,jdbcType=INTEGER},
       pcount = #{record.pcount,jdbcType=INTEGER},
       schstatus = #{record.schstatus,jdbcType=VARCHAR},
@@ -344,10 +355,10 @@
         region_id = #{regionId,jdbcType=INTEGER},
       </if>
       <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=TIMESTAMP},
+        create_date = #{createDate},
       </if>
-      <if test="updateDate != null" >
-        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      <if test="updateDate == null" >
+        update_date =now(),
       </if>
       <if test="execDoneFlag != null" >
         exec_done_flag = #{execDoneFlag,jdbcType=VARCHAR},
@@ -368,7 +379,7 @@
         third_party_id = #{thirdPartyId,jdbcType=INTEGER},
       </if>
       <if test="endDate != null" >
-        end_date = #{endDate,jdbcType=TIMESTAMP},
+        end_date = #{endDate},
       </if>
       <if test="hacount != null" >
         hacount = #{hacount,jdbcType=INTEGER},
@@ -385,6 +396,12 @@
       <if test="toaddress != null" >
         toaddress = #{toaddress,jdbcType=VARCHAR},
       </if>
+       <if test="fromaddresszb != null" >
+        fromaddresszb = #{fromaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="toaddresszb != null" >
+        toaddresszb = #{toaddress,jdbcType=VARCHAR},
+      </if>
       <if test="cuname != null" >
         cuname = #{cuname,jdbcType=VARCHAR},
       </if>
@@ -397,15 +414,15 @@
   <update id="updateByPrimaryKey" parameterType="com.sanyang.logistics.base.pojo.Schedule" >
     update schedule
     set region_id = #{regionId,jdbcType=INTEGER},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      create_date = #{createDate},
+      update_date = #{updateDate},
       exec_done_flag = #{execDoneFlag,jdbcType=VARCHAR},
       sched_type_id = #{schedTypeId,jdbcType=INTEGER},
       driver_type = #{driverType,jdbcType=INTEGER},
       truck_id = #{truckId,jdbcType=INTEGER},
       driver_id = #{driverId,jdbcType=INTEGER},
       third_party_id = #{thirdPartyId,jdbcType=INTEGER},
-      end_date = #{endDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate},
       hacount = #{hacount,jdbcType=INTEGER},
       pcount = #{pcount,jdbcType=INTEGER},
       schstatus = #{schstatus,jdbcType=VARCHAR},
@@ -415,4 +432,22 @@
       cuphone = #{cuphone,jdbcType=VARCHAR}
     where sched_id = #{schedId,jdbcType=INTEGER}
   </update>
+  
+  <select id="getSchedules" resultMap="BaseResultMap">
+  	select schedule.*,schedule_type.name from schedule,schedule_type where schedule_type.sched_type_id=schedule.sched_type_id
+  </select>
+  
+  <select id="getWorkOrder" resultMap="BaseResultMap" parameterType="schedule">
+  	select w.*,o.orderid,p.* from workorder_product w,product p,work_order o,sysorders s
+	where w.prod_id=p.pid and w.workid=o.workid and o.orderid=s.oid and w.pcount>0
+  </select>
+  
+  <select id="getWorkOrderById" resultMap="BaseResultMap" parameterType="int">
+  select  * from product,workorder_product,work_order,sysorders,`schedule`,splited_order_prod_bridge where 
+	product.pid = workorder_product.prod_id and
+	 workorder_product.workid = work_order.workid
+	 and work_order.orderid = sysorders.oid AND
+	`schedule`.sched_id = splited_order_prod_bridge.sched_id
+	and splited_order_prod_bridge.prod_id = product.pid and `schedule`.sched_id = #{value}
+  </select>
 </mapper>

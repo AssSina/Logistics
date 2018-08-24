@@ -10,8 +10,18 @@ public class ThirdParty {
     private String contact;
 
     private String description;
+    
+    private String phone;
+    
+    public String getPhone() {
+		return phone;
+	}
 
-    public Integer getThirdPartyId() {
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Integer getThirdPartyId() {
         return thirdPartyId;
     }
 
@@ -50,4 +60,11 @@ public class ThirdParty {
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
     }
+
+	@Override
+	public String toString() {
+		return "ThirdParty [thirdPartyId=" + thirdPartyId + ", name=" + name + ", address=" + address + ", contact="
+				+ contact + ", description=" + description + ", phone=" + phone + "]";
+	}
+    
 }

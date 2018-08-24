@@ -27,4 +27,6 @@ public interface ProdPosnBridgeMapper {
     int updateByPrimaryKeySelective(ProdPosnBridge record);
 
     int updateByPrimaryKey(ProdPosnBridge record);
+    
+    List<ProdPosnBridge> getProdPosnBridge(Integer pid);
 }

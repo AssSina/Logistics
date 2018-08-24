@@ -121,7 +121,7 @@
       #{whId,jdbcType=INTEGER}, #{createDate}, #{updateDate}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.Shelf" >
+  <insert id="insertSelective" parameterType="com.sanyang.logistics.base.pojo.Shelf" useGeneratedKeys="true" keyProperty="shelfId" keyColumn="shelf_id">
     insert into shelf
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="shelfId != null" >
@@ -321,8 +321,8 @@
     where shelf_id = #{shelfId,jdbcType=INTEGER}
   </update>
   
-  <select id="getShelf" resultMap="BaseResultMap">
+  <select id="getShelf" resultMap="BaseResultMap" parameterType="Integer">
   	select b.*,w.name,c.channelno from shelf b,warehouse w,channel c 
-  	where b.wh_id=w.wh_id and c.channel_id=b.channel_id
+  	where b.wh_id=w.wh_id and c.channel_id=b.channel_id and b.wh_id=#{whId}
   </select>
 </mapper>

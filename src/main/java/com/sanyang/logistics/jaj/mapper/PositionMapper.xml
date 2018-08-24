@@ -255,4 +255,13 @@
       occupy_amt = #{occupyAmt,jdbcType=INTEGER}
     where posn_id = #{posnId,jdbcType=INTEGER}
   </update>
+  
+  <delete id="deletePosition" parameterType="String">
+  	delete from position where posn_code=#{value}
+  </delete>
+  
+  <select id="getPositionByWhId" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.ProdPosnBridge">
+  	select * from position a where  not exists (select 1 from prod_posn_bridge b where b.posn_id = a.posn_id and prod_id=#{prodId})
+	and a.wh_id=#{whId}
+  </select>
 </mapper>

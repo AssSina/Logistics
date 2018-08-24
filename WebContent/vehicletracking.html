@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <!--导入核心bootstrap css样式-->
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<!--导入jQuery-->
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--导入核心Bootstrap js-->
+		<script src="js/bootstarp-3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<style type="text/css">
+			
+			#text{
+				
+				text-align: right;
+			}
+		</style>
+</head>
+	<script type="text/javascript">
+     	$(function(){
+     		$("#table001").bootstrapTable({
+					url: "clgz/allcl.action",
+					pagination: true,
+					pageSize: 3,
+					queryParams:queryParams,
+					columns: [{
+						field: "license",
+						title: "车牌号",
+						align: "center",
+						formatter: function(value,row,index) {
+							return '<a  onclick="cinfo('+row.truckId+')">'+row.license+'</a>'
+						}
+					}, {
+						field: "trucktype",
+						title: "车辆类型",
+						align: "center",
+					}, {
+						field: "trucklocation",
+						title: "当前位置",
+						align: "center",
+					}, {
+						field: "end_date",
+						title: "预计到达时间",
+						align: "center",
+					}, {
+						field: "updateDate",
+						title: "更新时间",
+						align: "center",
+					}, {
+						field: "fromaddress",
+						title: "发货地",
+						align: "center",
+					}, {
+						field: "toaddress",
+						title: "目的",
+						align: "center",
+					},{
+						title: "更新",
+						align: "center",
+						formatter: function(value,row,index) {
+							return '<button onclick="cinfo('+row.truckId+')" class="btn btn-danger" data-toggle="modal" data-target="">更新<tton>'
+						}
+					}]
+				})
+     	})
+     	
+     	function queryParams(){
+     		return{
+     			license:$("#license").val(),
+     			trucktype:$("#trucktype").val(),
+     			fromaddress:$("#fromaddress").val(),
+     			toaddress:$("#toaddress").val(), 
+     			trucklocation:$("#trucklocation").val(),
+     			end_date:$("#end_date").val()
+     			
+     		}
+     	}
+     	function select(){
+//   		alert(1)
+     		$("#table001").bootstrapTable("refresh");
+//   		alert($("#vehicle_id").val())
+     	}
+     	
+     	function cinfo(truckId){
+     		window.open("BaiduMap.html?id="+truckId+"", "newwindow", "height=600,width=600,top=200,left=550,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no");
+     	}
+     	
+	</script> 
+<body>
+	<br />
+	<br />
+	
+	
+		<table border="0" width="800px" align="center" height="150px">
+			<tr>				
+				<td id="text"><label for="inputEmail3" class="control-label">车辆编号：</label></td>
+				<td><input type="text" name="license" id="license" class="form-control" style="width: 200px;" value="" /></td>
+				<td id="text"><label for="inputEmail3" class="control-label">车辆类型：</label></td>
+				<td><select class="form-control" style="width: 200px;" id="trucktype" name="trucktype">
+					<option value="">请选择</option>
+					<option value="集卡">集卡</option>
+					<option value="厢式货车">厢式货车</option>
+				</select></td>
+			</tr>
+			<tr>
+				
+				<td id="text"><label for="inputEmail3" class="control-label">发货地：</label></td>
+				<td><input type="text" name="fromaddress" id="fromaddress" class="form-control" style="width: 200px;" value="" /></td>
+				<td id="text"><label for="inputEmail3" class="control-label">目的地：</label></td>
+				<td><input type="text" name="toaddress" id="toaddress" class="form-control" style="width: 200px;" value="" /></td>
+			</tr>
+			<tr>
+				
+				<td id="text"><label for="inputEmail3" class="control-label">当前位置：</label></td>
+				<td><input type="text" name="trucklocation" id="trucklocation" class="form-control" style="width: 200px;" value="" /></td>
+				<td id="text"><label for="inputEmail3" class="control-label">预计到达时间：</label></td>
+				<td><input type="date" name="create_date" id="end_date" class="form-control" style="width: 200px;" value="" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td id="text"><label for="inputEmail3" class="control-label">开始查询：</label></td>
+				<td style="text-align: left;">
+						
+					<button onclick="select()">查询</button>
+				</td>
+			</tr>
+			
+		</table>
+		
+		<br />
+		
+		<table id="table001"></table>
+       
+
+
+</body>
+</html>

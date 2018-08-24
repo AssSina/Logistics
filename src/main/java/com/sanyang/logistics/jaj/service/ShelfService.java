@@ -6,11 +6,11 @@ import com.sanyang.logistics.base.pojo.Shelf;
 
 public interface ShelfService {
 
-	List<Shelf> getShelf();
+	List<Shelf> getShelf(Integer whId);
 
 	void insertShelf(Shelf shelf);
 
-	void deleteShelf(Integer shelfId);
+	void deleteShelf(Integer shelfId,Integer whId);
 
 	Shelf getShelfById(Integer shelfId);
 

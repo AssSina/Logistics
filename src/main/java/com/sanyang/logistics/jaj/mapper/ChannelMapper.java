@@ -28,5 +28,5 @@ public interface ChannelMapper {
 
     int updateByPrimaryKey(Channel record);
      
-    List<Channel> getChannel();
+    List<Channel> getChannel(Integer whId);
 }

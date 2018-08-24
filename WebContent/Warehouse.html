@@ -61,7 +61,7 @@
 						align: 'center',
 						valign: 'middle',
 						formatter: function(value, row, index) {
-							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal"  data-target="#myModal3"></button>';
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" onclick="find1('+row.whId+')" data-toggle="modal"  data-target="#myModal3"></button>';
 							return u;
 						}
 					},{
@@ -70,7 +70,7 @@
 						align: 'center',
 						valign: 'middle',
 						formatter: function(value, row, index) {
-							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal"  data-target="#myModal4"></button>';
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" onclick="find2('+row.whId+')" data-toggle="modal"  data-target="#myModal4"></button>';
 							return u;
 						}
 					},{
@@ -79,7 +79,7 @@
 						align: 'center',
 						valign: 'middle',
 						formatter: function(value, row, index) {
-							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal"  data-target="#myModal5"></button>';
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" onclick="find3('+row.whId+')" data-toggle="modal"  data-target="#myModal5"></button>';
 							return u;
 						}
 					},{
@@ -94,132 +94,6 @@
 					}]
 				})
 				
-				$("#tab2").bootstrapTable({
-					url: "backupArea/getBackupArea.action",
-					pagination: true,//分页
-					pageSize: 5,//页面显示的数据
-					columns: [{
-						title: "备货区名称",
-						field: 'name',
-						align: 'center',
-						valign: 'middle',
-					}, {
-						title: "备货区编号",
-						field: 'code',
-						align: 'center',
-						valign: 'middle',
-					},{
-						title: "所属仓库",
-						field: 'bname',
-						align: 'center',
-						valign: 'middle',
-					},{
-						title: "操作",
-						field: 'backupAreaId',
-						align: 'center',
-						valign: 'middle',
-						formatter: function(value, row, index) {
-							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele2(" + row.backupAreaId + ")'></button>";
-							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd2(' + row.backupAreaId + ')" data-target="#myModal7"></button>';
-							return d + u;
-						}
-					}]
-				})
-				
-				$("#tab3").bootstrapTable({
-					url: "channel/getChannel.action",
-					pagination: true,//分页
-					pageSize: 5,//页面显示的数据
-					columns: [{
-						title: "通道编号",
-						field: 'channelId',
-						align: 'center',
-						valign: 'middle',
-					}, {
-						title: "通道名称",
-						field: 'channelno',
-						align: 'center',
-						valign: 'middle',
-					},{
-						title: "所属仓库",
-						field: 'name',
-						align: 'center',
-						valign: 'middle',
-					},{
-						title: "操作",
-						field: 'channelId',
-						align: 'center',
-						valign: 'middle',
-						formatter: function(value, row, index) {
-							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele3(" + row.channelId + ")'></button>";
-							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd3(' + row.channelId + ')" data-target="#myModal9"></button>';
-							return d + u;
-						}
-					}]
-				})
-				
-				$("#tab4").bootstrapTable({
-					url: "shelf/getShelf.action",
-					pagination: true,//分页
-					pageSize: 5,//页面显示的数据
-//					queryParams:queryParams,//方法返回参数
-					columns: [{
-						title: "货架编号",
-						field: 'shelfNo',
-						align: 'center',
-						valign: 'middle',
-					}, {
-						title: "货架层数",
-						field: 'layer',
-						align: 'center',
-						valign: 'middle',
-					},{
-						title: "最大承重量(吨)",
-						field: 'maxBearing',
-						align: 'center',
-						valign: 'middle',
-					},{
-						title: "最大体积(m³)",
-						field: 'volume',
-						align: 'center',
-						valign: 'middle',
-					},{
-						title: "临近通道",
-						field: 'channelno',
-						align: 'center',
-						valign: 'middle',
-					},{
-						title: "临近通道的方位",
-						field: 'channelFlag',
-						align: 'center',
-						valign: 'middle',
-					},{
-						title: "所属仓库",
-						field: 'name',
-						align: 'center',
-						valign: 'middle',
-					},{
-						title: "创建时间",
-						field: 'createDate',
-						align: 'center',
-						valign: 'middle',
-					},{
-						title: "更新时间",
-						field: 'updateDate',
-						align: 'center',
-						valign: 'middle',
-					},{
-						title: "操作",
-						field: 'shelfId',
-						align: 'center',
-						valign: 'middle',
-						formatter: function(value, row, index) {
-							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele4(" + row.shelfId + ")'></button>";
-							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd4(' + row.shelfId + ')" data-target="#myModal11"></button>';
-							return d + u;
-						}
-					}]
-				})
 				
 				$.getJSON("warehouse/getWarehouseType.action", function(data) {
 					$.each(data, function(m, n) {
@@ -229,11 +103,11 @@
 				
 				$.getJSON("warehouse/getWarehouse.action", function(data) {
 					$.each(data, function(m, n) {
-						$("#whId1,#whId2,#whId3,#whId4,#whId5,#whId6").append("<option value='" + n.whId + "'>" + n.name + "</option>")
+						$("#whId2,#whId4,#whId6").append("<option value='" + n.whId + "'>" + n.name + "</option>")
 					});
 				})
 				
-				$.getJSON("channel/getChannel.action.action", function(data) {
+				$.getJSON("channel/getChannels.action.action", function(data) {
 					$.each(data, function(m, n) {
 						$("#channelId1,#channelId2").append("<option value='" + n.channelId + "'>" + n.channelno + "</option>")
 					});
@@ -308,6 +182,148 @@
 				
 			})
 			
+			function shua(){
+				$("#tab2,#tab3,#tab4").bootstrapTable("destroy");
+			}
+			
+			function find1(whId){
+				$("#whId1").val(whId);
+				$("#tab2").bootstrapTable({
+					url: "backupArea/getBackupArea.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+					queryParams:{"whId":whId},
+					columns: [{
+						title: "备货区名称",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "备货区编号",
+						field: 'code',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "所属仓库",
+						field: 'bname',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "操作",
+						field: 'backupAreaId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele2(" + row.backupAreaId + ")'></button>";
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd2(' + row.backupAreaId + ')" data-target="#myModal7"></button>';
+							return d + u;
+						}
+					}]
+				})
+			}
+			
+			function find2(whId){
+				$("#whId3").val(whId);
+				$("#tab3").bootstrapTable({
+					url: "channel/getChannel.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+					queryParams:{"whId":whId},
+					columns: [{
+						title: "通道编号",
+						field: 'channelId',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "通道名称",
+						field: 'channelno',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "所属仓库",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "操作",
+						field: 'channelId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele3(" + row.channelId + ")'></button>";
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd3(' + row.channelId + ')" data-target="#myModal9"></button>';
+							return d + u;
+						}
+					}]
+				})
+			}
+			
+			function find3(whId){
+				$("#whId5").val(whId);
+				$("#tab4").bootstrapTable({
+					url: "shelf/getShelf.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+					queryParams:{"whId":whId},
+					columns: [{
+						title: "货架编号",
+						field: 'shelfNo',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "货架层数",
+						field: 'layer',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "最大承重量(吨)",
+						field: 'maxBearing',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "最大体积(m³)",
+						field: 'volume',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "临近通道",
+						field: 'channelno',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "临近通道的方位",
+						field: 'channelFlag',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "所属仓库",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "创建时间",
+						field: 'createDate',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "更新时间",
+						field: 'updateDate',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "操作",
+						field: 'shelfId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele4(" + row.shelfId + ","+ row.whId +")'></button>";
+							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd4(' + row.shelfId + ')" data-target="#myModal11"></button>';
+							return d + u;
+						}
+					}]
+				})
+			}
+			
 			function queryParams(){
 				return {
 					'name':$("#name-select").val(),
@@ -349,11 +365,11 @@
 				});
 			}
 			
-			function dele4(shelfId) {
+			function dele4(shelfId,whId) {
 				$.ajax({
 					type: "post",
 					url: "shelf/deleteShelf.action",
-					data:"shelfId=" + shelfId,
+					data:"shelfId=" + shelfId+"&whId="+whId,
 					success: function(data) {
 						$("#tab4").bootstrapTable("refresh");
 					}
@@ -599,7 +615,7 @@
 						</table>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-default" onclick="shua()" data-dismiss="modal">关闭</button>
 						<button type="button" data-toggle="modal"  data-target="#myModal6" class="btn btn-success">添加备货区</button>
 					</div>
 				</div>
@@ -620,7 +636,7 @@
 						</table>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-default" onclick="shua()" data-dismiss="modal">关闭</button>
 						<button type="button" data-toggle="modal"  data-target="#myModal8" class="btn btn-success">添加仓库通道信息</button>
 					</div>
 				</div>
@@ -641,7 +657,7 @@
 						</table>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-default" onclick="shua()" data-dismiss="modal">关闭</button>
 						<button type="button" data-toggle="modal"  data-target="#myModal10" class="btn btn-success">添加货架信息</button>
 					</div>
 				</div>
@@ -673,11 +689,12 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="lastname" class="col-md-2 control-label">所属仓库</label>
+								<input type="hidden" name="whId" id="whId1" value="" />
+								<!--<label for="lastname" class="col-md-2 control-label">所属仓库</label>
 								<div class=" col-md-10">
 									<select class="form-control" id="whId1" name="whId">
 									</select>
-								</div>
+								</div>-->
 							</div>
 						</form>
 					</div>
@@ -750,11 +767,12 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="lastname" class="col-md-2 control-label">所属仓库</label>
+								<input type="hidden" name="whId" id="whId3" value="" />
+								<!--<label for="lastname" class="col-md-2 control-label">所属仓库</label>
 								<div class=" col-md-10">
 									<select class="form-control" id="whId3" name="whId">
 									</select>
-								</div>
+								</div>-->
 							</div>
 						</form>
 					</div>
@@ -864,11 +882,12 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="lastname" class="col-md-2 control-label">所属仓库</label>
+								<input type="hidden" name="whId" id="whId5" value="" />
+								<!--<label for="lastname" class="col-md-2 control-label">所属仓库</label>
 								<div class=" col-md-10">
 									<select class="form-control" id="whId5" name="whId">
 									</select>
-								</div>
+								</div>-->
 							</div>
 						</form>
 					</div>

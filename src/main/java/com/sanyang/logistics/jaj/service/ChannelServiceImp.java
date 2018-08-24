@@ -15,9 +15,9 @@ public class ChannelServiceImp implements ChannelService{
 	private ChannelDao channelDao;
 	
 	@Override
-	public List<Channel> getChannel() {
+	public List<Channel> getChannel(Integer whId) {
 		// TODO Auto-generated method stub
-		return channelDao.getChannel();
+		return channelDao.getChannel(whId);
 	}
 
 	@Override
@@ -42,6 +42,12 @@ public class ChannelServiceImp implements ChannelService{
 	public void updateChannel(Channel channel) {
 		// TODO Auto-generated method stub
 		channelDao.updateChannel(channel);
+	}
+
+	@Override
+	public List<Channel> getChannels() {
+		// TODO Auto-generated method stub
+		return channelDao.getChannels();
 	}
 
 }

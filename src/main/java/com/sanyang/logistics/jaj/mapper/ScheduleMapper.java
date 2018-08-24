@@ -1,5 +1,6 @@
 package com.sanyang.logistics.jaj.mapper;
 
+import com.sanyang.logistics.base.pojo.Product;
 import com.sanyang.logistics.base.pojo.Schedule;
 import com.sanyang.logistics.base.pojo.ScheduleExample;
 import java.util.List;
@@ -27,4 +28,10 @@ public interface ScheduleMapper {
     int updateByPrimaryKeySelective(Schedule record);
 
     int updateByPrimaryKey(Schedule record);
+    
+    List<Schedule> getSchedules();
+
+	List<Schedule> getWorkOrder(Product product);
+
+	List<Schedule> getWorkOrderById(Integer schedId);
 }

@@ -23,8 +23,15 @@ public class ChannelHandler {
 	
 	@RequestMapping("/getChannel")
 	@ResponseBody
-	public Object getChannel(){
-		List<Channel> channels=channelService.getChannel();
+	public Object getChannel(Integer whId){
+		List<Channel> channels=channelService.getChannel(whId);
+		return channels;
+	}
+	
+	@RequestMapping("/getChannels")
+	@ResponseBody
+	public Object getChannels(){
+		List<Channel> channels=channelService.getChannels();
 		return channels;
 	}
 	

@@ -249,19 +249,19 @@
   	select r.*,w.name,p.pname,p.pmodel,p.code from rcpt_damage r,product p,receipt re,warehouse w
 	where r.prod_id=p.pid and r.rcpt_id=re.rcpt_id and re.wh_id=w.wh_id
 	<if test="name!=null and name!=''">
-		and name='%${name}%'
+		and name like '%${name}%'
 	</if>
 	<if test="pname!=null and pname!=''">
-		and pname='%${pname}%'
+		and pname like '%${pname}%'
 	</if>
 	<if test="pmodel!=null and pmodel!=''">
-		and pmodel='%${pmodel}%'
+		and pmodel like '%${pmodel}%'
 	</if>
 	<if test="code!=null and code!=''">
-		and code='%${code}%'
+		and code like '%${code}%'
 	</if>
 	<if test="barCode!=null and barCode!=''">
-		and bar_code='%${barCode}%'
+		and bar_code like '%${barCode}%'
 	</if>
 	<if test="damageDegree!=null and damageDegree!=''">
 		and damage_degree=#{damageDegree}

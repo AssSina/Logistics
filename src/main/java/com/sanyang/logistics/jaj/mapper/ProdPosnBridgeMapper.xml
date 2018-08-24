@@ -7,6 +7,10 @@
     <result column="wh_id" property="whId" jdbcType="INTEGER" />
     <result column="prod_id" property="prodId" jdbcType="INTEGER" />
     <result column="occupy_amt" property="occupyAmt" jdbcType="INTEGER" />
+    <result column="posn_code" property="posnCode"/>
+    <result column="name" property="name"/>
+    <result column="shelf_no" property="shelfNo"/>
+     <result column="capacity" property="capacity"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -208,4 +212,9 @@
       occupy_amt = #{occupyAmt,jdbcType=INTEGER}
     where oid = #{oid,jdbcType=INTEGER}
   </update>
+  
+  <select id="getProdPosnBridge" resultMap="BaseResultMap" parameterType="Integer">
+  	select * from prod_posn_bridge p,position n,shelf s,warehouse w
+	WHERE p.posn_id=n.posn_id and  prod_id=1 and s.shelf_id=n.shelf_id and w.wh_id=n.wh_id and prod_id=#{pid}
+  </select>
 </mapper>

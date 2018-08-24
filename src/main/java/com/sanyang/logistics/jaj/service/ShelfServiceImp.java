@@ -15,9 +15,9 @@ public class ShelfServiceImp implements ShelfService {
 	private ShelfDao shelfDao;
 	
 	@Override
-	public List<Shelf> getShelf() {
+	public List<Shelf> getShelf(Integer whId) {
 		// TODO Auto-generated method stub
-		return shelfDao.getShelf();
+		return shelfDao.getShelf(whId);
 	}
 
 	@Override
@@ -27,9 +27,9 @@ public class ShelfServiceImp implements ShelfService {
 	}
 
 	@Override
-	public void deleteShelf(Integer shelfId) {
+	public void deleteShelf(Integer shelfId,Integer whId) {
 		// TODO Auto-generated method stub
-		shelfDao.deleteShelf(shelfId);
+		shelfDao.deleteShelf(shelfId,whId);
 	}
 
 	@Override

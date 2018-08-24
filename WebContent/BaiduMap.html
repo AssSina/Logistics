@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+    <head>  
+        <title>根据地址查询经纬度</title>  
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">  
+        <script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.3"></script>  
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=eYf9sA6yVTFHlh9ytU4a0EYY"></script>
+		 
+    </head>  
+    
+    
+    
+  
+    <body style="background:#CBE1FF">  
+        <div style="width:730px;margin:auto;">  
+
+            <table border="1"  style="border: 1px solid white;" cellpadding="1" cellspacing="1">
+            	<tr><td> 车辆牌号：</td><td><span id="cp"></span></td><td></td></tr>
+            	<tr><td > 车辆类型：</td><td><span id="type"></span></td><td></td></tr>
+            	<tr><td> 当前位置：</td> <td>
+          			<input id="text_" type="text" value="" style="margin-right:100px;" /> 
+            	</td><td>   <input type="button" value="更新" onclick="searchByStationName()" />  </td></tr>
+            </table>
+            
+            <input type="hidden" id="result_" type="text" />  
+         
+            <div id="container" style="position: absolute;  
+                margin-top:30px;   
+                width: 730px;   
+                height: 590px;   
+                top: 50;   
+                border: 1px solid gray;  
+                overflow:hidden;">  
+            </div>  
+        </div>   
+    </body>  
+    <script type="text/javascript">  
+    			
+					function GetUrlParam(paraName) {
+	var url = document.location.toString();
+	var arrObj = url.split("?");
+	if(arrObj.length > 1) {
+		var arrPara = arrObj[1].split("&");
+		var arr;
+		for(var i = 0; i < arrPara.length; i++) {
+			arr = arrPara[i].split("=");
+			if(arr != null && arr[0] == paraName) {
+				return arr[1];
+			}
+		}
+		return "";
+	}
+	else {
+		return "";
+	}
+}
+
+var id = GetUrlParam("id");
+
+//alert(id) 
+
+var maps;
+
+var datas;
+
+var qz;
+		$(function(){
+			
+			$.ajax({
+				type:"post",
+				url:"clgz/cinfo.action?id="+id,
+				success:function(data){
+//					alert(data.trucktype)
+						$("#cp").html(''+data.license+'')
+						$("#type").html(''+data.trucktype+'')		
+						$("#text_").val(""+data.trucklocation+"")
+				
+				}
+		});
+	
+
+		$.ajax({
+			type:"post",
+			url:"clgz/qz.action?id="+id,
+			async:false,
+			success:function(data){
+				qz = data;
+			}
+		});
+
+				 
+		$.ajax({
+  	type:"post",
+  	url:"clgz/lx.action?id="+id,
+  	async:false,
+  	success:function(data){
+			
+//		alert(data[0].coord_xy)
+
+			datas = data
+//				alert(datas[0].coord_xy)
+  	}
+  });
+  
+//alert(datas)
+//alert(datas[0].coord_xy)
+  
+     var map = new BMap.Map("container");  
+        map.centerAndZoom("北京", 15);  
+        map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用  
+        map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用  
+  		
+        map.addControl(new BMap.NavigationControl()); //添加默认缩放平移控件  
+        map.addControl(new BMap.OverviewMapControl()); //添加默认缩略地图控件  
+        map.addControl(new BMap.OverviewMapControl({  
+            isOpen: true,  
+            anchor: BMAP_ANCHOR_BOTTOM_RIGHT  
+        })); //右下角，打开  
+
+
+ 
+//设置起止点
+var postr = qz.fromaddresszb;
+//alert(postr)
+//alert(datas.length)
+//      alert(postr.split(",")[0])
+//alert (postr.Map.Point(postr.split(",")[0],postr.split(",")[1]);    //起点-汉水华城写字楼
+var p1 = new BMap.Point(postr.split(",")[0],postr.split(",")[1]);    //终点-北京天安门
+ postr = qz.toaddresszb;
+var p2 = new BMap.Point(postr.split(",")[0],postr.split(",")[1]);    //终点-北京天安门
+////设置途经点
+var pointList = [] ;
+for(var i=0;i<datas.length;i++){
+	 postr = datas[i].coord_xy;
+	var  p3 = new BMap.Point(postr.split(",")[0],postr.split(",")[1]);//途经点-武汉市汉阳区政府
+	pointList.push(p3);
+//	alert(p3)
+}
+//将结合转换为途经点对象，默认最后一个途经点为车辆正在前往的途经点，
+//因此不显示在途径点中，在后面将其设置为闪烁坐标点
+var wps = pointList.slice(0,pointList.length-1);
+//
+//alert(pointList.length)
+//alert(pointList[pointList.length-1])
+//构建途经点信息
+var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+
+//设置途经点
+driving.search(p1, p2,{waypoints:wps});//waypoints表示途经点,wps表示途经点集合
+
+if(pointList[pointList.length-1]!=null&&pointList[pointList.length-1]!=0){
+	var marker = new BMap.Marker(pointList[pointList.length-1]);  // 创建标注,默认最后一次的途径点为车辆当前位置
+//alert(pointList[pointList.length])	
+
+map.addOverlay(marker);   
+// 将标注添加到地图中
+marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+
+}
+
+
+  
+  
+  maps=map;
+  
+       
+        		 
+          
+  
+  
+		})
+
+  function searchByStationName() {
+            var localSearch = new BMap.LocalSearch(maps);  
+            localSearch.enableAutoViewport(); //允许自动调节窗体大小  
+//          maps.clearOverlays(); //清空原来的标注  
+            var keyword = document.getElementById("text_").value;  
+            localSearch.setSearchCompleteCallback(function(searchResult) {  
+            	
+            	alert(searchResult)
+            	
+                var poi = searchResult.getPoi(0);  
+                var xy =   document.getElementById("result_").value = poi.point.lng + "," + poi.point.lat;  
+               	alert(xy)
+//             maps.centerAndZoom(poi.point, 13);
+////              var marker = new BMap.Marker(new  BMap.Point(poi.point.lng, poi.point.lat)); // 创建标注，为要查询的地方对应的经纬度  
+////              maps.addOverlay(marker);  
+//              var content = document.getElementById("result_").value + "<br/><br/>经度：" + poi.point.lng + "<br/>纬度：" + poi.point.lat;  
+////             
+//              var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + content + "</p>");
+//              marker.addEventListener("click", function() {  
+//                  this.openInfoWindow(infoWindow);
+//              });
+
+			
+       			 $.ajax({
+            	type:"post",
+            	url:"clgz/updatexyandaddcoorde_xy.action?truck_id="+id+"&coord_xy="+xy+"&coord_name="+keyword,
+            	async:false,
+            	success:function(data){
+            		if (data=='ok') {
+            			document.location.reload();//当前页面 
+            		} else{
+            			alert("当前地址不能更新！");
+            		}
+            		
+            		
+
+            	}
+           		 });
+               
+            
+                // marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画  
+            });  
+            localSearch.search(keyword);  
+//          alert(id)
+           
+            
+           
+            
+            
+        }
+  
+    	
+     
+   </script>  
+  
+</html> 

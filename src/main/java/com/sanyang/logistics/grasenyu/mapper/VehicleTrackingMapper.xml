@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sanyang.logistics.grasenyu.mapper.VehicleTrackingMapper">  
+	 <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.TruckDim" >
+    <id column="truck_id" property="truckId" jdbcType="INTEGER" />
+    <result column="license" property="license" jdbcType="VARCHAR" />
+    <result column="carry_capcty" property="carryCapcty" jdbcType="CHAR" />
+    <result column="owner_type_id" property="ownerTypeId" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" />
+    <result column="update_date" property="updateDate" />
+    <result column="trucktype" property="trucktype" jdbcType="VARCHAR" />
+    <result column="truckstatus" property="truckstatus" jdbcType="VARCHAR" />
+    <result column="trucklocation" property="trucklocation" jdbcType="VARCHAR" />
+    <result column="truckage" property="truckage" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+	<select id="allTruck" resultMap="BaseResultMap" parameterType="TruckDim">
+		select t.trucktype, t.truck_id,license,trucklocation,s.create_date,s.end_date,t.update_date,s.fromaddress,s.toaddress from truck_dim t,schedule s where  t.truck_id = s.sched_id		
+		<if test="license!=null and license!=''"> 
+		 	and license like '%${license}%'
+		</if>
+		<if test ="trucktype!=null and trucktype!=''"> 
+		    and trucktype = '${trucktype}'
+		</if>
+		<if test ="fromaddress!=null and fromaddress!=''">
+		    and fromaddress like '%${fromaddress}%'
+		</if>
+		<if test ="toaddress!=null and toaddress!=''">
+			and toaddress like '%${toaddress}%'
+		</if>
+		<if test ="trucklocation!=null and trucklocation!=''">
+			and trucklocation like '%${trucklocation}%'
+		</if>
+		<if test="end_date!=null and end_date!=''">
+			and s.end_date =#{end_date}
+		</if>
+	</select>
+	
+	
+	<select id = "cinfo" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select * from truck_dim  where truck_id = #{value}
+	</select>
+	
+	<select id = "lx" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select c.coord_id, c.coord_xy, s.fromaddress,s.toaddress, t.trucklocation from truck_dim t, `schedule` s , coord c where s.sched_id = c.schedule_id = t.truck_id =c.truck_id =#{value}
+	</select>
+	
+	<select id ="qz" resultMap="BaseResultMap"  parameterType="java.lang.Integer">
+		select * from `schedule` where sched_id = #{value}
+	</select>
+
+	
+	<insert id="addxy" parameterType="TruckDim">
+		insert into coord values(null,#{coord_name},#{truckId},#{truckId},#{coord_xy})
+	</insert>
+	
+	<update id="updatelocation"  parameterType="TruckDim">
+		update truck_dim set  trucklocation = #{coord_name} where truck_id =#{truckId}
+	</update>
+	
+	<select id="isF" resultMap="BaseResultMap"  parameterType="java.lang.Integer">
+		select trucklocation from truck_dim where truck_id = #{value}
+	</select>
+	
+	
+	
+</mapper>

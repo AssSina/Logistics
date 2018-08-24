@@ -23,8 +23,8 @@ public class ShelfHandler {
 	
 	@RequestMapping("/getShelf")
 	@ResponseBody
-	public Object getShelf(){
-		List<Shelf> Shelfs=shelfService.getShelf();
+	public Object getShelf(Integer whId){
+		List<Shelf> Shelfs=shelfService.getShelf(whId);
 		return Shelfs;
 	}
 	
@@ -37,8 +37,8 @@ public class ShelfHandler {
 	
 	@RequestMapping("/deleteShelf")
 	@ResponseBody
-	public int deleteShelf(Integer shelfId){
-		shelfService.deleteShelf(shelfId);
+	public int deleteShelf(Integer shelfId,Integer whId){
+		shelfService.deleteShelf(shelfId,whId);
 		return 1;
 	}
 	

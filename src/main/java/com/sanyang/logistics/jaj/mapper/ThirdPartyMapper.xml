@@ -7,6 +7,7 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="contact" property="contact" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    third_party_id, name, address, contact, description
+    third_party_id, name, address, contact, description,phone
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.ThirdPartyExample" >
     select
@@ -208,4 +209,19 @@
       description = #{description,jdbcType=VARCHAR}
     where third_party_id = #{thirdPartyId,jdbcType=INTEGER}
   </update>
+  
+  <select id="getThirdParty" parameterType="com.sanyang.logistics.base.pojo.ThirdParty" resultMap="BaseResultMap">
+		select * from third_party
+		<where>
+			<if test="name!=null and name!=''">
+				and name like '%${name}%'
+			</if>
+			<if test="phone!=null and phone!=''">
+				and phone like '%${phone}%'
+			</if>
+			<if test="contact!=null and contact!=''">
+				and contact like '%${contact}%'
+			</if>
+		</where>
+	</select>
 </mapper>

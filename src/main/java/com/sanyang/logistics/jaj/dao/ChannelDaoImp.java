@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sanyang.logistics.base.pojo.Channel;
+import com.sanyang.logistics.base.pojo.ChannelExample;
 //import com.sanyang.logistics.base.pojo.ChannelExample;
 import com.sanyang.logistics.jaj.mapper.ChannelMapper;
 
@@ -16,10 +17,10 @@ public class ChannelDaoImp implements ChannelDao {
 	private ChannelMapper channelMapper;
 	
 	@Override
-	public List<Channel> getChannel() {
+	public List<Channel> getChannel(Integer whId) {
 		// TODO Auto-generated method stub
 //		ChannelExample example=new ChannelExample();
-		return channelMapper.getChannel();
+		return channelMapper.getChannel(whId);
 	}
 
 	@Override
@@ -44,6 +45,13 @@ public class ChannelDaoImp implements ChannelDao {
 	public void updateChannel(Channel channel) {
 		// TODO Auto-generated method stub
 		channelMapper.updateByPrimaryKeySelective(channel);
+	}
+
+	@Override
+	public List<Channel> getChannels() {
+		// TODO Auto-generated method stub
+		ChannelExample example=new ChannelExample();
+		return channelMapper.selectByExample(example);
 	}
 
 }

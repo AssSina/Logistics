@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			table{
+				text-align: center;
+			}
+		</style>
+		<!--导入核心bootstrap css样式-->
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<!--导入jQuery-->
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--导入核心Bootstrap js-->
+		<script src="js/bootstarp-3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("#tab").bootstrapTable({
+					url: "schedule/getSchedule.action",
+					pagination: true,//分页
+					pageSize: 5,//页面显示的数据
+//					queryParams:queryParams,//方法返回参数
+					columns: [{
+						title: "调度编号",
+						field: 'schedId',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "调度类型",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "调度状态",
+						field: 'schstatus',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "提交",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var u = '<button class="btn btn-success col-md-offset-1 glyphicon glyphicon-ok" onclick=updatedu(' + row.schedId + ',"'+row.execDoneFlag+'","'+row.schstatus+'")></button>';
+							return u;
+						}
+					},{
+						title: "更新",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var u = "<button class='btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt' onclick='show("+JSON.stringify(row)+")'></button>";
+							return u;
+						}
+					},{
+						title: "删除",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele(" + row.schedId + ")'></button>";
+							return d;
+						}
+					}]
+				})
+				
+				 $("#fromaddress").blur(function(){
+			       $.ajax({
+						type:"post",
+						url:"http://api.map.baidu.com/geocoder/v2/?address="+$("#fromaddress").val()+"&output=json&ak=K3wCeEAXVptazX0cb9kl85aN6NMKGxcg&sn=7de5a22212ffaa9e326444c75a58f9a0",
+						dataType:"jsonp",
+						success:function(data){
+                            $("#fromaddresszb").val(data.result.location.lng+","+data.result.location.lat)
+                            
+						}
+					});
+			    })
+			    
+			    $("#toaddress").blur(function(){
+			       $.ajax({
+						type:"post",
+						url:"http://api.map.baidu.com/geocoder/v2/?address="+$("#toaddress").val()+"&output=json&ak=K3wCeEAXVptazX0cb9kl85aN6NMKGxcg&sn=7de5a22212ffaa9e326444c75a58f9a0",
+						dataType:"jsonp",
+						success:function(data){
+                            $("#toaddresszb").val(data.result.location.lng+","+data.result.location.lat)
+                            
+						}
+					});
+			    })
+
+				
+				//搜索车辆信息表格
+				$("#carTable2").bootstrapTable({
+					url: "truckDim/getTruckDim.action",
+					pagination: true, //分页
+					pageSize: 5, //页面显示的数据
+					queryParams:carParams,//方法返回参数
+					columns: [{
+						title: "车牌号",
+						field: 'license',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "车辆类型",
+						field: 'trucktype',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "吨位",
+						field: 'carryCapcty',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "车辆所有权",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "指定该车",
+						//						field: 'shelfId',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return "<a href='javascript:truckId("+JSON.stringify(row)+")'><span class='glyphicon glyphicon-ok'></span></a>";
+						}
+					}]
+					
+				})
+				
+				
+				//搜索司机表格
+				$("#driverTable2").bootstrapTable({
+					url: "driverDim/getDriverDim.action",
+					pagination: true, //分页
+					pageSize: 5, //页面显示的数据
+					queryParams:driverParams,//方法返回参数
+					columns: [{
+						title: "司机名称",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "驾驶证类型",
+						field: 'drivertype',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "驾龄",
+						field: 'driverage',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "联系电话",
+						field: 'contact',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "指定该司机",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return "<a href='javascript:driverId("+JSON.stringify(row)+")'><span class='glyphicon glyphicon-ok'></span></a>";
+						}
+					}]
+				})
+				
+				//搜索承运商表格
+				$("#carrierTable2").bootstrapTable({
+					url: "schedule/getThirdParty.action",
+					pagination: true, //分页
+					pageSize: 5, //页面显示的数据
+					queryParams:queryParams,//方法返回参数
+					columns: [{
+						title: "承运商姓名",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "地址",
+						field: 'address',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "联系人",
+						field: 'contact',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "承运商电话",
+						field: 'phone',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "指定该承运商",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return "<a href='javascript:thirdPartyId("+JSON.stringify(row)+")'><span class='glyphicon glyphicon-ok'></span></a>";
+						}
+					}]
+				})
+				
+				//搜索货物表格
+				$("#proTable2").bootstrapTable({
+					url: "schedule/getWorkOrder.action",
+					pagination: true, //分页
+					pageSize: 5, //页面显示的数据
+					queryParams:proParams,//方法返回参数
+					columns: [{
+						title: "货物名称",
+						field: 'pname',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "订单号",
+						field: 'orderid',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "货物编码",
+						field: 'code',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "货物型号",
+						field: 'pmodel',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "订单数量",
+						field: 'pcount',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "未调度数量",
+						field: 'scount',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "指定该货物",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return "<a href='javascript:pid("+JSON.stringify(row)+")'><span class='glyphicon glyphicon-ok'></span></a>";
+						}
+					}]
+				})
+				
+				$("#tjdu").click(function(){
+					$("#proTable2").bootstrapTable('refresh')
+					$.ajax({
+						type:"post",
+						url:"schedule/insertSchedule.action",
+						data: $("#form").serialize(),
+						success: function(data) {
+							$("#myModal").modal("hide");
+							$("#tab").bootstrapTable("refresh");
+						}
+					});
+				})
+				
+				$("#tjgx").click(function(){
+					/* var goods_str = "";
+			        $('.pids').each(function(){
+				           var id =  $(this).val()//订单id
+				           if(goods_str == ""){
+				               goods_str += id;
+				           }else{
+				               goods_str += ','+id;
+				   		   }
+			  		 }); */
+			  		 $.post("schedule/updateSchedule.action",$("#form2").serialize(),function(data){
+						$("#myModal01").modal("hide");
+						$("#tab").bootstrapTable("refresh");
+						
+			  		 });
+			  		 
+			  		/*  
+			  		$.ajax({
+						type:"post",
+						url:"schedule/updateSchedule.action",
+						data:$("#form2").serialize(),
+						success: function(data) {
+							 alert("22222222");
+							$("#myModal01").modal("hide");
+							$("#tab").bootstrapTable("refresh");
+						}
+					});
+			  		 */
+			  		
+				})
+				
+				$("#carBtn").click(function(){
+					$("#carTable2").bootstrapTable("refresh");
+				})
+				
+				$("#driverBtn").click(function(){
+					$("#driverTable2").bootstrapTable("refresh");
+				})
+				
+				$("#cBtn").click(function(){
+					$("#carrierTable2").bootstrapTable("refresh");
+				})
+				
+				$("#pBtn").click(function(){
+					$("#proTable2").bootstrapTable("refresh");
+				})
+				
+				$("#carModal").on('hidden.bs.modal',function(){
+					$("body")[0].className = 'modal-open';
+					
+				})
+				
+				$("#driverModal").on('hidden.bs.modal',function(){
+					$("body")[0].className = 'modal-open';
+					
+				})
+				
+				$("#carrierModal").on('hidden.bs.modal',function(){
+					$("body")[0].className = 'modal-open';
+					
+				})
+				
+				$("#proModal").on('hidden.bs.modal',function(){
+					$("body")[0].className = 'modal-open';
+					
+				})
+				
+			})
+			
+			function carParams(){
+				return {
+					'license':$("#license-select").val(),
+					'trucktype':$("#trucktype-select").val()
+				}
+			}
+			
+			function driverParams(){
+				return {
+					'name':$("#name-select").val(),
+					'driverage':$("#driverage-select").val(),
+					'drivertype':$("#drivertype-select").val()
+				}
+			}
+			
+			function queryParams(){
+				return {
+					'name':$("#cname").val(),
+					'phone':$("#phone").val(),
+					'contact':$("#ccontact").val()
+				}
+			}
+			
+			function proParams(){
+				return {
+					'pname':$("#pname-select").val(),
+					'code':$("#code-select").val(),
+					'provider':$("#provider-select").val()
+				}
+			}
+			
+			function truckId(row){
+				$("#truckId,#truckId2").val(row.truckId);
+				$("#carTable,#carTable3").bootstrapTable('removeAll');
+				var data={
+					'license':row.license,
+					'trucktype':row.trucktype,
+					'carryCapcty':row.carryCapcty,
+					'name':row.name
+				}
+				$("#carTable,#carTable3").bootstrapTable('append',data);
+				$("#carModal").modal("hide");
+			}
+			
+			function driverId(row){
+				$("#driverId,#driverId2").val(row.driverId);
+				$("#driverTable,#driverTable3").bootstrapTable('removeAll');
+				var data={
+					'name':row.name,
+					'drivertype':row.drivertype,
+					'driverage':row.driverage,
+					'contact':row.contact
+				}
+				$("#driverTable,#driverTable3").bootstrapTable('append',data);
+				$("#driverModal").modal("hide");
+			}
+			
+			function thirdPartyId(row){
+				$("#thirdPartyId,#thirdPartyId2").val(row.thirdPartyId);
+				$("#carrierTable,#carrierTable3").bootstrapTable('removeAll');
+				var data={
+					'name':row.name,
+					'address':row.address,
+					'contact':row.contact,
+					'phone':row.phone
+				}
+				$("#carrierTable,#carrierTable3").bootstrapTable('append',data);
+				$("#carrierModal").modal("hide");
+			}
+			
+			function pid(row){
+				$(".odid").each(function(){
+					$(this).val(row.oid);
+				})
+				var data={
+					'pname':row.pname,
+					'orderid':row.orderid,
+					'pmodel':row.pmodel,
+					'oid':row.oid,
+					'code':row.code,
+					'scount':row.scount,
+					'pcount':row.pcount
+				}
+				var isChange=false;
+				 $('.pids').each(function(){
+				       var id =  $(this).val();
+				       if (row.oid==id) {
+				      		isChange = true;
+				       } 
+			  	});
+			  	if(isChange!=true){
+			  		$("#proTable").bootstrapTable('append',data);
+			  		//$("#proTable").parent().append('<input type="hidden" name="odid" id="odid" value="'+row.oid+'">');//work_order_id        int		     null,			-- 工作单id					
+			  	}
+//			  	if ($("button").is(".pids")==false) {
+//			  		$("#proTable").bootstrapTable('append',data);
+//			  	}
+				$("#proModal").modal("hide");
+			}
+			
+			function car(){
+				$("#carModal").modal("show");
+			}
+			
+			function driver() {
+				$("#driverModal").modal("show");
+			}
+			
+			function carrier() {
+				$("#carrierModal").modal("show");
+			}
+			
+			function pro() {
+				$("#proModal").modal("show");
+			}
+			
+			function remove(shu){
+				if (shu==1) {
+					$("#carTable,#carTable3").bootstrapTable('removeAll');
+				}else if(shu==2){
+					$("#driverTable,#driverTable3").bootstrapTable('removeAll');
+				}else if(shu==3){
+					$("#carrierTable,#carrierTable3").bootstrapTable('removeAll');
+				} 
+			}
+			
+			function proRemove(id){
+				var ids = [];//定义一个数组
+				ids.push(id);//将要删除的id存入数组
+				$("#proTable").bootstrapTable('remove', {field: 'oid', values: ids});
+			}
+			
+			
+			function show(row){
+				if (row.schstatus=='正在调度') {
+					$("#myModal01").modal('show');
+				}else if (row.schstatus=='调度完成') {
+					alert('调度已完成，不能更新');
+				}
+				$("#carTable,#driverTable,#carrierTable").bootstrapTable('removeAll');
+				$("#carTable3,#driverTable3,#carrierTable3,#proTable2").bootstrapTable('destroy');
+				$("#schedId").val(row.schedId);
+				$("#truckId2").val(row.truckId);
+				$("#driverId2").val(row.driverId);
+				$("#thirdPartyId2").val(row.thirdPartyId);
+				$("#execDoneFlag").val(row.execDoneFlag);
+				$("#pcount").val(row.pcount);
+				$("#toaddress2").val(row.toaddress);
+				$("#fromaddress2").val(row.fromaddress);
+				$("#hacount").val(row.hacount);
+				$("#cuphone").val(row.cuphone);
+				$("#cuname").val(row.cuname);
+				$("#toaddresszb2").val(row.toaddresszb);
+				$("#fromaddresszb2").val(row.fromaddresszb);
+				/*承运商信息表格*/
+				$("#carrierTable,#carrierTable3").bootstrapTable({
+					url:"schedule/getThirdPartyById.action",
+					queryParams:{"thirdPartyId":row.thirdPartyId},
+					columns: [{
+						title: "承运商姓名",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "地址",
+						field: 'address',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "联系人",
+						field: 'contact',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "承运商电话",
+						field: 'phone',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "删除",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='remove(3)'></button>";
+
+						}
+					}]
+				})
+				
+				/*司机信息表格*/
+				$("#driverTable,#driverTable3").bootstrapTable({
+					url:"driverDim/getDriverDimByIds.action",
+					queryParams:{"driverId":row.driverId},
+					columns: [{
+						title: "司机名称",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "驾驶证类型",
+						field: 'drivertype',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "驾龄",
+						field: 'driverage',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "联系电话",
+						field: 'contact',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "删除",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='remove(2)'></button>";
+
+						}
+					}]
+				})
+				
+				//车辆信息表格
+				$("#carTable,#carTable3").bootstrapTable({
+					url:"truckDim/getTruckDimByIds.action",
+					queryParams:{"truckId":row.truckId},
+					columns: [{
+						title: "车牌号",
+						field: 'license',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "车辆类型",
+						field: 'trucktype',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "吨位",
+						field: 'carryCapcty',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "车辆所有权",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "删除",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='remove(1)'></button>";
+
+						}
+					}]
+				});
+				
+				//货物信息表格
+				$("#proTable").bootstrapTable({
+					url:"schedule/getWorkOrderById.action",
+					queryParams:{"schedId":row.schedId},
+					columns: [{
+						title: "货物名称",
+						field: 'pname',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "订单号",
+						field: 'orderid',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "货物编码",
+						field: 'code',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "货物型号",
+						field: 'pmodel',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "订单数量",
+						field: 'pcount',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "未调度数量",
+						field: 'scount',
+						align: 'center',
+						valign: 'middle',
+					},{
+						title: "调度数量",
+						field: 'nums',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return '<div align="center"><input type="text" class="form-control nums" name="nums" value="0"  style="width:100px" onblur="getNums('+row.scount+','+index+')"/>"<input type="hidden" name="odid" class="odid" value="'+row.oid+'">"</div>';
+						}
+					}, {
+						title: "删除",
+						field: 'oid',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return "<button class='btn btn-danger glyphicon glyphicon-trash pids' value='"+row.oid+"' onclick='proRemove("+row.oid+")'></button>";
+						}
+					}]
+				})
+			}
+			
+			//调度数量
+			function getNums(scount,index){
+				var nums=$(".nums:eq("+index+")").val();
+				if (nums>=scount) {
+					$(".nums:eq("+index+")").val(scount)
+				}else if(nums<=0){
+					$(".nums:eq("+index+")").val(0)
+				}
+
+			}
+			
+			function dele(schedId){
+				$.ajax({
+						type: "post",
+						url: "schedule/deleteSchedule.action",
+						data:"scheduleId=" + schedId,
+						success: function(data) {
+							$("#tab").bootstrapTable("refresh");
+						}
+					});
+			}
+			
+			function updatedu(schedId,execDoneFlag,schstatus){
+				alert(execDoneFlag+","+schedId);
+				if (schstatus=='正在调度') {
+					$.post("schedule/updatedu.action","schedId="+schedId+"&execDoneFlag="+execDoneFlag,function(data){
+						$("#tab").bootstrapTable("refresh");
+					});
+				}else if (schstatus=='调度完成') {
+					alert('调度已完成，不能再次提交')
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div align="center">
+
+			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" onclick="show(1)" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span> 创建调度</button>
+		</div>
+		<br />
+		<table class="table table-hover table-bordered" id="tab">
+
+		</table>
+	<!--创建调度模态框-->
+
+		<div class="modal fade" id="myModal" tabindex="-1" data="12" style="display: none;" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width: 1000px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">创建调度</h4>
+					</div>
+					<div class="modal-body">
+						<form method="post" id="form">
+						<table border="0" width="950" align="center" height="200">
+							<tr>
+								<td id="text"><label for="exampleInputEmail1">调度标记：</label></td>
+								<td>
+									<select name="execDoneFlag" class="form-control" style="width: 200px;">
+										<option value="出库调度">出库调度</option>
+										<option value="入库调度">入库调度</option>
+									</select>
+								</td>
+								<td id="text"><label for="exampleInputEmail1">调度类型：</label></td>
+								<td>
+									<select name="schedTypeId" class="form-control" style="width: 200px;">
+										<option value="1">公路</option>
+									</select>
+								</td>
+								<td id="text"><label for="exampleInputEmail1">调度总重量：</label></td>
+								<td><input type="text" class="form-control" name="pcount" id="" value="" placeholder="调度货物总重量(kg)" style="width: 200px;" /></td>
+							</tr>
+
+							<tr>
+								<td id="text"><label for="exampleInputEmail1">调度总体积：</label></td>
+								<td><input type="text" class="form-control" name="hacount" id="" value="" placeholder="调度货物总体积(m³)" style="width: 200px;" /></td>
+								<td id="text"><label for="exampleInputEmail1">调度单状态：</label></td>
+								<td>
+									<select name="schstatus" class="form-control" style="width: 200px;">
+										<option value="正在调度">正在调度</option>
+									</select>
+								</td>
+								<td id="text"><label for="exampleInputEmail1">目的地：</label></td>
+								<td><input type="text" class="form-control" name="fromaddress" id="fromaddress" value="" placeholder="目标地点" style="width: 200px;" /></td>
+
+							</tr>
+
+							<tr>
+								<td id="text"><label for="exampleInputEmail1">发货地：</label></td>
+								<td><input type="text" class="form-control" name="toaddress" id="toaddress" value="" placeholder="发货地点" style="width: 200px;" /></td>
+								<td id="text"><label for="exampleInputEmail1">目的地坐标：</label></td>
+								<td><input type="text" class="form-control" name="fromaddresszb" id="fromaddresszb" value="" placeholder="发货地坐标" style="width: 200px;" readonly="readonly"/></td>
+								<td id="text"><label for="exampleInputEmail1">发货地坐标：</label></td>
+								<td><input type="text" class="form-control" name="toaddresszb" id="toaddresszb" value="" placeholder="目的地坐标" style="width: 200px;" readonly="readonly"/></td>
+
+							</tr>
+
+							<tr>
+								<td id="text"><label for="exampleInputEmail1">客户名称：</label></td>
+								<td><input type="text" class="form-control" name="cuname" id="" value="" placeholder="客户姓名" style="width: 200px;" /></td>
+								<td id="text"><label for="exampleInputEmail1">联系电话：</label></td>
+								<td><input type="text" class="form-control" name="cuphone" id="" value="" placeholder="客户手机号码" style="width: 200px;" /></td>
+
+								<td colspan="2" align="center"></td>
+							</tr>
+
+						</table>
+
+					</div>
+
+					<!--车辆信息-->
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">车辆信息&emsp;<a href="javascript:car()"><span class="glyphicon glyphicon-hand-left"></span></a></h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="truckId" id="truckId" value="" />
+						<table id="carTable"></table>
+					</div>
+					<div class="modal-footer">
+
+					</div>
+
+					<!--司机-->
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">司机信息&emsp;<a href="javascript:driver()"><span class="glyphicon glyphicon-hand-left"></span></a></h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="driverId" id="driverId" value="" />
+						<table id="driverTable"></table>
+					</div>
+					<div class="modal-footer">
+
+					</div>
+
+					<!--承运商-->
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">承运商信息&emsp;<a href="javascript:carrier()"><span class="glyphicon glyphicon-hand-left"></span></a></h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="thirdPartyId" id="thirdPartyId" value="" />
+						<table id="carrierTable"></table>
+					</div>
+				</form>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button class="btn btn-success" id="tjdu"><span class="glyphicon glyphicon-ok"></span> 提交调度</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<form method="post" id="form2">
+		<!--更新调度模态框-->
+		<div class="modal fade" id="myModal01" tabindex="-1" data="12" style="display: none;" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width: 1000px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">创建调度</h4>
+					</div>
+					<div class="modal-body">
+						
+						<input type="hidden" name="schedId" id="schedId" value="" />
+						<table border="0" width="950" align="center" height="200">
+							<tr>
+								<td id="text"><label for="exampleInputEmail1">调度标记：</label></td>
+								<td>
+									<select name="execDoneFlag" id="execDoneFlag" class="form-control" style="width: 200px;">
+										<option value="出库调度">出库调度</option>
+										<option value="入库调度">入库调度</option>
+									</select>
+								</td>
+								<td id="text"><label for="exampleInputEmail1">调度类型：</label></td>
+								<td>
+									<select name="schedTypeId" class="form-control" style="width: 200px;">
+										<option value="1">公路</option>
+									</select>
+								</td>
+								<td id="text"><label for="exampleInputEmail1">调度总重量：</label></td>
+								<td><input type="text" class="form-control" name="pcount" id="pcount" value="" placeholder="调度货物总重量(kg)" style="width: 200px;" /></td>
+							</tr>
+
+							<tr>
+								<td id="text"><label for="exampleInputEmail1">调度总体积：</label></td>
+								<td><input type="text" class="form-control" name="hacount" id="hacount" value="" placeholder="调度货物总体积(m³)" style="width: 200px;" /></td>
+								<td id="text"><label for="exampleInputEmail1">调度单状态：</label></td>
+								<td>
+									<select name="schstatus" class="form-control" style="width: 200px;">
+										<option value="正在调度">正在调度</option>
+									</select>
+								</td>
+								<td id="text"><label for="exampleInputEmail1">目的地：</label></td>
+								<td><input type="text" class="form-control" name="fromaddress" id="fromaddress2" value="" placeholder="目标地点" style="width: 200px;" /></td>
+
+							</tr>
+
+							<tr>
+								<td id="text"><label for="exampleInputEmail1">发货地：</label></td>
+								<td><input type="text" class="form-control" name="toaddress" id="toaddress2" value="" placeholder="发货地点" style="width: 200px;" /></td>
+								<td id="text"><label for="exampleInputEmail1">目的地坐标：</label></td>
+								<td><input type="text" class="form-control" name="fromaddresszb" id="fromaddresszb2" value="" placeholder="发货地坐标" style="width: 200px;" readonly="readonly"/></td>
+								<td id="text"><label for="exampleInputEmail1">发货地坐标：</label></td>
+								<td><input type="text" class="form-control" name="toaddresszb" id="toaddresszb2" value="" placeholder="目的地坐标" style="width: 200px;" readonly="readonly"/></td>
+
+							</tr>
+
+							<tr>
+								<td id="text"><label for="exampleInputEmail1">客户名称：</label></td>
+								<td><input type="text" class="form-control" name="cuname" id="cuname" value="" placeholder="客户姓名" style="width: 200px;" /></td>
+								<td id="text"><label for="exampleInputEmail1">联系电话：</label></td>
+								<td><input type="text" class="form-control" name="cuphone" id="cuphone" value="" placeholder="客户手机号码" style="width: 200px;" /></td>
+
+								<td colspan="2" align="center"></td>
+							</tr>
+
+						</table>
+
+					</div>
+					
+					<!--货物信息-->
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">货物信息&emsp;<a href="javascript:pro()"><span class="glyphicon glyphicon-hand-left"></span></a></h4>
+					</div>
+					<div class="modal-body">
+						<table id="proTable"></table>
+					</div>
+					<div class="modal-footer">
+
+					</div>
+					
+					<!--车辆信息-->
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">车辆信息&emsp;<a href="javascript:car()"><span class="glyphicon glyphicon-hand-left"></span></a></h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="truckId" id="truckId2" value="" />
+						<table id="carTable3"></table>
+					</div>
+					<div class="modal-footer">
+
+					</div>
+
+					<!--司机-->
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">司机信息&emsp;<a href="javascript:driver()"><span class="glyphicon glyphicon-hand-left"></span></a></h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="driverId" id="driverId2" value="" />
+						<table id="driverTable3"></table>
+					</div>
+					<div class="modal-footer">
+
+					</div>
+
+					<!--承运商-->
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">承运商信息&emsp;<a href="javascript:carrier()"><span class="glyphicon glyphicon-hand-left"></span></a></h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="thirdPartyId" id="thirdPartyId2" value="" />
+						<table id="carrierTable3"></table>
+					</div>
+				
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button class="btn btn-success" id="tjgx"><span class="glyphicon glyphicon-ok"></span> 提交更新</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+
+		<!--<button class="btn btn-default" data-toggle="modal" data-target="#carModal">车辆搜索</button>-->
+		<!--<button class="btn btn-default" data-toggle="modal" data-target="#driverModal">司机搜索</button>
+		<button class="btn btn-default" data-toggle="modal" data-target="#carrierModal">承运商搜索</button>-->
+
+			
+		<!--指定车辆模态框-->
+		<div class="modal fade" id="carModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width: 700px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">车辆搜索</h4>
+					</div>
+					<div class="modal-body">
+						<div align="center">
+							<form class="form-inline">
+								<div class="form-group">
+									
+									<label for="exampleInputEmail2">查询：</label>
+									<input type="text" id="license-select"  class="form-control" placeholder="请输入车牌号">
+		
+									<select id="trucktype-select" class="form-control">
+										<option value="">--选择车辆类型--</option>
+										<option value="集卡">集卡</option>
+										<option value="厢式货车">厢式货车	</option>
+									</select>
+									
+									<button type="button" id="carBtn" class="btn btn-primary glyphicon glyphicon-search" ></button>
+
+								</div>
+								
+								<br />
+								<br />
+								<table id="carTable2"></table>
+
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!--指定司机模态框-->
+		<div class="modal fade" id="driverModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width: 800px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">司机搜索</h4>
+					</div>
+					<div class="modal-body">
+						<div align="center">
+
+							<form class="form-inline">
+								<div class="form-group">
+									
+									<label for="exampleInputEmail2">查询：</label>
+
+									
+		
+									<input type="text" id="name-select" class="form-control" placeholder="请输入司机姓名">
+									<input type="text" id="driverage-select" class="form-control" placeholder="请输入司机驾龄">
+									<input type="text" id="drivertype-select" class="form-control" placeholder="请输入驾证类型">
+									<button type="button" class="btn btn-primary glyphicon glyphicon-search" id="driverBtn"></button>
+
+									
+
+								</div>
+								
+								<br />
+								<br />
+								<table id="driverTable2"></table>
+
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--指定承运商模态框-->
+				<div class="modal fade" id="carrierModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width: 800px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">承运商搜索</h4>
+					</div>
+					<div class="modal-body">
+						<div align="center">
+
+							<form class="form-inline">
+								<div class="form-group">
+									
+									<label for="exampleInputEmail2">查询：</label>
+
+									
+		
+									<input type="text" id="cname" class="form-control" placeholder="请输入承运商名称">
+									<input type="text" id="phone" class="form-control" placeholder="请输入承运商电话">
+									<input type="text" id="ccontact" class="form-control" placeholder="请输入联系人">
+
+									<button type="button" id="cBtn" class="btn btn-primary glyphicon glyphicon-search" ></button>
+
+
+								</div>
+								
+								<br />
+								<br />
+								<table id="carrierTable2"></table>
+
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--指定货物模态框-->
+		<div class="modal fade" id="proModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width: 800px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">货物搜索</h4>
+					</div>
+					<div class="modal-body">
+						<div align="center">
+							<form class="form-inline">
+								<div class="form-group">
+									
+									<label for="exampleInputEmail2">查询：</label>
+									<input type="text" class="form-control" id="pname-select" value="" placeholder="按货物名称查询">
+									<input type="text" class="form-control" id="code-select" placeholder="按货物编码查询">
+									<input type="text" class="form-control" id="provider-select" value="" placeholder="按供应商名称查询">
+									<button type="button" id="pBtn" class="btn btn-primary glyphicon glyphicon-search" ></button>
+
+								</div>
+								
+								<br />
+								<br />
+								<table id="proTable2"></table>
+
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger glyphicon glyphicon-remove" data-dismiss="modal"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+
+</html>

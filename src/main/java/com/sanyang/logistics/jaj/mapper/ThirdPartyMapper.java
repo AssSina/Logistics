@@ -27,4 +27,9 @@ public interface ThirdPartyMapper {
     int updateByPrimaryKeySelective(ThirdParty record);
 
     int updateByPrimaryKey(ThirdParty record);
+    
+    /**
+	 * 查询承运商
+	 */
+	public List<ThirdParty> getThirdParty(ThirdParty thirdParty);
 }

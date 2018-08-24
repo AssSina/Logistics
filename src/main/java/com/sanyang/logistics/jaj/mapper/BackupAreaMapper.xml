@@ -195,7 +195,7 @@
     where backup_area_id = #{backupAreaId,jdbcType=INTEGER}
   </update>
   
-  <select id="getBackupArea" resultMap="BaseResultMap">
-  	select b.*,w.name bname from backup_area b,warehouse w where b.wh_id=w.wh_id
+  <select id="getBackupArea" resultMap="BaseResultMap" parameterType="Integer">
+  	select b.*,w.name bname from backup_area b,warehouse w where b.wh_id=w.wh_id and b.wh_id=#{whId}
   </select>
 </mapper>

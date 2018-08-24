@@ -2,6 +2,8 @@ package com.sanyang.logistics.jaj.mapper;
 
 import com.sanyang.logistics.base.pojo.Position;
 import com.sanyang.logistics.base.pojo.PositionExample;
+import com.sanyang.logistics.base.pojo.ProdPosnBridge;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,6 +12,8 @@ public interface PositionMapper {
 
     int deleteByExample(PositionExample example);
 
+    void deletePosition(String posnCode);	
+    
     int deleteByPrimaryKey(Integer posnId);
 
     int insert(Position record);
@@ -27,4 +31,6 @@ public interface PositionMapper {
     int updateByPrimaryKeySelective(Position record);
 
     int updateByPrimaryKey(Position record);
+
+	List<Position> getPositionByWhId(ProdPosnBridge ppb);
 }

@@ -6,7 +6,7 @@ import com.sanyang.logistics.base.pojo.BackupArea;
 
 public interface BackupAreaService {
 
-	List<BackupArea> getBackupArea();
+	List<BackupArea> getBackupArea(Integer whId);
 
 	void insertBackupArea(BackupArea backupArea);
 

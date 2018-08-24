@@ -1,5 +1,6 @@
 package com.sanyang.logistics.jaj.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +66,14 @@ public class DriverDimHandler {
 	public int updateDriverDim(DriverDim driverDim){
 		driverDimService.updateDriverDim(driverDim);
 		return 1;
+	}
+	
+	@RequestMapping("/getDriverDimByIds")
+	@ResponseBody
+	public Object getDriverDimByIds(Integer driverId){
+		DriverDim driverDim=driverDimService.getDriverDimById(driverId);
+		List<DriverDim> list=new ArrayList<>();
+		list.add(driverDim);
+		return list;
 	}
 }

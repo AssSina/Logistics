@@ -15,10 +15,10 @@ public class BackupAreaDaoImp implements BackupAreaDao {
 	private BackupAreaMapper backupAreaMapper;
 	
 	@Override
-	public List<BackupArea> getBackupArea() {
+	public List<BackupArea> getBackupArea(Integer whId) {
 		// TODO Auto-generated method stub
 //		BackupAreaExample example=new BackupAreaExample();
-		return backupAreaMapper.getBackupArea();
+		return backupAreaMapper.getBackupArea(whId);
 	}
 
 	@Override

@@ -15,9 +15,9 @@ public class BackupAreaServiceImp implements BackupAreaService {
 	private BackupAreaDao backupAreaDao;
 
 	@Override
-	public List<BackupArea> getBackupArea() {
+	public List<BackupArea> getBackupArea(Integer whId) {
 		// TODO Auto-generated method stub
-		return backupAreaDao.getBackupArea();
+		return backupAreaDao.getBackupArea(whId);
 	}
 
 	@Override

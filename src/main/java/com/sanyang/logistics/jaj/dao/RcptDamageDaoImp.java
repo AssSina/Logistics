@@ -21,6 +21,7 @@ public class RcptDamageDaoImp implements RcptDamageDao {
 	
 	@Override
 	public List<RcptDamage> getRcptDamage(RcptDamage rcptDamage) {
+//		System.out.println(rcptDamage.getName());
 		// TODO Auto-generated method stub
 		return rcptDamageMapper.getRcptDamage(rcptDamage);
 	}

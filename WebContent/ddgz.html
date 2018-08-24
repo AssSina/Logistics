@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<style type="text/css">
+			#div-select {
+				margin-top: 20px;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#message {
+				margin-left: 5px;
+			}
+			
+			#text {
+				text-align: right;
+			}
+		</style>
+
+		<script type="text/javascript">
+			$(function() {
+
+				$("#tab").bootstrapTable({
+					url: "sysorders/getAllOrder.action",
+					pagination: true, //分页
+					pageSize: 5, //页面显示的数据
+					queryParams: queryParams, //方法返回参数
+					columns: [{
+						title: "客户名称",
+						field: 'to_customer',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "订单号",
+						field: 'cus_order_no',
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return "<a href='javascript:queryOne(" + JSON.stringify(row) + ")'>" + value + "</a>";
+						}
+					}, {
+						title: "订单描述",
+						field: 'description',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "订单状态",
+						field: 'statusname',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "订单类型",
+						field: 'typename',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "订单时间",
+						field: 'createtime',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "更新",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return '<button class="btn-warning btn glyphicon glyphicon-pencil but" onclick="panduan('+row.oid+','+row.sid+')" data-toggle="modal" data-target="#myModal2"></button>'
+						}
+					}]
+				})
+				
+				
+
+
+				$("#bbb").click(function() {
+					$("#moda").modal("show")
+
+				})
+
+				$("#select").click(function() {
+
+					$("#tab").bootstrapTable("refresh");
+
+				})
+				
+				
+				$.getJSON("sysorders/getOrderStatus.action", function(data) {
+					for(var i = 0; i < data.length; i++) {
+						$("#statusname2").append("<option value='" + data[i].sid + "'>" + data[i].statusname + "</option>");
+					}
+				})
+				
+				$("#statusname2").change(function(){
+					
+				$.getJSON("sysorders/getOrderStatus.action", function(data) {
+					$.each(data, function(m,n) {
+						if (n.sid==$("#statusname2").val()) {
+							$("#description2").val(n.description)
+						}
+					});
+				})
+						
+				})
+				
+
+			})
+
+			function queryOne(row) {
+				//			alert(row.to_customer)
+
+				$("#moda").modal("show");
+				$("#to_customer2").val(row.to_customer);
+				$("#cus_order_no2").val(row.cus_order_no);
+				$("#name").val(row.name);
+				$("#name").html("<option>" + row.name + "</option>")
+				$("#to_address").val(row.to_address);
+				if(row.truckflag == 'Y') {
+					$("#truckflag").attr("checked", "checked")
+				} else {
+					$("#truckflag2").attr("checked", "checked")
+				}
+
+				$("#plan_trsprt_date").val(row.plan_trsprt_date)
+				$("#plan_arrival_date2").val(row.plan_arrival_date)
+
+				$("#plan_out_date").val(row.plan_out_date)
+				$("#contact_person").val(row.cuname)
+				$("#contact_phone").val(row.cuphone)
+				$("#description").val(row.description)
+
+				$("#oid").val(row.oid);
+				$("#tab2").bootstrapTable("refresh")
+				$("#tab2").bootstrapTable({
+					url: "sysorders/selectPro.action",
+					pagination: true, //分页
+					pageSize: 5, //页面显示的数据
+					queryParams: queryParams2, //方法返回参数
+					columns: [{
+						title: "货物名称",
+						field: 'pname',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "货物编码",
+						field: 'code',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "货物型号",
+						field: 'pmodel',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "计划数量",
+						field: 'pcount',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "包装单位",
+						field: 'package_name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "物品状态",
+						field: 'status',
+						align: 'center',
+						valign: 'middle',
+
+					}]
+				})
+
+			}
+
+			function queryParams2() {
+				//			alert($("#oid").val())
+				return {
+					'oid': $("#oid").val(),
+				}
+
+			}
+
+			function queryParams() {
+				return {
+					'cus_order_no': $("#cus_order_no").val(),
+					'to_customer': $("#to_customer").val(),
+					'statusname': $("#statusname").val(),
+					'createtime': $("#createtime").val(),
+					'plan_arrival_date': $("#plan_arrival_date").val()
+				}
+
+			}
+			
+			function updatesta(){
+				    alert($("#oid5").val()+","+$("#statusname2").val())
+                    $.ajax({
+                    	type:"post",
+                    	url:"sysorders/updateOrderStatus.action",
+                    	data:"oid="+$("#oid5").val()+"&order_status="+$("#statusname2").val(),
+                    	success:function(data){
+                    		$("#myModal2").modal("hide");
+                    		$("#tab").bootstrapTable("refresh");
+                    	}
+                    });
+		    }
+			
+			
+			function panduan(oid,sid){
+//              alert(sid+","+oid);
+                $("#oid5").val(oid);
+				if (sid<9) {
+					alert("订单还未调度！")
+					$(".but").each(function(){
+						$(this).attr("data-target","");
+					})
+				}else{
+					$(".but").each(function(){
+						$(this).attr("data-target","#myModal2");
+					})
+				}
+			}
+			
+		</script>
+
+	</head>
+
+	<body>
+
+		<!--<button type="button" class="btn btn-default" id="bbb" >阿世盗</button>-->
+		<div class="form-group col-md-offset-2" id="div-select">
+				<div class="col-md-2">
+					<input type="text" class="form-control" id="cus_order_no" name="cus_order_no" placeholder="订单编号">
+				</div>
+				<div class="col-md-2">
+					<input type="text" class="form-control" id="to_customer" name="to_customer" placeholder="客户名称">
+				</div>
+				<div class="col-md-2">
+					<input type="text" class="form-control" id="statusname" name="statusname" placeholder="订单状态">
+				</div>
+				<div class="col-md-2">
+					<label for="createtime">订单开始时间</label>
+					<input type="date" class="form-control" id="createtime" name="createtime" placeholder="订单开始时间">
+				</div>
+				<div class="col-md-2">
+					<label for="plan_arrival_date">订单结束时间</label>
+					<input type="date" class="form-control" id="plan_arrival_date" name="plan_arrival_date" placeholder="订单结束时间">
+				</div>
+				<button type="button" class="btn btn-default btn-success" id="select">查询</button>
+		</div>
+		<table id="tab"  class="table table-hover table-bordered">
+
+		</table>
+
+		<div class="modal fade" id="moda" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document" style="width: 800px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">查看出库订单</h4>
+					</div>
+					<br />
+
+					<input type="hidden" value="" id="oid" />
+
+					<table border="0" id="message" width="750px" height="250px" align="center">
+						<tr>
+							<td id="text">
+								<label for="exampleInputEmail1">客户名称：</label>
+							</td>
+							<td><input type="text" class="form-control" id="to_customer2" placeholder="" readonly="readonly"></td>
+							<td id="text"><label for="exampleInputEmail1">客户订单号：</label></td>
+							<td><input type="email" class="form-control" id="cus_order_no2" placeholder="" readonly="readonly"></td>
+						</tr>
+						<tr>
+
+							<td id="text">
+								<label for="exampleInputEmail1">源仓库：</label>
+							</td>
+							<td>
+								<select class="form-control" id="name">
+									<option></option>
+								</select>
+							</td>
+							<td id="text"><label for="exampleInputEmail1">目标地址：</label></td>
+							<td><input type="text" class="form-control" id="to_address" placeholder="" readonly="readonly"></td>
+						</tr>
+						<tr>
+
+							<td id="text">
+								<label for="exampleInputEmail1">是否运输：</label>
+							</td>
+							<td> <input type="radio" name="truckflag" id="truckflag" value="是" disabled="disabled">是 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="radio" name="truckflag" id="truckflag2" value="否" disabled="disabled">否
+							</td>
+							<td id="text"><label for="exampleInputEmail1">计划运输日期：</label></td>
+							<td><input type="text" class="form-control" id="plan_trsprt_date" placeholder="Email" readonly="readonly"></td>
+						</tr>
+						<tr>
+
+							<td id="text">
+								<label for="exampleInputEmail1">计划到达日期：</label>
+							</td>
+							<td><input type="text" class="form-control" id="plan_arrival_date2" placeholder="Email" readonly="readonly"></td>
+							<td id="text"><label for="exampleInputEmail1">计划出库日期：</label></td>
+							<td><input type="text" class="form-control" id="plan_out_date" placeholder="Email" readonly="readonly"></td>
+						</tr>
+						<tr>
+
+							<td id="text">
+								<label for="exampleInputEmail1">联系人：</label>
+							</td>
+							<td>
+								<input type="text" class="form-control" id="contact_person" placeholder="Email" readonly="readonly">
+							</td>
+							<td id="text">
+								<label for="exampleInputEmail1">联系电话：</label>
+							</td>
+							<td>
+								<input type="text" class="form-control" id="contact_phone" placeholder="Email" readonly="readonly">
+							</td>
+
+						</tr>
+						<tr>
+							<td id="text"><label for="exampleInputEmail1">订单描述：</label></td>
+							<td colspan="3">
+								<textarea class="form-control" cols="10" rows="2" id="description" readonly="readonly"></textarea>
+							</td>
+						</tr>
+
+					</table>
+					<div class="modal-header">
+
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+
+						<h4 class="modal-title">出库订单</h4>
+
+					</div>
+
+					<div class="modal-footer">
+						<table id="tab2"></table>
+						<br />
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-primary">提交</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
+
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document" style="width: 800px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+						<h4 class="modal-title" id="myModalLabel">
+					更改状态
+				</h4>
+					</div>
+					<div class="modal-body">
+						<table border="0" id="message" width="400px" height="100px" align="center">
+							<tr>
+                                <input type="hidden" name="oid" id="oid5" />
+								<td>
+									<label for="exampleInputEmail1">类别：</label>
+								</td>
+								<td>
+									<select class="form-control" id="statusname2" name="statusname">
+										<option value="">--请选择--</option>
+									</select>
+								</td>
+
+							</tr>
+							<tr>
+								<td>
+									<label for="exampleInputEmail1">事故描述：</label>
+								</td>
+								<td><textarea  class="form-control" cols="10" rows="2" id="description2" name="description" readonly="readonly"></textarea></td>
+							</tr>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+						<button type="button" id="upbtn" class="btn btn-primary" onclick="updatesta()">
+					提交更改
+				</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+	</body>
+
+</html>

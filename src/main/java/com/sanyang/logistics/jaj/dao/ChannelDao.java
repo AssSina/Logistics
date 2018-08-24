@@ -6,7 +6,7 @@ import com.sanyang.logistics.base.pojo.Channel;
 
 public interface ChannelDao {
 
-	List<Channel> getChannel();
+	List<Channel> getChannel(Integer whId);
 
 	void insertChannel(Channel channel);
 
@@ -15,5 +15,7 @@ public interface ChannelDao {
 	Channel getChannelById(Integer channelId);
 
 	void updateChannel(Channel channel);
+
+	List<Channel> getChannels();
 
 }
