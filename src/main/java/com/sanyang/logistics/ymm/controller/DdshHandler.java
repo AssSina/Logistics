@@ -1,6 +1,5 @@
 package com.sanyang.logistics.ymm.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +39,24 @@ public class DdshHandler {
 		return tolistsys;
 	}
 
+	@RequestMapping("/selpz")
+	@ResponseBody
+	public Object selpz(Integer oid) {
+		Sysorders selpz = service.selpz(oid);
+		return selpz;
+	}
 	
+	@RequestMapping("/updsh")
+	@ResponseBody
+	public Object updsh(Integer oid) {
+		service.updsh(oid);
+		return "11";
+	}
+	
+	@RequestMapping("/getno")
+	@ResponseBody
+	public Object getno(Integer oid) {
+		service.getno(oid);
+		return "1";
+	}
 }

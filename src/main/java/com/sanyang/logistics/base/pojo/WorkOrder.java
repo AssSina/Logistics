@@ -15,25 +15,27 @@ public class WorkOrder {
 
     private Integer trnsptTypeId;
 
-    private Date createDate;
+    private String createDate;
 
-    private Date updateDate;
+    private String updateDate;
 
     private String fromAddress;
 
     private String toAddress;
 
-    private Date sendtime;
+    private String sendtime;
 
-    private Date arrivetime;
+    private String arrivetime;
 
     private Integer productcount;
 
     private Integer sendcount;
 
-    private Date planOutDate;
+    private Integer pcount;
+    
+    private String planOutDate;
 
-    private Date planInDate;
+    private String planInDate;
 
     private String heightflag;
 
@@ -52,8 +54,86 @@ public class WorkOrder {
     private String workstatus;
 
     private String ordertype;
+    
+    private Integer yzsl;
+    private Integer fpsl;
+    
+    
+    
 
-    public Integer getWorkid() {
+	public Integer getPcount() {
+		return pcount;
+	}
+
+	public Integer getYzsl() {
+		return yzsl;
+	}
+
+	public void setYzsl(Integer yzsl) {
+		this.yzsl = yzsl;
+	}
+
+	public Integer getFpsl() {
+		return fpsl;
+	}
+
+	public void setFpsl(Integer fpsl) {
+		this.fpsl = fpsl;
+	}
+
+	public void setPcount(Integer pcount) {
+		this.pcount = pcount;
+	}
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public String getSendtime() {
+		return sendtime;
+	}
+
+	public void setSendtime(String sendtime) {
+		this.sendtime = sendtime;
+	}
+
+	public String getArrivetime() {
+		return arrivetime;
+	}
+
+	public void setArrivetime(String arrivetime) {
+		this.arrivetime = arrivetime;
+	}
+
+	public String getPlanOutDate() {
+		return planOutDate;
+	}
+
+	public void setPlanOutDate(String planOutDate) {
+		this.planOutDate = planOutDate;
+	}
+
+	public String getPlanInDate() {
+		return planInDate;
+	}
+
+	public void setPlanInDate(String planInDate) {
+		this.planInDate = planInDate;
+	}
+
+	public Integer getWorkid() {
         return workid;
     }
 
@@ -101,21 +181,6 @@ public class WorkOrder {
         this.trnsptTypeId = trnsptTypeId;
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
 
     public String getFromAddress() {
         return fromAddress;
@@ -133,21 +198,6 @@ public class WorkOrder {
         this.toAddress = toAddress == null ? null : toAddress.trim();
     }
 
-    public Date getSendtime() {
-        return sendtime;
-    }
-
-    public void setSendtime(Date sendtime) {
-        this.sendtime = sendtime;
-    }
-
-    public Date getArrivetime() {
-        return arrivetime;
-    }
-
-    public void setArrivetime(Date arrivetime) {
-        this.arrivetime = arrivetime;
-    }
 
     public Integer getProductcount() {
         return productcount;
@@ -165,21 +215,7 @@ public class WorkOrder {
         this.sendcount = sendcount;
     }
 
-    public Date getPlanOutDate() {
-        return planOutDate;
-    }
-
-    public void setPlanOutDate(Date planOutDate) {
-        this.planOutDate = planOutDate;
-    }
-
-    public Date getPlanInDate() {
-        return planInDate;
-    }
-
-    public void setPlanInDate(Date planInDate) {
-        this.planInDate = planInDate;
-    }
+   
 
     public String getHeightflag() {
         return heightflag;
@@ -252,4 +288,19 @@ public class WorkOrder {
     public void setOrdertype(String ordertype) {
         this.ordertype = ordertype == null ? null : ordertype.trim();
     }
+
+	@Override
+	public String toString() {
+		return "WorkOrder [workid=" + workid + ", orderid=" + orderid + ", fromWhId=" + fromWhId + ", toWhId=" + toWhId
+				+ ", trnsptFlag=" + trnsptFlag + ", trnsptTypeId=" + trnsptTypeId + ", createDate=" + createDate
+				+ ", updateDate=" + updateDate + ", fromAddress=" + fromAddress + ", toAddress=" + toAddress
+				+ ", sendtime=" + sendtime + ", arrivetime=" + arrivetime + ", productcount=" + productcount
+				+ ", sendcount=" + sendcount + ", pcount=" + pcount + ", planOutDate=" + planOutDate + ", planInDate="
+				+ planInDate + ", heightflag=" + heightflag + ", heigtharear=" + heigtharear + ", scheduletype="
+				+ scheduletype + ", productname=" + productname + ", pcode=" + pcode + ", ptype=" + ptype
+				+ ", ppackage=" + ppackage + ", workstatus=" + workstatus + ", ordertype=" + ordertype + ", yzsl="
+				+ yzsl + ", fpsl=" + fpsl + "]";
+	}
+
+
 }

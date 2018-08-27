@@ -18,4 +18,21 @@ public class DdshDaoImp implements DdshDao{
 		return mapper.tolistsys(sysorders);
 	}
 
+	@Override
+	public Sysorders selpz(Integer oid) {
+		return mapper.selpz(oid);
+	}
+
+	@Override
+	public void updsh(Integer oid) {
+		mapper.updsh(oid);
+		
+	}
+
+	@Override
+	public void getno(Integer oid) {
+		mapper.getno(oid);
+		
+	}
+
 }

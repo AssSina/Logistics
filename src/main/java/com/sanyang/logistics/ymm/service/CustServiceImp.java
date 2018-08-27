@@ -11,6 +11,8 @@ import com.sanyang.logistics.base.pojo.SysOrderType;
 import com.sanyang.logistics.base.pojo.SysorderProduct;
 import com.sanyang.logistics.base.pojo.Sysorders;
 import com.sanyang.logistics.base.pojo.Warehouse;
+import com.sanyang.logistics.base.pojo.WorkOrder;
+import com.sanyang.logistics.base.pojo.WorkorderProduct;
 import com.sanyang.logistics.ymm.dao.CustDao;
 
 @Service
@@ -86,6 +88,109 @@ public class CustServiceImp implements CustService{
 	@Override
 	public Sysorders selectbyoid(Integer oid) {
 		return dao.selectbyoid(oid);
+	}
+
+	@Override
+	public List<SysorderProduct> selhwqd(SysorderProduct sysorderProduct) {
+		return dao.selhwqd(sysorderProduct);
+	}
+
+	@Override
+	public List<SysorderProduct> selbyoidhwqd(String th[]) {
+		return dao.selbyoidhwqd(th);
+	}
+
+	@Override
+	public void delpro(Integer ooo) {
+		dao.delpro(ooo);
+		
+	}
+
+	@Override
+	public void updatesys(Sysorders sysorders) {
+		dao.updatesys(sysorders);
+		
+	}
+
+	@Override
+	public void addsys(Sysorders sysorders) {
+		dao.addsys(sysorders);
+		
+	}
+
+	@Override
+	public void addsysruku(Sysorders sysorders) {
+		dao.addsysruku(sysorders);
+		
+	}
+
+	@Override
+	public void updrk(Sysorders sysorders) {
+		dao.updrk(sysorders);
+		
+	}
+
+
+	@Override
+	public void addwork(WorkOrder workOrder) {
+		dao.addwork(workOrder);
+		
+	}
+
+	@Override
+	public void addwopro(WorkorderProduct workorderProduct) {
+		dao.addwopro(workorderProduct);
+		
+	}
+
+	@Override
+	public void updsyscount(SysorderProduct sysorderProduct) {
+		dao.updsyscount(sysorderProduct);
+		
+	}
+
+	@Override
+	public void updsysstatus(Integer oid) {
+		dao.updsysstatus(oid);
+		
+	}
+
+	@Override
+	public WorkOrder tolistwork(Integer workid) {
+		return dao.tolistwork(workid);
+	}
+
+	@Override
+	public List<SysorderProduct> selhwqdck(SysorderProduct sysorderProduct) {
+		// TODO Auto-generated method stub
+		return dao.selhwqdck(sysorderProduct);
+	}
+
+	@Override
+	public void addsyspro(SysorderProduct sysorderProduct) {
+		dao.addsyspro(sysorderProduct);
+		
+	}
+
+	@Override
+	public void updhwqdsl(SysorderProduct sysorderProduct) {
+		dao.updhwqdsl(sysorderProduct);
+		
+	}
+
+	@Override
+	public void updhwqdslrk(SysorderProduct sysorderProduct) {
+		dao.updhwqdslrk(sysorderProduct);
+	}
+
+	@Override
+	public Sysorders getbypid(Integer oids) {
+		return dao.getbypid(oids);
+	}
+
+	@Override
+	public List<SysorderProduct> tolisthwqdbyoid(Integer oid) {
+		return dao.tolisthwqdbyoid(oid);
 	}
 
 

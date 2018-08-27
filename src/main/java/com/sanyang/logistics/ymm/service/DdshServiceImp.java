@@ -18,4 +18,21 @@ public class DdshServiceImp implements DdshService{
 		return dao.tolistsys(sysorders);
 	}
 
+	@Override
+	public Sysorders selpz(Integer oid) {
+		return dao.selpz(oid);
+	}
+
+	@Override
+	public void updsh(Integer oid) {
+		dao.updsh(oid);
+		
+	}
+
+	@Override
+	public void getno(Integer oid) {
+		dao.getno(oid);
+		
+	}
+
 }

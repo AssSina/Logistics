@@ -15,13 +15,13 @@
 		<script type="text/javascript">
 			$(function() {
 				$("#tab").bootstrapTable({
-					url: "ddgl/tolistcust.action",
+					url: "ddsh/tolistsys.action",
 					pageSize: 10,
 					pagination: true,
 					type: "post",
 					queryParams: "queryParams",
 					columns: [{
-							title: '订单号',
+							title: '单据号',
 							align: 'center',
 							formatter: function(value, row, index) {
 								return '<a href="#" onclick="selsys(' + row.oid + ',' + row.sysOrderTypeId + ')">' + row.cusOrderNo + '</a>'
@@ -29,31 +29,33 @@
 							}
 
 						}, {
-							field: 'description',
-							title: '描述    ',
+							field: 'trucktype',
+							title: '运输方式',
+							align: 'center'
+						}, {
+							field: 'cname',
+							title: '客户',
+							align: 'center'
+						}, {
+							field: 'createtime',
+							title: '创建日期',
+							align: 'center'
+						}, {
+							field: 'createperson',
+							title: '创建人',
 							align: 'center'
 						}, {
 							field: 'statusname',
-							title: '状态    ',
+							title: '状态',
 							align: 'center'
 						}, {
-							field: 'typename',
-							title: '类别    ',
-							align: 'center'
-						}, {
-							title: '审核通过  ',
+							field: 'pid',
+							title: '手动拆单',
 							align: 'center',
 							formatter: function(value, row, index) {
-								return '<a href="#" onclick="selpz(' + row.oid + ')"><img src="images/yes.gif"/></a>'
-							}
-						}, {
-							title: '审核不通过',
-							align: 'center',
-							formatter: function(value, row, index) {
-								return '<a href="#" onclick="getno(' + row.oid + ')"><img src="images/no.jpg"/></a>'
+								return '<a href="#"><img onclick="selectcaidan(' + row.oid + ')" src="images/icon_edit.gif" alt="" /></a>'
 
 							}
-
 						}
 
 					]
@@ -62,11 +64,208 @@
 				$("#sel").click(function() {
 					$("#tab").bootstrapTable('refresh')
 				})
+
+				$("#ptcd").click(function() {
+//					$("#tss").bootstrapTable("destroy");
+					$.ajax({
+						type: "post",
+						url: "ddgl/getbypid.action",
+						data: $("#f3").serialize() + "&oid=" + $("#ri").val(),
+						dataType:"json",
+						success: function(data) {
+							$("#myModalcd").modal("hide");
+							
+							
+							
+							
+							
+							$.each(data, function(m,n) {
+								var data={
+									'pcode':n.pcode,
+									'productname':n.productname,
+									'ppackage':n.ppackage,
+									'yzsl':n.yzsl,
+									'productcount':n.productcount,
+									'fpsl':n.fpsl
+								}
+
+								$("#tss").bootstrapTable("refresh");
+								$("#tss").bootstrapTable('append',data);
+							});
+							
+						}
+					});
+
+				})
 				
+					
+				$("#tss").bootstrapTable({
+								pageSize: 3,
+								pagination: true,
+								columns: [{
+										field: 'pcode',
+										title: '货物编码',
+										align: 'center',
+
+									}, {
+										field: 'productname',
+										title: '货物名称',
+										align: 'center'
+									}, {
+										field: 'ppackage',
+										title: '包装',
+										align: 'center'
+									}, {
+										field: 'yzsl',
+										title: '源总数量',
+										align: 'center'
+									}, {
+										field: 'productcount',
+										title: '剩余数量',
+										align: 'center'
+									}, {
+										field: 'fpsl',
+										title: '分配数量',
+										align: 'center'
+									}
+
+								]
+
+							})
 				
 				
 
 			})
+
+			function selectcaidan(oid) {
+				
+			
+				
+				
+				
+				$("#ttt").bootstrapTable("destroy");
+				$("#myModalsdcd").modal("show");
+				
+				$("#ri").val(oid);
+				$("#ccc").empty();
+				
+				$("#yyy").val(oid);
+				$.ajax({
+					type: "post",
+					url: "ddgl/selbyoid.action",
+					data: "oid=" + oid,
+					success: function(data) {
+						
+						$("#i1").html(data.cname);
+						$("#i2").html(data.cusOrderNo);
+						$("#i3").html(data.fromAddress);
+						$("#i4").html(data.name);
+						$("#i5").html(data.planTrsprtDate);
+						$("#i6").html(data.planArrivalDate);
+						$("#i7").html(data.planInDate);
+						$("#i8").html(data.contactPerson);
+						$("#i9").html(data.contactPhone);
+						$("#i10").html(data.description);
+
+						if(data.truckflag == 'Y') {
+							$("#ccc").append("是否运输&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input checked='checked' type='checkbox'>");
+
+						} else {
+							$("#ccc").append("是否运输&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='checkbox'>");
+
+						}
+					}
+				});
+
+				$("#ttt").bootstrapTable({
+					url: "ddgl/tolisthwqdbyoid.action",
+					pageSize: 3,
+					pagination: true,
+					type: "post",
+					queryParams: "oid=" + oid,
+					columns: [{
+							field: 'pname',
+							title: '货物名称',
+							align: 'center',
+
+						}, {
+							field: 'code',
+							title: '货物编码',
+							align: 'center'
+						}, {
+							field: 'pmodel',
+							title: '货物型号',
+							align: 'center'
+						}, {
+							field: 'pcount',
+							title: '计划数量',
+							align: 'center'
+						}, {
+							field: 'ruleDescription',
+							title: '包装单位',
+							align: 'center'
+						}, {
+							field: 'status',
+							title: '物品状态',
+							align: 'center'
+						}
+
+					]
+
+				})
+				$("#cd").click(function() {
+					$("#tabcd").bootstrapTable("destroy");
+					$("#myModalcd").modal("show");
+					$("#tabcd").bootstrapTable({
+						url: "ddgl/tolisthwqdbyoid.action",
+						pageSize: 5,
+						pagination: true,
+						type: "post",
+						queryParams: "oid=" + oid,
+						columns: [{
+								field: 'code',
+								title: '货物编码',
+								align: 'center'
+							}, {
+								field: 'pname',
+								title: '货物名称',
+								align: 'center',
+
+							}, {
+								field: 'pcount',
+								title: '原总数量',
+								align: 'center'
+							}, {
+								field: 'ruleDescription',
+								title: '包装',
+								align: 'center'
+							}, {
+								field: 'scount',
+								title: '剩余数量',
+								align: 'center'
+							}, {
+								title: '分配数量',
+								align: 'center',
+								formatter: function(value, row, index) {
+									if (row.scount<=0) {
+										return'<input type="text" disabled="disabled" value="0" />';
+									} else{
+										return '<input type="hidden" name="qqq" value=' + row.ooo + ' /><input type="text" name="zxc" onblur="ccc(' + row.pid + ',' + row.oid + ',' + row.pcount + ',' + row.scount + ',' + "this.value" + ' )"  class="kkk" value="0" />'
+									}
+									
+
+								}
+							}
+
+						]
+
+					})
+					
+					
+
+				})
+
+			}
 
 			function queryParams() {
 				return {
@@ -78,6 +277,19 @@
 					'planArrivalDate': $("#arr").val()
 
 				}
+			}
+
+			function deleteShangp(oid) {
+				$.ajax({
+					type: "post",
+					url: "ddgl/delsys.action",
+					data: "oid=" + oid,
+					success: function(data) {
+						$("#tab").bootstrapTable("refresh");
+						alert("删除成功!");
+					}
+				});
+
 			}
 
 			function selsys(oid, sysOrderTypeId) {
@@ -125,7 +337,6 @@
 				if(sysOrderTypeId == 1) {
 					//出库
 					$("#myModalck").modal("show");
-					
 					$.ajax({
 						type: "post",
 						url: "ddgl/selbyoidsys.action",
@@ -193,164 +404,119 @@
 					});
 
 				}
-				
-				
 
 			}
+			var th = new Array();
 
-			function selpz(oid) {
-				$("#tab4").bootstrapTable("destroy");
-				$("#myModalpz").modal("show");
-				$.ajax({
-					type: "post",
-					url: "ddsh/selpz.action",
-					data: "oid=" + oid,
-					success: function(data) {
-						$("#m1").html(data.cname);
-						$("#m2").html(data.typename);
-						$("#m3").html(data.cusOrderNo);
-						$("#m4").html(data.description);
-						$("#m5").html(data.planTrsprtDate);
-						$("#m6").html(data.planInDate);
-						$("#m7").html(data.s);
-						$("#m8").html(data.ss);
-						$("#m9").html(data.contactPerson);
-						$("#m10").html(data.contactPhone);
+			function ccc(pid, oid, pcount, scount, index) {
+
+				var ll = scount - index;
+				if(index != '') {
+
+					if(ll < 0) {
+						alert("数量不足请重新输入!");
+					} else {
 
 					}
-				});
-				
-				$("#tab4").bootstrapTable({
-					url: "ddgl/tolisthwqd.action",
-					pageSize: 3,
-					pagination: true,
-					type: "post",
-					queryParams: "oid=" + oid,
-					columns: [{
-							field: 'pname',
-							title: '货物名称',
-							align: 'center',
+				} else {
 
-						}, {
-							field: 'code',
-							title: '货物编码',
-							align: 'center'
-						}, {
-							field: 'pmodel',
-							title: '货物型号',
-							align: 'center'
-						}, {
-							field: 'pcount',
-							title: '计划数量',
-							align: 'center'
-						}, {
-							field: 'ruleDescription',
-							title: '包装单位',
-							align: 'center'
-						}, {
-							field: 'status',
-							title: '物品状态',
-							align: 'center'
-						}
-
-					]
- 
-				}) 
-				
-				$("#sh").click(function() {	
-					$.ajax({
-					type: "post",
-					url: "ddsh/updsh.action",
-					data: "oid=" + oid,
-					success: function(data) {
-						$("#myModalpz").modal("hide");
-						$("#tab").bootstrapTable('refresh');
-					}
-				});
-					
-				})
-
-			}
-			
-			function getno(oid) {
-				$("#tab5").bootstrapTable("destroy");
-				$("#myModalno").modal("show");
-				$.ajax({
-					type: "post",
-					url: "ddsh/selpz.action",
-					data: "oid=" + oid,
-					success: function(data) {
-						$("#q1").html(data.cname);
-						$("#q2").html(data.typename);
-						$("#q3").html(data.cusOrderNo);
-						$("#q4").html(data.description);
-						$("#q5").html(data.planTrsprtDate);
-						$("#q6").html(data.planInDate);
-						$("#q7").html(data.s);
-						$("#q8").html(data.ss);
-						$("#q9").html(data.contactPerson);
-						$("#q10").html(data.contactPhone);
-
-					}
-				});
-				
-				$("#tab5").bootstrapTable({
-					url: "ddgl/tolisthwqd.action",
-					pageSize: 3,
-					pagination: true,
-					type: "post",
-					queryParams: "oid=" + oid,
-					columns: [{
-							field: 'pname',
-							title: '货物名称',
-							align: 'center',
-
-						}, {
-							field: 'code',
-							title: '货物编码',
-							align: 'center'
-						}, {
-							field: 'pmodel',
-							title: '货物型号',
-							align: 'center'
-						}, {
-							field: 'pcount',
-							title: '计划数量',
-							align: 'center'
-						}, {
-							field: 'ruleDescription',
-							title: '包装单位',
-							align: 'center'
-						}, {
-							field: 'status',
-							title: '物品状态',
-							align: 'center'
-						}
-
-					]
- 
-				}) 
-				
-				$("#nu").click(function() {	
-					$.ajax({
-					type: "post",
-					url: "ddsh/getno.action",
-					data: "oid=" + oid,
-					success: function(data) {
-						$("#myModalno").modal("hide");
-						$("#tab").bootstrapTable('refresh');
-					}
-				});
-					
-				})
+				}
 
 			}
 		</script>
 
 		<title>交易</title>
 	</head>
-
 	<body>
+		<input type="hidden" id="sl" value="" />
+		11
+		<input type="hidden" id="ri" value="" />
+<input type="hidden" id="yyy" value="" />
+		<!-- 手动拆单 -->
+		<div class="modal fade bs-example-modal-lg" id="myModalsdcd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel"><b>手动拆单</b></h4>
+					</div>
+					<div class="modal-body">
+
+						<table width="800" height="300">
+							<tr>
+								<td width="100"></td>
+								<td width="100">客户名称</td>
+								<td width="300" id="i1">
+
+								</td>
+								<td width="100">客户订单号</td>
+								<td id="i2"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>源地址</td>
+								<td id="i3">
+									</textarea>
+								</td>
+								<td>目标仓库</td>
+								<td id="i4"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="checkbox" id="ccc"></td>
+								<td>
+
+								</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>计划运输日期</td>
+								<td id="i5"></td>
+								<td>计划到达日期</td>
+								<td id="i6"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>计划入库日期</td>
+								<td id="i7"></td>
+								<td></td>
+								<td></td>
+							</tr>
+
+							<tr>
+								<td></td>
+								<td>联系人</td>
+								<td id="i8"></td>
+								<td>联系电话</td>
+								<td id="i9"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>订单描述</td>
+								<td id="i10" colspan="3"></td>
+
+							</tr>
+
+						</table>
+						<br />
+						<br />
+						<table id="ttt" class="table-hover"></table>
+
+					</div>
+					<div class="modal-footer">
+						<input type="button" id="cd" class="btn btn-danger" value="拆单" />
+					</div>
+					<br />
+						<br />
+						<b>货物清单</b>
+						<br /><br />
+					<table id="tss" class="table-hover"></table>
+
+				</div>
+			</div>
+		</div>
 
 		<!-- 查看出库订单 -->
 		<div class="modal fade bs-example-modal-lg" id="myModalck" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -450,7 +616,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel"><b>查看订单出库</b></h4>
+						<h4 class="modal-title" id="myModalLabel"><b>查看入库订单</b></h4>
 					</div>
 					<div class="modal-body">
 
@@ -526,129 +692,24 @@
 			</div>
 		</div>
 
-		<!-- 订单批准 -->
-		<div class="modal fade bs-example-modal-lg" id="myModalpz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<!-- 拆单 -->
+		<div class="modal fade bs-example-modal-lg" id="myModalcd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel"><b>订单审核-批准</b></h4>
+						<h4 class="modal-title" id="myModalLabel"><b>待拆单货物清单</b></h4>
 					</div>
-					<div class="modal-footer">
-
-						<button type="button" class="btn btn-primary" id="sh">确定</button>
-					</div>
-					
 					<div class="modal-body">
+						<form id="f3">
 
-						<table width="800" height="200">
-							<tr>
-								<td rowspan="5" width="60"></td>
-								<td>客户名称</td>
-								<td id="m1"></td>
-								<td>订单类型</td>
-								<td id="m2"></td>
-							</tr>
-							<tr>
-								<td>客户订单号</td>
-								<td id="m3"></td>
-								<td>订单描述</td>
-								<td id="m4"></td>
-							</tr>
-							<tr>
-								<td>计划运输时间</td>
-								<td id="m5"></td>
-								<td>截止到库日期</td>
-								<td id="m6"></td>
-							</tr>
-							<tr>
-								<td>源仓库</td>
-								<td id="m7"></td>
-								<td>目标仓库</td>
-								<td id="m8"></td>
-							</tr>
-							<tr>
-								<td>联系人</td>
-								<td id="m9"></td>
-								<td>联系电话</td>
-								<td id="m10"></td>
-							</tr>
-						</table>
-						<br /><br />
-						<div class="modal-footer">
-							<p align="left">
-								<b>货物清单</b>
-								
-							</p>
+							<table id="tabcd" class="table-hover"></table>
+						</form>
 
-						</div>
-						<!-- 显示货物清单 -->
-						<table id="tab4" class="table"></table>
 					</div>
 
-				</div>
-			</div>
-		</div>
-		
-		
-		<!-- 订单不批准 -->
-		<div class="modal fade bs-example-modal-lg" id="myModalno" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog modal-lg" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel"><b>订单审核-拒绝确认</b></h4>
-					</div>
 					<div class="modal-footer">
-
-						<button type="button" class="btn btn-primary" id="nu">确定</button>
-					</div>
-					
-					<div class="modal-body">
-
-						<table width="800" height="200">
-							<tr>
-								<td rowspan="5" width="60"></td>
-								<td>客户名称</td>
-								<td id="q1"></td>
-								<td>订单类型</td>
-								<td id="q2"></td>
-							</tr>
-							<tr>
-								<td>客户订单号</td>
-								<td id="q3"></td>
-								<td>订单描述</td>
-								<td id="q4"></td>
-							</tr>
-							<tr>
-								<td>计划运输时间</td>
-								<td id="q5"></td>
-								<td>截止到库日期</td>
-								<td id="q6"></td>
-							</tr>
-							<tr>
-								<td>源仓库</td>
-								<td id="q7"></td>
-								<td>目标仓库</td>
-								<td id="q8"></td>
-							</tr>
-							<tr>
-								<td>联系人</td>
-								<td id="q9"></td>
-								<td>联系电话</td>
-								<td id="q10"></td>
-							</tr>
-						</table>
-						<br /><br />
-						<div class="modal-footer">
-							<p align="left">
-								<b>货物清单</b>
-								
-							</p>
-
-						</div>
-						<!-- 显示货物清单 -->
-						<table id="tab5" class="table"></table>
+						<button type="button" class="btn btn-default" id="ptcd">普通拆单</button>
 					</div>
 
 				</div>
@@ -672,7 +733,7 @@
 					<td><input class="form-control" type="date" name="planTrsprtDate" id="trs" value="" /></td>
 					<td>&nbsp;订单结束时间</td>
 					<td><input class="form-control" type="date" name="planArrivalDate" id="arr" value="" /></td>
-					<td>&nbsp;<input class="btn btn-success" type="submit" id="sel" name="" value="查 询" /></td>
+					<td>&nbsp;<input class="btn btn-success" type="submit" id="sel" name="" value="搜 索" /></td>
 				</tr>
 			</table>
 		</from>

@@ -11,6 +11,8 @@ import com.sanyang.logistics.base.pojo.SysOrderType;
 import com.sanyang.logistics.base.pojo.SysorderProduct;
 import com.sanyang.logistics.base.pojo.Sysorders;
 import com.sanyang.logistics.base.pojo.Warehouse;
+import com.sanyang.logistics.base.pojo.WorkOrder;
+import com.sanyang.logistics.base.pojo.WorkorderProduct;
 import com.sanyang.logistics.ymm.mapper.CustMapper;
 
 @Repository("dao")
@@ -87,6 +89,112 @@ public class CustDaoImp implements CustDao{
 	public Sysorders selectbyoid(Integer oid) {
 		return mapper.selectbyoid(oid);
 	}
+
+	@Override
+	public List<SysorderProduct> selhwqd(SysorderProduct sysorderProduct) {
+		return mapper.selhwqd(sysorderProduct);
+	}
+
+	@Override
+	public List<SysorderProduct> selbyoidhwqd(String th[]) {
+		return mapper.selbyoidhwqd(th);
+	}
+
+	@Override
+	public void delpro(Integer ooo) {
+		mapper.delpro(ooo);
+		
+	}
+
+	@Override
+	public void updatesys(Sysorders sysorders) {
+		mapper.updatesys(sysorders);
+		
+	}
+
+	@Override
+	public void addsys(Sysorders sysorders) {
+		mapper.addsys(sysorders);
+	}
+
+	@Override
+	public void addsysruku(Sysorders sysorders) {
+		mapper.addsysruku(sysorders);
+		
+	}
+
+	@Override
+	public void updrk(Sysorders sysorders) {
+		mapper.updrk(sysorders);
+		
+	}
+
+
+
+	@Override
+	public void addwork(WorkOrder workOrder) {
+		mapper.addwork(workOrder);
+		
+	}
+
+	@Override
+	public void addwopro(WorkorderProduct workorderProduct) {
+		mapper.addwopro(workorderProduct);
+		
+	}
+
+	@Override
+	public void updsyscount(SysorderProduct sysorderProduct) {
+		mapper.updsyscount(sysorderProduct);
+		
+	}
+
+	@Override
+	public void updsysstatus(Integer oid) {
+		mapper.updsysstatus(oid);
+		
+	}
+
+	@Override
+	public WorkOrder tolistwork(Integer workid) {
+		return mapper.tolistwork(workid);
+	}
+
+	@Override
+	public List<SysorderProduct> selhwqdck(SysorderProduct sysorderProduct) {
+		return mapper.selhwqdck(sysorderProduct);
+	}
+
+	@Override
+	public void addsyspro(SysorderProduct sysorderProduct) {
+		mapper.addsyspro(sysorderProduct);
+		
+	}
+
+	@Override
+	public void updhwqdsl(SysorderProduct sysorderProduct) {
+		mapper.updhwqdsl(sysorderProduct);
+		
+	}
+
+	@Override
+	public void updhwqdslrk(SysorderProduct sysorderProduct) {
+		mapper.updhwqdslrk(sysorderProduct);
+		
+	}
+
+	@Override
+	public Sysorders getbypid(Integer oids) {
+		return mapper.getbypid(oids);
+	}
+
+	@Override
+	public List<SysorderProduct> tolisthwqdbyoid(Integer oid) {
+		return mapper.tolisthwqdbyoid(oid);
+	}
+
+	
+	
 	
 	
 

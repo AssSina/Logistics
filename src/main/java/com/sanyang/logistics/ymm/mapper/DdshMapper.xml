@@ -60,9 +60,9 @@
 </resultMap>
 
 
-<select id="tolistsys" resultType="com.sanyang.logistics.base.pojo.SysorderProduct" resultMap="BaseResultMap"  parameterType="com.sanyang.logistics.base.pojo.Sysorders">
-	 select * from order_status,sysorders,customer,customer_ordertype,sys_order_type where sysorders.cust_id=customer.cid and sysorders.sys_order_type_id=sys_order_type.order_type_id and sysorders.cust_order_type_id=customer_ordertype.cust_ordertype_id and order_status.sid=sysorders.order_status
-	 
+<select id="tolistsys"  resultMap="BaseResultMap"  parameterType="com.sanyang.logistics.base.pojo.Sysorders">
+	 select * from sysorders,order_status,customer,customer_ordertype,sys_order_type where sysorders.cust_id=customer.cid and sysorders.sys_order_type_id=sys_order_type.order_type_id and sysorders.cust_order_type_id=customer_ordertype.cust_ordertype_id and sysorders.order_status=order_status.sid
+	 and sysorders.order_status=3 or sysorders.order_status=6
 	 
 	 <if test="cusOrderNo!='' and cusOrderNo!=null">
 			and cus_order_no like '%${cusOrderNo}%'
@@ -83,4 +83,22 @@
 			and plan_arrival_date='${planArrivalDate}'
 		</if>
 </select>
+<select id="selpz"  resultMap="BaseResultMap"  parameterType="Integer">
+	 select sys_order_type.typename,sysorders.*,customer.cname,customer_ordertype.name,warehouse.name s,warehouse_copy.name ss from warehouse_copy,warehouse,sys_order_type,
+sysorders,customer,customer_ordertype where sysorders.cust_id=customer.cid  and sysorders.cust_order_type_id=customer_ordertype.cust_ordertype_id and sysorders.sys_order_type_id=sys_order_type.order_type_id 
+and sysorders.to_warehouse=warehouse.wh_id and sysorders.from_warehouse=warehouse_copy.wh_id
+	and sysorders.oid=#{value}
+</select>
+
+<update id="updsh"  parameterType="Integer">
+update sysorders set order_status=3 where oid=#{value}
+</update>
+
+<update id="getno"  parameterType="Integer">
+update sysorders set order_status=2 where oid=#{value}
+</update>
+
+
+
+
 </mapper>

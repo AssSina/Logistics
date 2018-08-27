@@ -1,128 +1,200 @@
 package com.sanyang.logistics.base.pojo;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class SysorderProduct {
-    private Integer oid;
+	private Integer oid;
+	private Integer oids;
+	private Integer orderid;
 
-    private Integer orderid;
+	private Integer prodId;
 
-    private Integer prodId;
+	private Integer pcount;
 
-    private Integer pcount;
+	private Integer scount;
 
-    private Integer scount;
+	private String cusOrderNo;
 
-    private String cusOrderNo;
+	private Integer parentOid;
 
-    private Integer parentOid;
+	private Integer custId;
 
-    private Integer custId;
+	private Integer sysOrderTypeId;
 
-    private Integer sysOrderTypeId;
+	private Integer custOrderTypeId;
 
-    private Integer custOrderTypeId;
+	private String fromAddress;
 
-    private String fromAddress;
+	private String toAddress;
 
-    private String toAddress;
-    
-    private String toCustomer;
+	private String toCustomer;
 
-    private Integer fromWarehouse;
+	private Integer fromWarehouse;
 
-    private Integer toWarehouse;
+	private Integer toWarehouse;
 
-    private Integer orderStatus;
+	private Integer orderStatus;
 
-    private Integer productCount;
+	private Integer productCount;
 
-    private String trucktype;
+	private String trucktype;
 
-    private String planTrsprtDate;
+	private String planTrsprtDate;
 
-    private String planArrivalDate;
+	private String planArrivalDate;
 
-    private String planOutDate;
+	private String planOutDate;
 
-    private String planInDate;
+	private String planInDate;
 
-    private String contactPhone;
+	private String contactPhone;
 
-    private String contactPerson;
+	private String contactPerson;
 
-    private String takeMoneyFlag;
+	private String takeMoneyFlag;
 
-    private String truckflag;
+	private String truckflag;
 
-    private Integer regionId;
+	private Integer regionId;
 
-    private String createtime;
+	private String createtime;
 
-    private String description;
+	private String description;
 
-    private String createperson;
-    
-    private Integer pid;
+	private String createperson;
 
-    private String pname;
+	private Integer pid;
 
-    private String catery;
+	private String pname;
 
-    private String pmodel;
+	private String catery;
 
-    private String code;
+	private String pmodel;
 
-    private String provider;
+	private String code;
+
+	private String provider;
 
 
-    private Integer packageId;
+	private Integer packageId;
 
-    private String status;
+	private String status;
 
-    private String rules;
+	private String rules;
 
-    private String ruleDescription;
+	private String ruleDescription;
 
-    private Double unitWeight;
+	private Double unitWeight;
 
-    private Float unitVolume;
+	private Float unitVolume;
 
-    private Float unitLength;
+	private Float unitLength;
 
-    private Float unitWidth;
+	private Float unitWidth;
 
-    private Float unitHeight;
+	private Float unitHeight;
 
-    private String unitFlag;
+	private String unitFlag;
 
-    private Date createDate;
+	private Date createDate;
 
-    private Date updateDate;
+	private Date updateDate;
 
-   
-    
-    public Integer getOid() {
-        return oid;
-    }
+	private Integer bypid[];
+	private Integer mmm[];
+	private Integer vvv[];
 
-    public void setOid(Integer oid) {
-        this.oid = oid;
-    }
+	private Integer ooo;
 
-    public Integer getOrderid() {
-        return orderid;
-    }
+	private Integer aaa[];
+	private Integer bbb[]; 
 
-    public void setOrderid(Integer orderid) {
-        this.orderid = orderid;
-    }
 
-    public Integer getProdId() {
-        return prodId;
-    }
 
-    public String getCusOrderNo() {
+	public Integer[] getAaa() {
+		return aaa;
+	}
+
+
+
+	public Integer getOoo() {
+		return ooo;
+	}
+
+
+
+	public void setOoo(Integer ooo) {
+		this.ooo = ooo;
+	}
+
+
+
+	public Integer[] getVvv() {
+		return vvv;
+	}
+
+	public Integer getOids() {
+		return oids;
+	}
+
+	public void setOids(Integer oids) {
+		this.oids = oids;
+	}
+
+	public Integer[] getMmm() {
+		return mmm;
+	}
+
+	public void setMmm(Integer[] mmm) {
+		this.mmm = mmm;
+	}
+
+	public void setVvv(Integer[] vvv) {
+		this.vvv = vvv;
+	}
+
+	public void setAaa(Integer[] aaa) {
+		this.aaa = aaa;
+	}
+
+	public Integer[] getBbb() {
+		return bbb;
+	}
+
+	public void setBbb(Integer[] bbb) {
+		this.bbb = bbb;
+	}
+
+	public Integer[] getBypid() {
+		return bypid;
+	}
+
+	public void setBypid(Integer[] bypid) {
+		this.bypid = bypid;
+	}
+
+	public Integer getOid() {
+		return oid;
+	}
+
+	public void setOid(Integer oid) {
+		this.oid = oid;
+	}
+
+	public Integer getOrderid() {
+		return orderid;
+	}
+
+	public void setOrderid(Integer orderid) {
+		this.orderid = orderid;
+	}
+
+	public Integer getProdId() {
+		return prodId;
+	}
+
+	public String getCusOrderNo() {
 		return cusOrderNo;
 	}
 
@@ -467,22 +539,52 @@ public class SysorderProduct {
 	}
 
 	public void setProdId(Integer prodId) {
-        this.prodId = prodId;
-    }
+		this.prodId = prodId;
+	}
 
-    public Integer getPcount() {
-        return pcount;
-    }
+	public Integer getPcount() {
+		return pcount;
+	}
 
-    public void setPcount(Integer pcount) {
-        this.pcount = pcount;
-    }
+	public void setPcount(Integer pcount) {
+		this.pcount = pcount;
+	}
 
-    public Integer getScount() {
-        return scount;
-    }
+	public Integer getScount() {
+		return scount;
+	}
 
-    public void setScount(Integer scount) {
-        this.scount = scount;
-    }
+	public void setScount(Integer scount) {
+		this.scount = scount;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "SysorderProduct [oid=" + oid + ", oids=" + oids + ", orderid=" + orderid + ", prodId=" + prodId
+				+ ", pcount=" + pcount + ", scount=" + scount + ", cusOrderNo=" + cusOrderNo + ", parentOid="
+				+ parentOid + ", custId=" + custId + ", sysOrderTypeId=" + sysOrderTypeId + ", custOrderTypeId="
+				+ custOrderTypeId + ", fromAddress=" + fromAddress + ", toAddress=" + toAddress + ", toCustomer="
+				+ toCustomer + ", fromWarehouse=" + fromWarehouse + ", toWarehouse=" + toWarehouse + ", orderStatus="
+				+ orderStatus + ", productCount=" + productCount + ", trucktype=" + trucktype + ", planTrsprtDate="
+				+ planTrsprtDate + ", planArrivalDate=" + planArrivalDate + ", planOutDate=" + planOutDate
+				+ ", planInDate=" + planInDate + ", contactPhone=" + contactPhone + ", contactPerson=" + contactPerson
+				+ ", takeMoneyFlag=" + takeMoneyFlag + ", truckflag=" + truckflag + ", regionId=" + regionId
+				+ ", createtime=" + createtime + ", description=" + description + ", createperson=" + createperson
+				+ ", pid=" + pid + ", pname=" + pname + ", catery=" + catery + ", pmodel=" + pmodel + ", code=" + code
+				+ ", provider=" + provider + ", packageId=" + packageId + ", status=" + status + ", rules=" + rules
+				+ ", ruleDescription=" + ruleDescription + ", unitWeight=" + unitWeight + ", unitVolume=" + unitVolume
+				+ ", unitLength=" + unitLength + ", unitWidth=" + unitWidth + ", unitHeight=" + unitHeight
+				+ ", unitFlag=" + unitFlag + ", createDate=" + createDate + ", updateDate=" + updateDate + ", bypid="
+				+ Arrays.toString(bypid) + ", mmm=" + Arrays.toString(mmm) + ", vvv=" + Arrays.toString(vvv) + ", ooo="
+				+ ooo + ", aaa=" + Arrays.toString(aaa) + ", bbb=" + Arrays.toString(bbb) + "]";
+	}
+
+
+
+
+
+
+
 }
