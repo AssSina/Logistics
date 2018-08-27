@@ -215,6 +215,6 @@
   
   <select id="getProdPosnBridge" resultMap="BaseResultMap" parameterType="Integer">
   	select * from prod_posn_bridge p,position n,shelf s,warehouse w
-	WHERE p.posn_id=n.posn_id and  prod_id=1 and s.shelf_id=n.shelf_id and w.wh_id=n.wh_id and prod_id=#{pid}
+	WHERE p.posn_id=n.posn_id and s.shelf_id=n.shelf_id and w.wh_id=n.wh_id and prod_id=#{pid}
   </select>
 </mapper>

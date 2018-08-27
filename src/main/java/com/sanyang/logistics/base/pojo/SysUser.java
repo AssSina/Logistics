@@ -4,8 +4,12 @@ public class SysUser {
     private Integer userId;
 
     private String password;
+    
+    private String ss;
+    
+    private String dq;
 
-    private String loginId;
+	private String loginId;
 
     private String name;
 
@@ -16,8 +20,33 @@ public class SysUser {
     private String address;
 
     private Integer regionId;
+    private Integer roleId;
+    
+    
+    
+    @Override
+	public String toString() {
+		return "SysUser [userId=" + userId + ", password=" + password + ", ss=" + ss + ", dq=" + dq + ", loginId="
+				+ loginId + ", name=" + name + ", email=" + email + ", phone=" + phone + ", address=" + address
+				+ ", regionId=" + regionId + ", roleId=" + roleId + "]";
+	}
 
-    public Integer getUserId() {
+	public String getDq() {
+		return dq;
+	}
+
+	public void setDq(String dq) {
+		this.dq = dq;
+	}
+    public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+
+	public Integer getUserId() {
         return userId;
     }
 
@@ -80,4 +109,13 @@ public class SysUser {
     public void setRegionId(Integer regionId) {
         this.regionId = regionId;
     }
+
+	public String getSs() {
+		return ss;
+	}
+
+	public void setSs(String ss) {
+		this.ss = ss;
+	}
+    
 }

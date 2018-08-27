@@ -25,14 +25,16 @@ public class ProdPosnBridgeHandler {
 	@RequestMapping("/getProdPosnBridge")
 	@ResponseBody
 	public Object getProdPosnBridge(Integer prodId){
+//		System.out.println(prodId);
 		List<ProdPosnBridge> ProdPosnBridges=prodPosnBridgeService.getProdPosnBridge(prodId);
+//		System.out.println(ProdPosnBridges.size());
 		return ProdPosnBridges;
 	}
 	
 	@RequestMapping("/insertProdPosnBridge")
 	@ResponseBody
 	public String insertProdPosnBridge(ProdPosnBridge prodPosnBridge){
-//		System.out.println(prodPosnBridge.getWhId()+" "+prodPosnBridge.getProdId()+" "+prodPosnBridge.getPosnId());
+//		System.out.println(prodPosnBridge.getOccupyAmt()+" "+prodPosnBridge.getProdId()+" "+prodPosnBridge.getPosnId());
 		prodPosnBridgeService.insertProdPosnBridge(prodPosnBridge);
 		return "1";
 	}
