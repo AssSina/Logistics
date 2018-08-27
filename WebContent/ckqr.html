@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/bootstarp-3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function() {
+						$.getJSON("jh/getAllW.action", function(data) {
+							for(i = 0; i < data.length; i++) {
+								//						alert(data[i].whId)
+								$("#whId").append("<option value='" + data[i].whId + "'>" + data[i].name + "</option>");
+							}
+						})
+						$("#getall").click(function() {
+							//					alert($("#whId").val())
+							$("#tab").bootstrapTable("refresh");
+
+						})
+						$("#tab").bootstrapTable({
+							url: "jh/getAll.action",
+							pagination: true,
+							pageSize: 10,
+							queryParams: queryParams,
+							columns: [{
+								field: 'pickoutId',
+								title: '拣货单id',
+								align: 'center'
+							}, {
+								field: 'name',
+								title: '仓库',
+								align: 'center'
+							}, {
+								field: 'planPickoutDate',
+								title: '计划出库时间',
+								align: 'center'
+							}, {
+								field: 'createDate',
+								title: '创建时间',
+								align: 'center'
+							}, {
+								field: 'updateDate',
+								title: '更新时间',
+								align: 'center'
+							}, {
+								field: 'dname',
+								title: '拣货状态',
+								align: 'center'
+							}, {
+								title: '出库确认',
+								field: 'pickoutId',
+								align: 'center',
+								formatter: function(value, row, index) {
+									return "<button class='btn btn-warning' data-toggle='modal' data-target='#myModal1' onclick='bjjh(" + row.pickoutId + ")'><span class='glyphicon glyphicon-edit' aria-hidden='true'></span></button>"
+								}
+							}]
+						})
+						
+				$("#mo1").click(function() {
+					window.location.replace("ckqr.html");
+				})
+
+			
+						})			
+			function bjjh(pickoutId) {
+//				alert(pickoutId)
+						$.ajax({
+						type: "post",
+						url: "jh/getPick.action",
+						data: "pickout_id=" + pickoutId,
+						success: function(data) {
+//							alert(data.pickoutProdId)
+							$("#q1").html(data.pickoutId);
+							$("#q2").html(data.name);
+							$("#q3").html(data.createDate);
+							$("#q4").html(data.updateDate);							
+							$("#q5").html(data.planPickoutDate);
+						}
+					});
+					$("#tab3").bootstrapTable({
+					url: "jh/getPrepareOut.action",
+					pagination: true,
+					queryParams: {
+						"pickoutId": pickoutId
+					},
+					pageSize: 10,
+					columns: [{
+						field: 'preoutId',
+						title: '库位号',
+						clign: 'center'
+					}, {
+						field: 'pname',
+						title: '货物名称',
+						clign: 'center'
+					}, {
+						field: 'packageName',
+						title: '包装单位',
+						align: 'center'
+					}, {
+						field: 'preoutAmt',
+						title: '预出库数量',
+						align: 'center'
+					}, {
+						field: 'wname',
+						title: '状态',
+						align: 'center'
+					}, {
+								title: '确认出库',
+								align: 'center',
+								formatter: function(value, row, index) {
+									return "<button class='btn btn-success'  onclick='updat(" + row.preoutId + ")'><span class='glyphicon  glyphicon-ok' aria-hidden='true'></span></button>"
+								}
+							}]
+				})
+			}
+			function updat(preoutId){
+				alert(preoutId)
+					$.ajax({
+						type: "post",
+						url: "jh/updatepickout.action",
+					    data: "preoutId=" + preoutId,
+						success: function(data) {
+							$("#tab3").bootstrapTable("refresh");
+						}
+					});
+				
+				
+				
+			}
+			
+						function queryParams() {
+							return {
+								'whId': $("#whId").val()
+							}
+						}
+						
+		</script>
+	</head>
+
+	<body>
+		<form>
+			<div class="col-md-2">
+				<select class="form-control" id="whId" name="wh_id">
+					<option value="0">--请选择仓库--</option>
+				</select>
+			</div>
+			<input type="button" class="btn btn-success" id="getall" value="提交" />
+		</form>
+				<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">
+						<table border="0" width="700px"height="150px" align="center">
+							<label for="inputEmail10" class="col-sm-10 control-label">出库确认</label>
+						<tr>
+							<td>拣货单号</td>
+							<td id="q1"></td>
+							<td>源仓库</td>
+							<td id="q2"></td>
+						</tr>
+					   <tr>
+							<td>创建时间</td>
+							<td id="q3"></td>
+							<td>更新时间</td>
+							<td id="q4"></td>
+						</tr>
+						<tr>
+							<td>计划出库时间</td>
+							<td id="q5"></td>
+							<td>备注</td>
+							<td><textarea name="" rows="" cols=""></textarea></td>
+						</tr>												
+						</table>
+						<br />
+						<table class="table table-hover table-bordered" id="tab3">
+							<label for="inputEmail10" class="col-sm-10 control-label">货物清单</label>
+						</table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="mo1">关闭</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		
+		<table class="table table-hover table-bordered" id="tab">
+
+		</table>
+	</body>
+
+</html>

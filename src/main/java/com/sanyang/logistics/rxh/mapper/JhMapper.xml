@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.sanyang.logistics.rxh.mapper.IJhMapper">
+  <resultMap id="BaseResultMap" type="com.sanyang.logistics.base.pojo.Pickout" >
+    <id column="pickout_id" property="pickoutId" jdbcType="INTEGER" />
+    <result column="sched_id" property="schedId" jdbcType="INTEGER" />
+    <result column="wh_id" property="whId" jdbcType="INTEGER" />
+    <result column="plan_pickout_date" property="planPickoutDate" jdbcType="TIMESTAMP" />
+    <result column="status_id" property="statusId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="done_flag" property="doneFlag" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="dname" property="dname" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <resultMap id="BaseResultMaps" type="com.sanyang.logistics.base.pojo.Warehouse" >
+    <id column="wh_id" property="whId" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="whno" property="whno" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="principle" property="principle" jdbcType="VARCHAR" />
+    <result column="height" property="height" jdbcType="INTEGER" />
+    <result column="area" property="area" jdbcType="INTEGER" />
+    <result column="fireproof_level" property="fireproofLevel" jdbcType="INTEGER" />
+    <result column="whtype" property="whtype" jdbcType="INTEGER" />
+    <result column="material" property="material" jdbcType="VARCHAR" />
+    <result column="bearing_weigh" property="bearingWeigh" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="contact" property="contact" jdbcType="VARCHAR" />
+    <result column="firelevel" property="firelevel" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="pickoutprodbridge" type="com.sanyang.logistics.base.pojo.PickoutProdBridge" >
+    <id column="pickout_prod_id" property="pickoutProdId" jdbcType="INTEGER" />
+    <result column="pickout_id" property="pickoutId" jdbcType="INTEGER" />
+    <result column="work_order_id" property="workOrderId" jdbcType="INTEGER" />
+    <result column="prod_id" property="prodId" jdbcType="INTEGER" />
+    <result column="pname" property="pname" jdbcType="VARCHAR" />
+    <result column="ptype" property="ptype" jdbcType="VARCHAR" />
+    <result column="pcode" property="pcode" jdbcType="VARCHAR" />
+    <result column="package_name" property="packageName" jdbcType="VARCHAR" />
+    <result column="plan_amt" property="planAmt" jdbcType="INTEGER" />
+    <result column="preout_amt" property="preoutAmt" jdbcType="INTEGER" />
+    <result column="out_amt" property="outAmt" jdbcType="INTEGER" />
+     <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <resultMap id="prepareoutwarehouse" type="com.sanyang.logistics.base.pojo.PrepareOutWarehouse" >
+    <id column="preout_id" property="preoutId" jdbcType="INTEGER" />
+    <result column="pickout_prod_id" property="pickoutProdId" jdbcType="INTEGER" />
+    <result column="pickout_id" property="pickoutId" jdbcType="INTEGER" />
+    <result column="posn_id" property="posnId" jdbcType="INTEGER" />
+    <result column="prod_id" property="prodId" jdbcType="INTEGER" />
+    <result column="pname" property="pname" jdbcType="VARCHAR" />
+    <result column="ptype" property="ptype" jdbcType="VARCHAR" />
+    <result column="pcode" property="pcode" jdbcType="VARCHAR" />
+    <result column="package_name" property="packageName" jdbcType="VARCHAR" />
+    <result column="posn_code" property="posnCode" jdbcType="VARCHAR" />
+    <result column="preout_amt" property="preoutAmt" jdbcType="INTEGER" />
+    <result column="policy_id" property="policyId" jdbcType="VARCHAR" />
+    <result column="backup_area_code" property="backupAreaCode" jdbcType="VARCHAR" />
+    <result column="backupid" property="backupid" jdbcType="INTEGER" />
+    <result column="done_flag" property="doneFlag" jdbcType="VARCHAR" />
+    <result column="store_amt" property="storeAmt" jdbcType="INTEGER" />  
+     <result column="nums" property="nums" jdbcType="INTEGER" />
+     <result column="wname" property="wname" jdbcType="VARCHAR" />
+  </resultMap>
+   
+<select id="getAll" resultMap="BaseResultMap" parameterType="Integer">
+SELECT pickout.*,warehouse.name, CASE done_flag
+WHEN 'Y' THEN '拣货完成' WHEN 'N' THEN '正在拣货' END  dname
+FROM pickout,warehouse WHERE pickout.wh_id=warehouse.wh_id
+<if test="value!=0 and value!=null">
+and warehouse.wh_id = #{value}
+</if> 
+</select>
+
+<select id="getAllW" resultMap="BaseResultMaps">
+select * from warehouse
+</select>
+ 
+<select id="getAllPickout" resultMap="pickoutprodbridge" parameterType="Integer">
+select pickout.pickout_id,product.pid id,product.pname ,customized_package.pname name ,pickout_prod_bridge.*
+FROM product,pickout_prod_bridge,pickout,customized_package where product.pid=pickout_prod_bridge.prod_id
+and pickout_prod_bridge.pickout_id=pickout.pickout_id and customized_package.pid=product.package_id 
+ AND pickout_prod_bridge.preout_amt>0 AND pickout.pickout_id=#{value}
+</select>
+
+<select id="getPrepareOut" resultMap="prepareoutwarehouse" parameterType="Integer">
+SELECT prepare_out_warehouse.*,CASE prepare_out_warehouse.done_flag
+ WHEN 'N' THEN '未确认' WHEN 'Y' THEN '已确认' END wname
+ FROM prepare_out_warehouse,pickout WHERE 
+prepare_out_warehouse.pickout_id=pickout.pickout_id AND pickout.pickout_id=#{value}
+
+</select>
+ 
+ <select id="getYck" resultMap="prepareoutwarehouse" >
+SELECT * from prepare_out_warehouse,pickout WHERE prepare_out_warehouse.pickout_id=pickout.pickout_id
+ </select>
+ 
+ <delete id="delPrepareOut" parameterType="Integer">
+ delete from prepare_out_warehouse where prepare_out_warehouse.preout_id=#{preoutId}
+ </delete>
+ 
+ <select id="getPick" resultMap="BaseResultMap" parameterType="Integer">
+ SELECT pickout.*,name from pickout,warehouse WHERE pickout.wh_id=warehouse.wh_id AND pickout.pickout_id = #{value}
+</select>
+ 
+<update id="upd" parameterType="com.sanyang.logistics.base.pojo.PickoutProdBridge">
+update pickout_prod_bridge set preout_amt=preout_amt-#{nums},out_amt=out_amt+#{nums} where pickout_prod_id=#{pickoutProdId}
+</update>
+
+<delete id="delet" parameterType="Integer">
+delete from pickout_prod_bridge where preout_amt=0
+</delete>
+
+<update id="updpick" parameterType="com.sanyang.logistics.base.pojo.Pickout">
+   UPDATE pickout SET done_flag='Y' WHERE pickout_id=${pickoutId}
+</update>
+
+<insert id="inser" parameterType="com.sanyang.logistics.base.pojo.PrepareOutWarehouse">
+insert into prepare_out_warehouse(prod_id,pickout_prod_id,pickout_id,pname,package_name,preout_amt,done_flag)
+select product.pid id,pickout_prod_id,pickout_prod_bridge.pickout_id,product.pname,customized_package.pname name,#{nums},'N' 
+FROM product,pickout_prod_bridge,pickout,customized_package where product.pid=pickout_prod_bridge.prod_id and 
+pickout_prod_bridge.pickout_id=pickout.pickout_id and customized_package.pid=product.package_id  and pickout_prod_id=#{pickoutProdId}
+</insert>
+ 
+ <insert id="inserw" parameterType="com.sanyang.logistics.base.pojo.PickoutProdBridge">
+ update pickout_prod_bridge set preout_amt=preout_amt+#{preoutAmt},out_amt=out_amt-#{preoutAmt} where pickout_prod_id=#{pickoutProdId}
+ </insert>
+ 
+ <update id="updatepickout" parameterType="com.sanyang.logistics.base.pojo.PrepareOutWarehouse">
+UPDATE prepare_out_warehouse SET done_flag='Y' WHERE preout_id=${preoutId}
+ </update>
+ 
+</mapper>

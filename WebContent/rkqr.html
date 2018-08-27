@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/bootstarp-3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function() {
+				$("#getall").click(function() {
+					$("#tab").bootstrapTable("refresh");
+
+				})
+				$.getJSON("jh/getAllW.action", function(data) {
+					for(i = 0; i < data.length; i++) {
+						//						alert(data[i].whId)
+						$("#whId").append("<option value='" + data[i].whId + "'>" + data[i].name + "</option>");
+					}
+				})
+				$("#tab").bootstrapTable({
+					type: "post",
+					url: "shgl/getAllR.action",
+					pagesize: "3",
+					queryParams: queryparam,
+					columns: [{
+						field: "rcptId",
+						title: "收货单据号",
+						align: "center",
+					}, {
+						field: "name",
+						title: "仓库",
+						align: "center",
+					}, {
+						field: "planReceiptDate",
+						title: "预计到库时间",
+						align: "center",
+					}, {
+						field: "xname",
+						title: "状态",
+						align: "center",
+					}, {
+						title: '入库操作',
+						align: 'center',
+						formatter: function(value, row, index) {
+							return "<button class='btn btn-warning' data-toggle='modal' data-target='#myModal1' onclick='rkcz(" + row.rcptId + ")'><span class='glyphicon  glyphicon-check' aria-hidden='true'></span></button>"
+						}
+					}]
+				})
+
+				//关闭模态框刷新页面
+				$(function() {
+					$("#mo1").click(function() {
+						window.location.replace("rkqr.html");
+					})
+
+				})
+
+			})
+
+			function rkcz(rcptId) {
+				$("#rcptId").val(rcptId)
+				$("#tab2").bootstrapTable({
+					type: "post",
+					url: "shgl/getRk.action",
+					pagesize: "3",
+					queryParams: {
+						"rcptId": rcptId
+					},
+					columns: [{
+						field: "preind",
+						title: "入库id",
+						align: "center",
+					}, {
+						field: "pname",
+						title: "货物名称",
+						align: "center",
+					}, {
+						field: "ptype",
+						title: '货物类型',
+						align: 'center',
+					}, {
+						field: "packageName",
+						title: "包装单位",
+						align: "center",
+					}, {
+						field: "storeAmt",
+						title: "存放数量",
+						align: "center",
+					}, {
+						field: "hname",
+						title: "状态",
+						align: "center",
+					}]
+				})
+			}
+			function upd(rcptId) {
+//				alert($("#rcptId").val())
+             alert("确定入库?")
+				$.ajax({
+					type: "post",
+					url: "shgl/upd.action",
+					data: "rcptId=" +$("#rcptId").val(),
+					success: function(data) {
+						$("#tab2").bootstrapTable("refresh");
+					}
+				});
+
+			}
+			function queryparam() {
+				return {
+					'whId': $("#whId").val()
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<form>
+
+			<div class="col-md-2">
+				<select class="form-control" id="whId" name="wh_id">
+					<option value="0">--请选择仓库--</option>
+				</select>
+			</div>
+			<input type="button" class="btn btn-success" id="getall" value="提交" />
+		</form>
+		<br />
+
+		<table id="tab"></table>
+		<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+			<div class="modal-dialog modal-lg" style="width: 1300px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">入库</h4>
+					</div>
+
+						<div class="modal-body">
+							<table class="table table-hover table-bordered" id="tab2">
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="mo1">关闭</button>
+							<button type="button" class="btn btn-primary" onclick='upd(rcptId)'>提交</button>
+						</div>
+                        <input type="hidden" name="rcptId"  id="rcptId" />
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+	</body>
+
+</html>

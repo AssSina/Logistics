@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sanyang.logistics.ymm.mapper.DdshMapper">
+
+<resultMap type="com.sanyang.logistics.base.pojo.Sysorders" id="BaseResultMap">
+
+<id jdbcType="INTEGER" property="oid" column="oid"/>
+
+<result jdbcType="VARCHAR" property="cusOrderNo" column="cus_order_no"/>
+
+<result jdbcType="INTEGER" property="parentOid" column="parent_oid"/>
+
+<result jdbcType="INTEGER" property="custId" column="cust_id"/>
+
+<result jdbcType="INTEGER" property="sysOrderTypeId" column="sys_order_type_id"/>
+
+<result jdbcType="INTEGER" property="custOrderTypeId" column="cust_order_type_id"/>
+
+<result jdbcType="VARCHAR" property="fromAddress" column="from_address"/>
+
+<result jdbcType="VARCHAR" property="toAddress" column="to_address"/>
+
+<result jdbcType="VARCHAR" property="toCustomer" column="to_customer"/>
+
+<result jdbcType="INTEGER" property="fromWarehouse" column="from_warehouse"/>
+
+<result jdbcType="INTEGER" property="toWarehouse" column="to_warehouse"/>
+
+<result jdbcType="INTEGER" property="orderStatus" column="order_status"/>
+
+<result jdbcType="INTEGER" property="productCount" column="product_count"/>
+
+<result jdbcType="VARCHAR" property="trucktype" column="trucktype"/>
+
+<result jdbcType="TIMESTAMP" property="planTrsprtDate" column="plan_trsprt_date"/>
+
+<result jdbcType="TIMESTAMP" property="planArrivalDate" column="plan_arrival_date"/>
+
+<result jdbcType="TIMESTAMP" property="planOutDate" column="plan_out_date"/>
+
+<result jdbcType="TIMESTAMP" property="planInDate" column="plan_in_date"/>
+
+<result jdbcType="VARCHAR" property="contactPhone" column="contact_phone"/>
+
+<result jdbcType="VARCHAR" property="contactPerson" column="contact_person"/>
+
+<result jdbcType="CHAR" property="takeMoneyFlag" column="take_money_flag"/>
+
+<result jdbcType="CHAR" property="truckflag" column="truckflag"/>
+
+<result jdbcType="INTEGER" property="regionId" column="region_id"/>
+
+<result jdbcType="TIMESTAMP" property="createtime" column="createtime"/>
+
+<result jdbcType="VARCHAR" property="description" column="description"/>
+
+<result jdbcType="VARCHAR" property="createperson" column="createperson"/>
+
+
+</resultMap>
+
+
+<select id="tolistsys"  resultMap="BaseResultMap"  parameterType="com.sanyang.logistics.base.pojo.Sysorders">
+	 select * from sysorders,order_status,customer,customer_ordertype,sys_order_type where sysorders.cust_id=customer.cid and sysorders.sys_order_type_id=sys_order_type.order_type_id and sysorders.cust_order_type_id=customer_ordertype.cust_ordertype_id and sysorders.order_status=order_status.sid
+	 and sysorders.order_status=3 or sysorders.order_status=6
+	 
+	 <if test="cusOrderNo!='' and cusOrderNo!=null">
+			and cus_order_no like '%${cusOrderNo}%'
+		</if>
+		<if test="cname!='' and cname!=null">
+			and customer.cname like '%${cname}%'
+		</if>
+		<if test="statusname!='' and statusname!=null">
+			and order_status.statusname like '%${statusname}%'
+		</if>
+		<if test="description!='' and description!=null">
+			and sysorders.description like '%${description}%'
+		</if>
+		<if test="planTrsprtDate!='' and planTrsprtDate!=null">
+			and plan_trsprt_date='${planTrsprtDate}'
+		</if>
+		<if test="planArrivalDate!='' and planArrivalDate!=null">
+			and plan_arrival_date='${planArrivalDate}'
+		</if>
+</select>
+<select id="selpz"  resultMap="BaseResultMap"  parameterType="Integer">
+	 select sys_order_type.typename,sysorders.*,customer.cname,customer_ordertype.name,warehouse.name s,warehouse_copy.name ss from warehouse_copy,warehouse,sys_order_type,
+sysorders,customer,customer_ordertype where sysorders.cust_id=customer.cid  and sysorders.cust_order_type_id=customer_ordertype.cust_ordertype_id and sysorders.sys_order_type_id=sys_order_type.order_type_id 
+and sysorders.to_warehouse=warehouse.wh_id and sysorders.from_warehouse=warehouse_copy.wh_id
+	and sysorders.oid=#{value}
+</select>
+
+<update id="updsh"  parameterType="Integer">
+update sysorders set order_status=3 where oid=#{value}
+</update>
+
+<update id="getno"  parameterType="Integer">
+update sysorders set order_status=2 where oid=#{value}
+</update>
+
+
+
+
+</mapper>

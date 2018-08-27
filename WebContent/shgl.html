@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/bootstarp-3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<script type="text/javascript">
+		$(function() {
+			$("#getall").click(function() {
+				$("#tab").bootstrapTable("refresh");
+
+			})
+			$.getJSON("jh/getAllW.action", function(data) {
+				for(i = 0; i < data.length; i++) {
+					//						alert(data[i].whId)
+					$("#whId").append("<option value='" + data[i].whId + "'>" + data[i].name + "</option>");
+				}
+			})
+			$("#tab").bootstrapTable({
+				type: "post",
+				url: "shgl/getAllR.action",
+				pagesize: "3",
+				queryParams: queryparam,
+				columns: [{
+					field: "rcptId",
+					title: "收货单据号",
+					align: "center",
+				}, {
+					field: "name",
+					title: "仓库",
+					align: "center",
+				}, {
+					field: "planReceiptDate",
+					title: "预计到库时间",
+					align: "center",
+				}, {
+					field: "xname",
+					title: "状态",
+					align: "center",
+				}, {
+					title: '收货操作',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return "<button class='btn btn-primary' data-toggle='modal' data-target='#myModal1' onclick='rxh1(" + row.rcptId + ")'><span class='glyphicon glyphicon glyphicon-list-alt' aria-hidden='true'></span></button>"
+					}
+				}, {
+					title: '指定库位',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return "<button class='btn btn-warning' data-toggle='modal' data-target='#myModal3' onclick='rxh2(" + row.rcptId + ")'><span class='glyphicon glyphicon glyphicon-edit' aria-hidden='true'></span></button>"
+					}
+				}, {
+					title: '准备入库',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return "<button class='btn btn-success' data-toggle='modal' data-target='#myModal4' onclick='rxh3(" + row.rcptId + ")'><span class='glyphicon glyphicon glyphicon-check' aria-hidden='true'></span></button>"
+					}
+				}]
+			})
+
+			$("#btn3").click(function() {
+				//				alert($("#f1").serialize())
+
+				$.ajax({
+					type: "post",
+					url: "shgl/ins.action",
+					dataType: "json",
+					data: $("#f1").serialize(),
+					success: function(data) {
+						$("#tab3").bootstrapTable("refresh");
+					}
+				});
+
+			})
+
+		})
+		//关闭模态框刷新页面
+		$(function() {
+			$("#mo1").click(function() {
+				window.location.replace("shgl.html");
+			})
+
+		})
+		//关闭模态框刷新页面
+		$(function() {
+			$("#mo2").click(function() {
+				window.location.replace("shgl.html");
+			})
+
+		})
+		//关闭模态框刷新页面
+		$(function() {
+			$("#mo3").click(function() {
+				window.location.replace("shgl.html");
+			})
+
+		})
+		//准备入库
+		function rxh3(rcptId) {
+			//			alert(rcptId)
+			$.ajax({
+				type: "post",
+				url: "shgl/getR.action",
+				data: "rcptId=" + rcptId,
+				success: function(data) {
+					if(data.length != 0) {
+						alert("拣货未完成，正在拣货...")
+					} else if(data.length == 0) {
+						alert(data)
+						$.ajax({
+							type: "post",
+							url: "shgl/updateReceipt.action",
+							data: "rcptId=" + rcptId,
+							success: function(data) {
+								alert(data)
+								$("#tab").bootstrapTable("refresh");
+							}
+						})
+					}
+				}
+			})
+		}
+		//收货
+		function rxh1(rcptId) {
+			$("#tab2").bootstrapTable({
+				type: "post",
+				url: "shgl/getRcpt.action",
+				pagesize: "3",
+				queryParams: {
+					"rcptId": rcptId
+				},
+				columns: [{
+					field: "rcptProdId",
+					title: "货物编号",
+					align: "center",
+				}, {
+					field: "pname",
+					title: "货物名称",
+					align: "center",
+				}, {
+					field: "planAmt",
+					title: "计划数量",
+					align: "center",
+				}, {
+					field: "name",
+					title: "包装单位",
+					align: "center",
+				}, {
+					field: "incount",
+					title: '实收数量',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return '<form class="form-inline"><button type="button"  class="btn btn-danger addBtn glyphicon glyphicon-plus" onclick="add(' + row.planAmt + ',' + index + ')" ></button> <input type="text"  class="form-control number" style="width:60px"  onblur="num(' + row.planAmt + ',' + index + ')" value="' + row.incount + '">  <button type="button" class="btn btn-primary glyphicon glyphicon-minus reduceBtn"  onclick="reduce(' + row.planAmt + ',' + index + ')" ></button></form>'
+					}
+				}, {
+					field: "lostcount",
+					title: '丢失数量',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return '<form class="form-inline"><button type="button"  class="btn btn-danger addBtn2 glyphicon glyphicon-plus" onclick="add2(' + row.planAmt + ',' + index + ')" ></button>  <input type="text"  class="form-control number2" style="width:60px" onblur="num2(' + row.planAmt + ',' + index + ')" value="' + row.lostcount + '">  <button type="button" class="btn btn-primary glyphicon glyphicon-minus reduceBtn2"  onclick="reduce2(' + row.planAmt + ',' + index + ')" ></button></form>'
+					}
+				}, {
+					field: "destorycount",
+					title: '货损数量',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return '<form class="form-inline"><button type="button"  class="btn btn-danger addBtn4 glyphicon glyphicon-plus" onclick="add4(' + row.incount + ',' + index + ')" ></button>  <input type="text"  class="form-control number4" style="width:60px" onblur="num4(' + row.incount + ',' + index + ')" value="' + row.destorycount + '">  <button type="button" class="btn btn-primary glyphicon glyphicon-minus reduceBtn4"  onclick="reduce4(' + row.incount + ',' + index + ')" ></button></form>'
+					}
+				}, {
+					title: '操作',
+					align: 'center',
+					formatter: function(value, row, index) {
+
+						return "<button class='btn  btn-warning' onclick='rxh4(" + row.incount + "," + index + "," + row.lostcount + "," + row.destorycount + "," + row.rcptProdId + ")'>确定</button>"
+					}
+				}, {
+					title: '货损录入',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return "<button class='btn btn-info'  onclick='hslr(" + row.prodId + "," + row.rcptId + ","+ index + ")'><span class='glyphicon glyphicon-th-list' aria-hidden='true'></span></button>"
+					}
+				}]
+			})
+		}
+
+		function rxh4(incount, index, lostcount, destorycount, rcptProdId) {
+
+			alert("确定入库数量?")
+			$.ajax({
+				type: "post",
+				url: "shgl/updsh.action",
+				data: "incount=" + $(".number:eq(" + index + ")").val() + "&lostcount=" + $(".number2:eq(" + index + ")").val() + "&destorycount=" + $(".number4:eq(" + index + ")").val() + "&rcptProdId=" + rcptProdId,
+				success: function(data) {
+					//					alert(data)
+					$("#tab2").bootstrapTable("refresh");
+				}
+			});
+
+		}
+
+		function hslr(prodId, rcptId, index) {
+			//				alert(prodId)
+			
+//       alert($(".number4:eq(" + index + ")").val())
+			if( $(".number4:eq(" + index + ")").val() == 0) {
+				alert("货损数量为0!")
+				
+			} else if($(".number4:eq(" + index + ")").val() != 0) {
+				$("#myModal2").modal("show");
+				
+			}
+			
+			$.ajax({
+					type: "post",
+					url: "shgl/gethslr.action",
+					data: "prodId=" + prodId,
+					success: function(data) {
+						//						alert(data.name);.
+						$("#rcptId20").val(data.rcptId);
+						$("#prodId").val(data.prodId);
+						$("#pname").val(data.name);
+					}
+				});
+
+			$("#tab3").bootstrapTable({
+				type: "post",
+				url: "shgl/getHs.action",
+				pagesize: "3",
+				queryParams: {
+					"rcptId": rcptId
+				},
+				columns: [{
+					field: "damageid",
+					title: "货损编号",
+					align: "center",
+				}, {
+					field: "pname",
+					title: "货物名称",
+					align: "center",
+				}, {
+					field: "barCode",
+					title: '条形码',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return '<form class="form-inline"> <input type="text" value="' + row.barCode + '"  class="form-control number" style="width:80px"></form>'
+					}
+				}, {
+					field: "damageDegree",
+					title: '货损程度',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return '<form class="form-inline"> <input type="text"  value="' + row.damageDegree + '"  class="form-control number" style="width:80px"></form>'
+					}
+				}, {
+					title: '操作',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return "<button class='btn btn-danger'  onclick='hs(" + row.damageid + ")'><span class='glyphicon glyphicon glyphicon-trash' aria-hidden='true'></span></button>"
+					}
+				}]
+			})
+		}
+
+		function hs(damageid) {
+			alert(damageid)
+			alert("确定删除?")
+			$.ajax({
+				type: "post",
+				url: "shgl/deld.action",
+				data: "damageid=" + damageid,
+				success: function(data) {
+					//					
+					$("#tab3").bootstrapTable("refresh");
+				}
+			});
+
+		}
+
+		function rxh2(rcptId) {
+			$("#tab4").bootstrapTable({
+				type: "post",
+				url: "shgl/getR.action",
+				pagesize: "3",
+				queryParams: {
+					"rcptId": rcptId
+				},
+				columns: [{
+					field: "rcptProdId",
+					title: "货物编号",
+					align: "center",
+				}, {
+					field: "pname",
+					title: "货物名称",
+					align: "center",
+				}, {
+					field: "name",
+					title: "包装单位",
+					align: "center",
+				}, {
+					field: "planAmt",
+					title: "计划数量",
+					align: "center",
+				}, {
+					field: "preinAmt",
+					title: '剩余数量',
+					align: 'center',
+				}, {
+					field: "inAmt",
+					title: '已预留数量',
+					align: 'center',
+
+				}, {
+					title: '预留数量',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return '<form class="form-inline"><button type="button"  class="btn btn-primary addBtn3 glyphicon glyphicon-plus" onclick="add3(' + row.preinAmt + ',' + index + ')" ></button>  <input type="text"  class="form-control number3" style="width:60px" onblur="num3(' + row.preinAmt + ',' + index + ')" value="0">  <button type="button" class="btn btn-danger glyphicon glyphicon-minus reduceBtn3"  onclick="reduce3(' + row.preinAmt + ',' + index + ')" ></button></form>'
+					}
+				}, {
+					title: '操作',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return "<button class='btn  btn-success' onclick='upd(" + row.rcptProdId + "," + index + "," + row.rcptProdId + ")'>确定</button>"
+					}
+				}]
+			})
+			$("#tab5").bootstrapTable({
+				type: "post",
+				url: "shgl/getRk.action",
+				pagesize: "3",
+				queryParams: {
+					"rcptId": rcptId
+				},
+				columns: [{
+					field: "preind",
+					title: "入库id",
+					align: "center",
+				}, {
+					field: "pname",
+					title: "货物名称",
+					align: "center",
+				}, {
+					field: "ptype",
+					title: '货物类型',
+					align: 'center',
+				}, {
+					field: "packageName",
+					title: "包装单位",
+					align: "center",
+				}, {
+					field: "storeAmt",
+					title: "存放数量",
+					align: "center",
+				}, {
+					title: '操作',
+					align: 'center',
+					formatter: function(value, row, index) {
+						return "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='del(" + row.preind + "," + row.storeAmt + "," + row.rcptProdId + ")'></button>"
+					}
+				}]
+			})
+
+		}
+
+		function upd(rcptProdId, index, rcptId) {
+			alert("确定预留数量？")
+			//				alert(rcptProdId)
+			//			  alert($(".number3:eq(" + index + ")").val())
+			if($(".number3:eq(" + index + ")").val() != 0) {
+				$.ajax({
+					type: "post",
+					url: "shgl/upda.action",
+					data: "nums=" + $(".number3:eq(" + index + ")").val() + "&rcptProdId=" + rcptProdId + "&rcptId=" + rcptId,
+					success: function(data) {
+						//							alert(data)
+						$("#tab4").bootstrapTable("refresh");
+						$("#tab5").bootstrapTable("refresh");
+					}
+				});
+			} else {
+				alert("预留数量不能等于0！")
+			}
+		}
+
+		//删除
+		function del(preind, storeAmt, rcptProdId) {
+			//				alert(preind)
+			alert("确定删除?")
+			$.ajax({
+				type: "post",
+				url: "shgl/del.action",
+				data: "preind=" + preind + "&storeAmt=" + storeAmt + "&rcptProdId=" + rcptProdId,
+				success: function(data) {
+					//						alert(data)
+					$("#tab5").bootstrapTable("refresh");
+					$("#tab4").bootstrapTable("refresh");
+				}
+			});
+		}
+
+		function queryparam() {
+			return {
+				'whId': $("#whId").val()
+			}
+		}
+
+		function num(planAmt, index) {
+			var out_amt2 = $(".number:eq(" + index + ")").val();
+			//				alert(out_amt2)
+			if(out_amt2 > planAmt) {
+				out_amt2 = planAmt;
+				$(".addBtn:eq(" + index + ")").attr("disabled", "disabled");
+				$(".reduceBtn:eq(" + index + ")").removeAttr("disabled");
+			} else if(out_amt2 < 0) {
+				out_amt2 = 0;
+				$(".reduceBtn:eq(" + index + ")").attr("disabled", "disabled");
+				$(".addBtn:eq(" + index + ")").removeAttr("disabled");
+			} else {
+				$(".addBtn:eq(" + index + ")").removeAttr("disabled");
+				$(".reduceBtn:eq(" + index + ")").removeAttr("disabled");
+			}
+			$(".number:eq(" + index + ")").val(out_amt2);
+		}
+
+		function reduce(planAmt, index) {
+			var out_amt2 = $(".number:eq(" + index + ")").val();
+			out_amt2 = parseInt(out_amt2) - 1;
+			if(out_amt2 < 0) {
+				out_amt2 = 0;
+				$(".reduceBtn:eq(" + index + ")").attr("disabled", "disabled");
+			} else if(out_amt2 < planAmt) {
+
+				$(".addBtn:eq(" + index + ")").removeAttr("disabled");
+			}
+			$(".number:eq(" + index + ")").val(out_amt2);
+		}
+
+		function add(planAmt, index) {
+			var out_amt1 = $(".number:eq(" + index + ")").val();
+			//				alert($(".number"))
+			//				 var out_amt1= demo[index];
+			out_amt1 = parseInt(out_amt1) + 1;
+
+			if(out_amt1 > planAmt) {
+				out_amt1 = planAmt;
+				$(".addBtn:eq(" + index + ")").attr("disabled", "disabled");
+			} else if(out_amt1 > 0) {
+
+				$(".reduceBtn:eq(" + index + ")").removeAttr("disabled")
+			}
+			$(".number:eq(" + index + ")").val(out_amt1);
+		}
+
+		function num3(preinAmt, index) {
+			var out_amt2 = $(".number3:eq(" + index + ")").val();
+			if(out_amt2 > preinAmt) {
+				out_amt2 = preinAmt;
+				$(".addBtn3:eq(" + index + ")").attr("disabled", "disabled");
+				$(".reduceBtn3:eq(" + index + ")").removeAttr("disabled");
+			} else if(out_amt2 < 0) {
+				out_amt2 = 0;
+				$(".reduceBtn3:eq(" + index + ")").attr("disabled", "disabled");
+				$(".addBtn3:eq(" + index + ")").removeAttr("disabled");
+			} else {
+				$(".addBtn3:eq(" + index + ")").removeAttr("disabled");
+				$(".reduceBtn3:eq(" + index + ")").removeAttr("disabled");
+			}
+			$(".number3:eq(" + index + ")").val(out_amt2);
+		}
+
+		function reduce3(preinAmt, index) {
+			var out_amt2 = $(".number3:eq(" + index + ")").val();
+			out_amt2 = parseInt(out_amt2) - 1;
+			if(out_amt2 < 0) {
+				out_amt2 = 0;
+				$(".reduceBtn3:eq(" + index + ")").attr("disabled", "disabled");
+			} else if(out_amt2 < preinAmt) {
+
+				$(".addBtn3:eq(" + index + ")").removeAttr("disabled");
+			}
+			$(".number3:eq(" + index + ")").val(out_amt2);
+		}
+
+		function add3(preinAmt, index) {
+			var out_amt1 = $(".number3:eq(" + index + ")").val();
+			out_amt1 = parseInt(out_amt1) + 1;
+			if(out_amt1 > preinAmt) {
+				out_amt1 = preinAmt;
+				$(".addBtn3:eq(" + index + ")").attr("disabled", "disabled");
+			} else if(out_amt1 > 0) {
+
+				$(".reduceBtn3:eq(" + index + ")").removeAttr("disabled")
+			}
+			$(".number3:eq(" + index + ")").val(out_amt1);
+		}
+
+		function num2(planAmt, index) {
+			var out_amt2 = $(".number2:eq(" + index + ")").val();
+			//				alert(out_amt2)
+			if(out_amt2 > planAmt) {
+				out_amt2 = planAmt;
+				$(".addBtn2:eq(" + index + ")").attr("disabled", "disabled");
+				$(".reduceBtn2:eq(" + index + ")").removeAttr("disabled");
+			} else if(out_amt2 < 0) {
+				out_amt2 = 0;
+				$(".reduceBtn2:eq(" + index + ")").attr("disabled", "disabled");
+				$(".addBtn2:eq(" + index + ")").removeAttr("disabled");
+			} else {
+				$(".addBtn2:eq(" + index + ")").removeAttr("disabled");
+				$(".reduceBtn2:eq(" + index + ")").removeAttr("disabled");
+			}
+			$(".number2:eq(" + index + ")").val(out_amt2);
+		}
+
+		function reduce2(planAmt, index) {
+			var out_amt2 = $(".number2:eq(" + index + ")").val();
+			alert(out_amt2)
+			out_amt2 = parseInt(out_amt2) - 1;
+			if(out_amt2 < 0) {
+				out_amt2 = 0;
+				$(".reduceBtn2:eq(" + index + ")").attr("disabled", "disabled");
+			} else if(out_amt2 < planAmt) {
+
+				$(".addBtn2:eq(" + index + ")").removeAttr("disabled");
+			}
+			$(".number2:eq(" + index + ")").val(out_amt2);
+		}
+
+		function add2(planAmt, index) {
+			var out_amt1 = $(".number2:eq(" + index + ")").val();
+			alert(out_amt1)
+			out_amt1 = parseInt(out_amt1) + 1;
+			if(out_amt1 > planAmt) {
+				out_amt1 = planAmt;
+				$(".addBtn2:eq(" + index + ")").attr("disabled", "disabled");
+			} else if(out_amt1 > 0) {
+
+				$(".reduceBtn2:eq(" + index + ")").removeAttr("disabled")
+			}
+			$(".number2:eq(" + index + ")").val(out_amt1);
+		}
+
+		function num4(incount, index) {
+			var out_amt2 = $(".number4:eq(" + index + ")").val();
+			//				alert(out_amt2)
+			if(out_amt2 > incount) {
+				out_amt2 = incount;
+				$(".addBtn4:eq(" + index + ")").attr("disabled", "disabled");
+				$(".reduceBtn4:eq(" + index + ")").removeAttr("disabled");
+			} else if(out_amt2 < 0) {
+				out_amt2 = 0;
+				$(".reduceBtn4:eq(" + index + ")").attr("disabled", "disabled");
+				$(".addBtn4:eq(" + index + ")").removeAttr("disabled");
+			} else {
+				$(".addBtn4:eq(" + index + ")").removeAttr("disabled");
+				$(".reduceBtn4:eq(" + index + ")").removeAttr("disabled");
+			}
+			$(".number4:eq(" + index + ")").val(out_amt2);
+		}
+
+		function reduce4(incount, index) {
+			var out_amt2 = $(".number4:eq(" + index + ")").val();
+			out_amt2 = parseInt(out_amt2) - 1;
+			if(out_amt2 < 0) {
+				out_amt2 = 0;
+				$(".reduceBtn4:eq(" + index + ")").attr("disabled", "disabled");
+			} else if(out_amt2 < incount) {
+
+				$(".addBtn4:eq(" + index + ")").removeAttr("disabled");
+			}
+			$(".number4:eq(" + index + ")").val(out_amt2);
+		}
+
+		function add4(incount, index) {
+			var out_amt1 = $(".number4:eq(" + index + ")").val();
+			out_amt1 = parseInt(out_amt1) + 1;
+			if(out_amt1 > incount) {
+				out_amt1 = incount;
+				$(".addBtn4:eq(" + index + ")").attr("disabled", "disabled");
+			} else if(out_amt1 > 0) {
+
+				$(".reduceBtn4:eq(" + index + ")").removeAttr("disabled")
+			}
+			$(".number4:eq(" + index + ")").val(out_amt1);
+		}
+	</script>
+
+	<body>
+		<form>
+			<div class="col-md-2">
+				<select class="form-control" id="whId" name="wh_id">
+					<option value="0">--请选择仓库--</option>
+				</select>
+			</div>
+			<input type="button" class="btn btn-success" id="getall" value="提交" />
+		</form>
+		<br />
+
+		<table id="tab"></table>
+
+		<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+			<div class="modal-dialog modal-lg" style="width: 1300px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">收货</h4>
+					</div>
+					<div class="modal-body">
+						<table class="table table-hover table-bordered" id="tab2">
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="mo1">关闭</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+			<div class="modal-dialog modal-lg" style="width:900px;">
+				<div class="modal-content">
+					<div class="modal-body">
+						<h4 class="modal-title" id="myModalLabel">货损录入</h4>
+						<form id="f1">
+							<input type="hidden" name="rcptId" id="rcptId20" />
+							<table class="table table-hover table-bordered" width="700px" align="center">
+								<tr>
+									<td>货物编号</td>
+									<td><input type="text" readonly="readonly" class="form-control" style="width: 150px;" name="prodId" id="prodId"></td>
+								</tr>
+								<tr>
+									<td>货物名称</td>
+									<td><input type="text" readonly="readonly" class="form-control" style="width: 150px;" name="pname" id="pname"></td>
+								</tr>
+								<tr>
+									<td>条形码</td>
+									<td>
+										<input type="text" placeholder="--请输入条形码--" name="barCode" class="form-control number" style="width:150px">
+									</td>
+								</tr>
+								<tr>
+									<td>货损程度</td>
+									<td>
+										<input type="text" placeholder="--请输入货损程度--" name="damageDegree" class="form-control number" style="width:150px">
+									</td>
+								</tr>
+								<tr align="center">
+
+									<td colspan="2" align="center"><button type="button" id="btn3" class="btn btn-success">提交</button></td>
+								</tr>
+								<br />
+								<br />
+							</table>
+						</form>
+						<table class="table table-hover table-bordered" id="tab3">
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="mo2">关闭</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+		<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+			<div class="modal-dialog modal-lg" style="width: 1300px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">指定库位</h4>
+					</div>
+					<div class="modal-body">
+						<table class="table table-hover table-bordered" id="tab4">
+						</table>
+						<br />
+						<br />
+						<h4 class="modal-title" id="myModalLabel">预入库</h4>
+						<table class="table table-hover table-bordered" id="tab5">
+
+						</table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="mo3">关闭</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+	</body>
+
+</html>

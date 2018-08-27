@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sanyang.logistics.ymm.mapper.CustMapper">
+<resultMap type="com.sanyang.logistics.base.pojo.Sysorders" id="BaseResultMap">
+
+<id jdbcType="INTEGER" property="oid" column="oid"/>
+
+<result jdbcType="VARCHAR" property="cusOrderNo" column="cus_order_no"/>
+
+<result jdbcType="INTEGER" property="parentOid" column="parent_oid"/>
+
+<result jdbcType="INTEGER" property="custId" column="cust_id"/>
+
+<result jdbcType="INTEGER" property="sysOrderTypeId" column="sys_order_type_id"/>
+
+<result jdbcType="INTEGER" property="custId" column="cust_order_type_id"/>
+
+<result jdbcType="VARCHAR" property="fromAddress" column="from_address"/>
+
+<result jdbcType="VARCHAR" property="toAddress" column="to_address"/>
+
+<result jdbcType="VARCHAR" property="toCustomer" column="to_customer"/>
+
+<result jdbcType="INTEGER" property="fromWarehouse" column="from_warehouse"/>
+
+<result jdbcType="INTEGER" property="toWarehouse" column="to_warehouse"/>
+
+<result jdbcType="INTEGER" property="orderStatus" column="order_status"/>
+
+<result jdbcType="INTEGER" property="productCount" column="product_count"/>
+
+<result jdbcType="VARCHAR" property="trucktype" column="trucktype"/>
+
+<result jdbcType="TIMESTAMP" property="planTrsprtDate" column="plan_trsprt_date"/>
+
+<result jdbcType="TIMESTAMP" property="planArrivalDate" column="plan_arrival_date"/>
+
+<result jdbcType="TIMESTAMP" property="planOutDate" column="plan_out_date"/>
+
+<result jdbcType="TIMESTAMP" property="planInDate" column="plan_in_date"/>
+
+<result jdbcType="VARCHAR" property="contactPhone" column="contact_phone"/>
+
+<result jdbcType="VARCHAR" property="contactPerson" column="contact_person"/>
+
+<result jdbcType="CHAR" property="takeMoneyFlag" column="take_money_flag"/>
+
+<result jdbcType="CHAR" property="truckflag" column="truckflag"/>
+
+<result jdbcType="INTEGER" property="regionId" column="region_id"/>
+
+<result jdbcType="TIMESTAMP" property="createtime" column="createtime"/>
+
+<result jdbcType="VARCHAR" property="description" column="description"/>
+
+<result jdbcType="VARCHAR" property="createperson" column="createperson"/>
+
+
+</resultMap>
+
+
+<resultMap type="com.sanyang.logistics.base.pojo.Warehouse" id="SysResultMap">
+
+<id jdbcType="INTEGER" property="whId" column="wh_id"/>
+
+<result jdbcType="INTEGER" property="typeId" column="type_id"/>
+
+<result jdbcType="VARCHAR" property="name" column="name"/>
+
+<result jdbcType="VARCHAR" property="whno" column="whno"/>
+
+<result jdbcType="VARCHAR" property="address" column="address"/>
+
+<result jdbcType="VARCHAR" property="principle" column="principle"/>
+
+<result jdbcType="INTEGER" property="height" column="height"/>
+
+<result jdbcType="INTEGER" property="area" column="area"/>
+
+<result jdbcType="INTEGER" property="fireproofLevel" column="fireproof_level"/>
+
+<result jdbcType="INTEGER" property="whtype" column="whtype"/>
+
+<result jdbcType="VARCHAR" property="material" column="material"/>
+
+<result jdbcType="INTEGER" property="bearingWeigh" column="bearing_weigh"/>
+
+<result jdbcType="TIMESTAMP" property="createDate" column="create_date"/>
+
+<result jdbcType="TIMESTAMP" property="updateDate" column="update_date"/>
+
+<result jdbcType="VARCHAR" property="contact" column="contact"/>
+
+<result jdbcType="VARCHAR" property="firelevel" column="firelevel"/>
+
+</resultMap>
+
+
+
+<resultMap type="com.sanyang.logistics.base.pojo.CustomerOrdertype" id="CustResultMap">
+
+<id jdbcType="INTEGER" property="custOrdertypeId" column="cust_ordertype_id"/>
+
+<result jdbcType="INTEGER" property="cid" column="cid"/>
+
+<result jdbcType="INTEGER" property="sysordertypeId" column="sysordertype_id"/>
+
+<result jdbcType="VARCHAR" property="name" column="name"/>
+
+<result jdbcType="VARCHAR" property="description" column="description"/>
+
+</resultMap>
+
+
+<resultMap type="com.sanyang.logistics.base.pojo.Customer" id="MerResultMap">
+
+<id jdbcType="INTEGER" property="cid" column="cid"/>
+
+<result jdbcType="VARCHAR" property="cname" column="cname"/>
+
+<result jdbcType="VARCHAR" property="address" column="address"/>
+
+<result jdbcType="VARCHAR" property="contact" column="contact"/>
+
+<result jdbcType="VARCHAR" property="fax" column="fax"/>
+
+<result jdbcType="INTEGER" property="zip" column="zip"/>
+
+<result jdbcType="VARCHAR" property="principal" column="principal"/>
+
+<result jdbcType="VARCHAR" property="description" column="description"/>
+
+</resultMap>
+
+
+
+
+<resultMap type="com.sanyang.logistics.base.pojo.SysOrderType" id="sysoResultMap">
+
+<id jdbcType="INTEGER" property="orderTypeId" column="order_type_id"/>
+
+<result jdbcType="VARCHAR" property="typename" column="typename"/>
+
+<result jdbcType="VARCHAR" property="description" column="description"/>
+
+</resultMap>
+
+
+<resultMap type="com.sanyang.logistics.base.pojo.Product" id="ProesultMap">
+
+<id jdbcType="INTEGER" property="pid" column="pid"/>
+
+<result jdbcType="VARCHAR" property="pname" column="pname"/>
+
+<result jdbcType="VARCHAR" property="catery" column="catery"/>
+
+<result jdbcType="VARCHAR" property="pmodel" column="pmodel"/>
+
+<result jdbcType="VARCHAR" property="code" column="code"/>
+
+<result jdbcType="VARCHAR" property="provider" column="provider"/>
+
+<result jdbcType="TIMESTAMP" property="createDate" column="create_date"/>
+
+<result jdbcType="TIMESTAMP" property="updateDate" column="update_date"/>
+
+<result jdbcType="INTEGER" property="packageId" column="package_id"/>
+
+<result jdbcType="VARCHAR" property="status" column="status"/>
+
+</resultMap>
+
+
+<resultMap type="com.sanyang.logistics.base.pojo.SysorderProduct" id="AgeResultMap">
+<result jdbcType="VARCHAR" property="ruleDescription" column="rule_description"/>
+
+</resultMap>
+
+
+
+	<select id="tolistcust" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.Sysorders">
+	 select * from sysorders,order_status,customer,customer_ordertype,sys_order_type where sysorders.cust_id=customer.cid and sysorders.sys_order_type_id=sys_order_type.order_type_id and sysorders.cust_order_type_id=customer_ordertype.cust_ordertype_id and sysorders.order_status=order_status.sid
+		
+		<if test="cusOrderNo!='' and cusOrderNo!=null">
+			and cus_order_no like '%${cusOrderNo}%'
+		</if>
+		<if test="cname!='' and cname!=null">
+			and customer.cname like '%${cname}%'
+		</if>
+		<if test="statusname!='' and statusname!=null">
+			and order_status.statusname like '%${statusname}%'
+		</if>
+		<if test="description!='' and description!=null">
+			and sysorders.description like '%${description}%'
+		</if>
+		<if test="planTrsprtDate!='' and planTrsprtDate!=null">
+			and plan_trsprt_date='${planTrsprtDate}'
+		</if>
+		<if test="planArrivalDate!='' and planArrivalDate!=null">
+			and plan_arrival_date='${planArrivalDate}'
+		</if>
+		
+	
+	</select>
+	
+	<select id="tolistsys" resultType="com.sanyang.logistics.base.pojo.Sysorders" resultMap="BaseResultMap">
+	select * from sysorders
+	</select>
+	
+	<select id="tolistwar" resultType="com.sanyang.logistics.base.pojo.Warehouse" resultMap="SysResultMap">
+	select * from warehouse 
+	</select>	
+	
+	<select id="tolistdname" resultType="com.sanyang.logistics.base.pojo.CustomerOrdertype" resultMap="CustResultMap">
+	select * from customer_ordertype
+	</select>	
+	
+	<select id="tolistmer" resultType="com.sanyang.logistics.base.pojo.Customer" resultMap="MerResultMap">
+	select * from customer 
+	</select>	
+	
+	<select id="tolistsyso" resultType="com.sanyang.logistics.base.pojo.SysOrderType" resultMap="sysoResultMap">
+	select * from sys_order_type 
+	</select>
+	
+	<insert id="addorder" parameterType="com.sanyang.logistics.base.pojo.CustomerOrdertype">
+	insert into customer_ordertype (cust_ordertype_id, cid, sysordertype_id, name, description) values (#{custOrdertypeId,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{sysordertypeId,jdbcType=INTEGER}, #{name,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
+	</insert>
+	
+	
+	<select id="selbyoid" resultType="com.sanyang.logistics.base.pojo.Sysorders" resultMap="BaseResultMap" parameterType="Integer">
+		select * from sysorders,customer,warehouse where sysorders.cust_id=customer.cid and warehouse.wh_id=sysorders.to_warehouse and sysorders.oid=#{value}
+	</select>
+	
+	<delete id="delsys" parameterType="Integer" >
+	delete from sysorders where oid=#{value}
+	
+	</delete>
+	
+	<insert id="addcustomer" parameterType="com.sanyang.logistics.base.pojo.Customer"> 
+	insert into customer values (null, #{cname}, #{address}, #{contact}, #{fax}, #{zip}, #{principal}, #{description}) 
+	</insert>
+		
+	<select id="selbyoidsys" resultType="com.sanyang.logistics.base.pojo.Sysorders" resultMap="BaseResultMap" parameterType="Integer">
+	select *from sysorders,customer,warehouse where sysorders.cust_id=customer.cid and sysorders.from_warehouse=warehouse.wh_id and sysorders.oid=#{value}
+	</select>
+	
+	<select id="tolisthwqd"  resultMap="AgeResultMap" parameterType="Integer">
+	select a.oid ooo,c.pid,d.oid,a.scount,c.pname,c.code,c.pmodel,a.pcount,b.rule_description,c.status from sysorder_product a,customized_package b,product c,sysorders d where a.orderid=d.oid and a.prod_id=c.pid and c.package_id=b.pid
+	 and a.oid=#{value}	
+	 </select>
+	 
+	 
+	 	<select id="tolisthwqdbyoid"  resultMap="AgeResultMap" parameterType="Integer">
+	select a.orderid,a.oid ooo,c.pid,d.oid,a.scount,c.pname,c.code,c.pmodel,a.pcount,b.rule_description,c.status from sysorder_product a,customized_package b,product c,sysorders d where a.orderid=d.oid and a.prod_id=c.pid and c.package_id=b.pid
+	 and d.oid=#{value}	
+	 </select>
+	 
+
+	<select id="selectbyoid" parameterType="Integer" resultType="com.sanyang.logistics.base.pojo.Sysorders" resultMap="BaseResultMap" >
+	 select * from order_status,sysorders,customer,customer_ordertype,sys_order_type where sysorders.cust_id=customer.cid and sysorders.sys_order_type_id=sys_order_type.order_type_id and sysorders.cust_order_type_id=customer_ordertype.cust_ordertype_id and order_status.sid=sysorders.order_status
+	 and oid=#{value}
+	</select>
+	<select id="selhwqd" parameterType="com.sanyang.logistics.base.pojo.SysorderProduct" resultMap="AgeResultMap">
+	select d.oid,c.pname,c.code,c.pmodel,a.pcount,a.scount,b.rule_description,c.status from sysorder_product a,customized_package b,product c,sysorders d where a.orderid=d.oid and a.prod_id=c.pid and c.package_id=b.pid and d.oid=#{oid}
+	
+	<if test="pname!='' and pname!=null">
+			and c.pname like '%${pname}%'
+		</if>
+		<if test="code!='' and code!=null">
+			and c.code like '%${code}%'
+		</if>
+		<if test="pcount!='' and pcount!=null">
+			and a.pcount =#{pcount}
+		</if>
+		<if test="ruleDescription!='' and ruleDescription!=null">
+			and b.rule_description like '%${ruleDescription}%'
+		</if>
+	
+	</select>
+
+	<select id="selbyoidhwqd"  parameterType="Object[]"  resultMap="AgeResultMap">
+	select c.pid,c.package_id,d.oid,c.pname,c.code,c.pmodel,a.pcount,a.scount,b.rule_description,c.status from sysorder_product a,customized_package b,product c,sysorders d where a.orderid=d.oid and a.prod_id=c.pid and c.package_id=b.pid
+	and c.pid in 
+	<foreach item="th2" index="index" collection="array" open="(" separator="," close=")">
+	#{th2}
+	</foreach>
+	 GROUP BY c.pid 
+	</select>
+	<delete id="delpro" parameterType="Integer" >
+	delete from sysorder_product where oid=#{value}
+	
+	</delete>
+	
+	<update id="updatesys" parameterType="com.sanyang.logistics.base.pojo.Sysorders" >
+	update sysorders set cus_order_no=#{cusOrderNo},cust_id=#{custId},cust_order_type_id=#{custOrderTypeId},to_address=#{toAddress},to_customer=#{toCustomer},from_warehouse=#{fromWarehouse},trucktype=#{trucktype},plan_trsprt_date=#{planTrsprtDate},
+	plan_arrival_date=#{planArrivalDate},plan_out_date=#{planOutDate},contact_phone=#{contactPhone},contact_person=#{contactPerson},take_money_flag=#{takeMoneyFlag},truckflag=#{truckflag},description=#{description} where 
+	oid=#{oid}                                                   
+	</update>
+	
+	<insert id="addsys" parameterType="com.sanyang.logistics.base.pojo.Sysorders" useGeneratedKeys="true" keyProperty="oid">
+	<selectKey keyProperty="oid" resultType="int" order="AFTER">
+		      select LAST_INSERT_ID()
+		   </selectKey> 
+	insert into sysorders values
+	(null,#{cusOrderNo},0,#{custId},1,#{custOrderTypeId},null,#{toAddress},#{toCustomer},#{fromWarehouse},0,1,0,#{trucktype},#{planTrsprtDate},#{planArrivalDate},#{planOutDate},null,#{contactPhone},#{contactPerson},#{takeMoneyFlag},#{truckflag},0,now(),description=#{description},null)
+	</insert>
+	
+	<insert id="addsysruku" parameterType="com.sanyang.logistics.base.pojo.Sysorders" useGeneratedKeys="true" keyProperty="oid">
+	<selectKey keyProperty="oid" resultType="int" order="AFTER">
+		      select LAST_INSERT_ID()
+		   </selectKey> 
+	insert into sysorders values
+	(null,#{cusOrderNo},0,#{custId},2,1,#{fromAddress},null,null,null,#{toWarehouse},1,0,#{trucktype},#{planTrsprtDate},#{planArrivalDate},null,#{planInDate},#{contactPhone},#{contactPerson},null,#{truckflag},0,now(),#{description},null)                             
+	</insert>
+
+	<update id="updrk" parameterType="com.sanyang.logistics.base.pojo.Sysorders" >
+	update sysorders set cus_order_no=#{cusOrderNo},cust_id=#{custId},from_address=#{fromAddress},to_warehouse=#{toWarehouse},trucktype=#{trucktype},plan_trsprt_date=#{planTrsprtDate},plan_arrival_date=#{planArrivalDate},plan_in_date=#{planInDate},contact_phone=#{contactPhone},contact_person=#{contactPerson},description=#{description}
+	where oid=#{oid}  
+	
+	</update>
+	
+	
+	<select id="getbypid" parameterType="Integer" resultMap="BaseResultMap">
+SELECT * from product d,sysorders a,customized_package e,sysorder_product f,sys_order_type g
+	WHERE f.orderid=a.oid and f.prod_id=d.pid and  a.sys_order_type_id=g.order_type_id
+	and d.package_id=e.pid and f.oid=#{value}
+
+	</select>
+	
+	<insert id="addwork"  parameterType="com.sanyang.logistics.base.pojo.WorkOrder" useGeneratedKeys="true" keyProperty="workid">
+	<selectKey keyProperty="workid" resultType="int" order="AFTER">
+		      select LAST_INSERT_ID()
+		   </selectKey> 
+	
+	insert into work_order values(null,#{orderid},#{fromWhId},#{toWhId},#{trnsptFlag},1,#{createDate},now(),#{fromAddress},#{toAddress},#{sendtime},#{arrivetime},#{productcount},#{sendcount},#{planOutDate},#{planInDate},'重','重','运输',#{productname},#{pcode},#{ptype},#{ppackage},'待调度',#{ordertype})
+	
+	</insert>
+	
+	<insert id="addwopro" parameterType="com.sanyang.logistics.base.pojo.WorkorderProduct">
+	insert into workorder_product values(null,#{prodId},#{workid},#{pcount},#{scount})
+	</insert>
+	
+	<update id="updsyscount" parameterType="com.sanyang.logistics.base.pojo.SysorderProduct">
+	update sysorder_product set scount=#{scount} where oid=#{oid}
+	</update>
+	
+	<update id="updsysstatus" parameterType="Integer" >
+	update Sysorders set order_status=5 where oid=#{values}
+	</update>
+	
+	<select id="tolistwork" resultType="com.sanyang.logistics.base.pojo.WorkOrder" parameterType="Integer">
+	select * from work_order where workid=#{value}
+	
+	</select>
+	
+		<select id="selhwqdck" parameterType="com.sanyang.logistics.base.pojo.SysorderProduct" resultMap="AgeResultMap">
+	select c.pid,c.pname,c.code,c.pmodel,a.pcount,a.scount,d.oid,b.rule_description,c.status from product c,sysorder_product a,customized_package b,sysorders d where  c.package_id=b.pid  and a.prod_id=c.pid and a.orderid=d.oid 	
+	GROUP BY c.pid	<if test="pname!='' and pname!=null">
+			and c.pname like '%${pname}%'
+		</if>
+		<if test="code!='' and code!=null">
+			and c.code like '%${code}%'
+		</if>
+		<if test="pcount!='' and pcount!=null">
+			and a.pcount =#{pcount}
+		</if>
+		<if test="ruleDescription!='' and ruleDescription!=null">
+			and b.rule_description like '%${ruleDescription}%'
+		</if>
+	
+	</select>
+	
+	<insert id="addsyspro" parameterType="com.sanyang.logistics.base.pojo.SysorderProduct">
+	 insert into sysorder_product values(null,#{orderid},#{prodId},500,500)
+	</insert>
+	
+	<update id="updhwqdsl" parameterType="com.sanyang.logistics.base.pojo.SysorderProduct" >
+	update sysorder_product set pcount=#{pcount} where oid=#{oid}
+	</update>
+	
+	<update id="updhwqdslrk" parameterType="com.sanyang.logistics.base.pojo.SysorderProduct" >
+	update sysorder_product set pcount=#{pcount} where oid=#{oid}
+	</update>
+	
+	
+</mapper>

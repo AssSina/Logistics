@@ -7,7 +7,7 @@ public class Sysorders {
 	 private Integer pid;
 	 private String code;
 	 private String pmodel;
-	 
+
 	 private Integer workid;
 	 
 	 private String rules;
@@ -132,10 +132,33 @@ public class Sysorders {
 
     
     
+
+	 private Integer oids[];
+
     private Integer zxc[];
     
     private Integer qqq[];
 
+    private Integer ooo;
+    
+    
+    
+	
+	public Integer getOoo() {
+		return ooo;
+	}
+
+	public void setOoo(Integer ooo) {
+		this.ooo = ooo;
+	}
+
+	public Integer[] getOids() {
+		return oids;
+	}
+
+	public void setOids(Integer[] oids) {
+		this.oids = oids;
+	}
 
 	public Integer[] getZxc() {
 		return zxc;

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sanyang.logistics.rxh.mapper.IShglMapper">
+	<resultMap id="Receipt" type="com.sanyang.logistics.base.pojo.Receipt">
+		<id column="rcpt_id" property="rcptId" jdbcType="INTEGER" />
+		<result column="sched_id" property="schedId" jdbcType="INTEGER" />
+		<result column="wh_id" property="whId" jdbcType="INTEGER" />
+		<result column="plan_receipt_date" property="planReceiptDate"
+			jdbcType="TIMESTAMP" />
+		<result column="status_id" property="statusId" jdbcType="INTEGER" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="status_id" property="statusId" jdbcType="VARCHAR" />
+		<result column="sname" property="sname" jdbcType="VARCHAR" />
+		<result column="xname" property="xname" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="RcptProdBridge"
+		type="com.sanyang.logistics.base.pojo.RcptProdBridge">
+		<id column="rcpt_prod_id" property="rcptProdId" jdbcType="INTEGER" />
+		<result column="rcpt_id" property="rcptId" jdbcType="INTEGER" />
+		<result column="work_order_id" property="workOrderId" jdbcType="INTEGER" />
+		<result column="prod_id" property="prodId" jdbcType="INTEGER" />
+		<result column="pname" property="pname" jdbcType="VARCHAR" />
+		<result column="ptype" property="ptype" jdbcType="VARCHAR" />
+		<result column="pcode" property="pcode" jdbcType="VARCHAR" />
+		<result column="package_name" property="packageName" jdbcType="VARCHAR" />
+		<result column="plan_amt" property="planAmt" jdbcType="INTEGER" />
+		<result column="incount" property="incount" jdbcType="INTEGER" />
+		<result column="lostcount" property="lostcount" jdbcType="INTEGER" />
+		<result column="destorycount" property="destorycount" jdbcType="INTEGER" />
+		<result column="backup_area_id" property="backupAreaId"
+			jdbcType="INTEGER" />
+		<result column="prein_amt" property="preinAmt" jdbcType="INTEGER" />
+		<result column="in_amt" property="inAmt" jdbcType="INTEGER" />
+		<result column="plan_receipt_date" property="planReceiptDate"
+			jdbcType="TIMESTAMP" />
+		<result column="plan_receipt_date" property="planReceiptDate"
+			jdbcType="TIMESTAMP" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="storeAmt" property="storeAmt" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="RcptDamage" type="com.sanyang.logistics.base.pojo.RcptDamage">
+		<id column="damageid" property="damageid" jdbcType="INTEGER" />
+		<result column="rcpt_id" property="rcptId" jdbcType="INTEGER" />
+		<result column="prod_id" property="prodId" jdbcType="INTEGER" />
+		<result column="damage_degree" property="damageDegree"
+			jdbcType="VARCHAR" />
+		<result column="damagecount" property="damagecount" jdbcType="INTEGER" />
+		<result column="bar_code" property="barCode" jdbcType="VARCHAR" />
+		<result column="posn" property="posn" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="pname" property="pname" jdbcType="VARCHAR" />
+		<result column="pmodel" property="pmodel" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="nums" property="nums" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="PrepareInWarehouse"
+		type="com.sanyang.logistics.base.pojo.PrepareInWarehouse">
+		<id column="preind" property="preind" jdbcType="INTEGER" />
+		<result column="rcpt_prod_id" property="rcptProdId" jdbcType="INTEGER" />
+		<result column="rcpt_id" property="rcptId" jdbcType="INTEGER" />
+		<result column="posn_id" property="posnId" jdbcType="INTEGER" />
+		<result column="prod_id" property="prodId" jdbcType="INTEGER" />
+		<result column="pname" property="pname" jdbcType="VARCHAR" />
+		<result column="ptype" property="ptype" jdbcType="VARCHAR" />
+		<result column="pcode" property="pcode" jdbcType="VARCHAR" />
+		<result column="package_name" property="packageName" jdbcType="VARCHAR" />
+		<result column="posn_code" property="posnCode" jdbcType="VARCHAR" />
+		<result column="policy_id" property="policyId" jdbcType="VARCHAR" />
+		<result column="backup_area_code" property="backupAreaCode"
+			jdbcType="VARCHAR" />
+		<result column="store_amt" property="storeAmt" jdbcType="INTEGER" />
+		<result column="done_flag" property="doneFlag" jdbcType="VARCHAR" />
+		<result column="nums" property="nums" jdbcType="VARCHAR" />
+		<result column="hname" property="hname" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<select id="getAllR" resultMap="Receipt" parameterType="Integer">
+		SELECT receipt.* ,warehouse.name,CASE status_id
+		WHEN '0' THEN
+		'新生成的'WHEN '1' THEN '未完成...' END xname
+		FROM receipt,warehouse WHERE
+		warehouse.wh_id=receipt.wh_id
+		<if test="value!=0 and value!=null">
+			and warehouse.wh_id = #{value}
+		</if>
+	</select>
+
+	<select id="getR" resultMap="RcptProdBridge" parameterType="Integer">
+		SELECT product.pname,customized_package.pname name,rcpt_prod_bridge.*
+		FROM receipt,rcpt_prod_bridge,product,customized_package WHERE
+		receipt.rcpt_id=rcpt_prod_bridge.rcpt_id AND
+		product.pid=rcpt_prod_bridge.prod_id
+		AND
+		customized_package.pid=product.package_id AND
+		receipt.rcpt_id=#{value}
+		AND prein_amt>0
+	</select>
+		<select id="getRcpt" resultMap="RcptProdBridge" parameterType="Integer">
+		SELECT product.pname,customized_package.pname name,rcpt_prod_bridge.*
+		FROM receipt,rcpt_prod_bridge,product,customized_package WHERE
+		receipt.rcpt_id=rcpt_prod_bridge.rcpt_id AND
+		product.pid=rcpt_prod_bridge.prod_id
+		AND
+		customized_package.pid=product.package_id AND
+		receipt.rcpt_id=#{value}
+	</select>
+
+	<select id="gethslr" resultMap="RcptProdBridge" parameterType="Integer">
+	select rcpt_prod_bridge.*,product.pname name from rcpt_prod_bridge,product where rcpt_prod_bridge.prod_id = product.pid and rcpt_prod_bridge.prod_id = #{value}
+	</select>
+	<select id="getHs" resultMap="RcptDamage" parameterType="Integer">
+	    SELECT DISTINCT
+		rcpt_damage.*,product.pname FROM
+		rcpt_prod_bridge,rcpt_damage,product,receipt
+		WHERE rcpt_prod_bridge.rcpt_id=rcpt_damage.rcpt_id AND
+		product.pid=rcpt_damage.prod_id AND receipt.rcpt_id=rcpt_damage.rcpt_id
+		AND rcpt_damage.rcpt_id=#{value}
+	</select>
+
+	<select id="getRk" resultMap="PrepareInWarehouse" parameterType="Integer">
+		SELECT prepare_in_warehouse.*,CASE prepare_in_warehouse.done_flag
+		WHEN 'N' THEN '未确认...' WHEN 'Y' THEN '已确认' END hname
+		FROM prepare_in_warehouse,receipt WHERE
+		prepare_in_warehouse.rcpt_id=receipt.rcpt_id and
+		receipt.rcpt_id=#{value}
+	</select>
+
+	<update id="updRcpt" parameterType="com.sanyang.logistics.base.pojo.RcptProdBridge">
+		update rcpt_prod_bridge set
+		prein_amt=prein_amt-#{nums},in_amt=in_amt+#{nums} where
+		rcpt_prod_id=#{rcptProdId}
+	</update>
+
+	<insert id="inserPrepareIn" parameterType="com.sanyang.logistics.base.pojo.PrepareInWarehouse">
+		insert into
+		prepare_in_warehouse(rcpt_prod_id,rcpt_id,prod_id,pname,package_name,ptype,pcode,store_amt,done_flag)
+		select
+		rcpt_prod_id,receipt.rcpt_id,product.pid,product.pname,customized_package.pname
+		name,pmodel,catery,#{nums},'N'
+		FROM product,rcpt_prod_bridge,receipt,customized_package
+		where product.pid=rcpt_prod_bridge.prod_id
+		and rcpt_prod_bridge.rcpt_id=receipt.rcpt_id and
+		customized_package.pid=product.package_id and
+		rcpt_prod_id=#{rcptProdId}
+	</insert>
+	<delete id="del" parameterType="Integer">
+		delete from prepare_in_warehouse where preind= #{value}
+	</delete>
+
+	<insert id="insert" parameterType="com.sanyang.logistics.base.pojo.RcptProdBridge">
+		update rcpt_prod_bridge set
+		prein_amt=prein_amt+#{storeAmt},in_amt=in_amt-#{storeAmt} where
+		rcpt_prod_id=#{rcptProdId}
+	</insert>
+	<update id="upde" parameterType="com.sanyang.logistics.base.pojo.PrepareInWarehouse">
+UPDATE prepare_in_warehouse SET done_flag='Y' WHERE rcpt_id=${rcptId}
+	</update>
+	<update id="updsh" parameterType="com.sanyang.logistics.base.pojo.RcptProdBridge">
+UPDATE rcpt_prod_bridge SET	incount='${incount}',lostcount='${lostcount}',destorycount='${destorycount}'WHERE rcpt_prod_id=${rcptProdId}
+	
+	</update>
+
+  <update id="updateReceipt" parameterType="com.sanyang.logistics.base.pojo.Receipt">
+UPDATE Receipt SET status_id='0' WHERE rcpt_id= ${rcptId}
+ </update>
+ 
+	<insert id="ins" parameterType="com.sanyang.logistics.base.pojo.RcptDamage">
+	INSERT INTO rcpt_damage VALUES(null,#{rcptId},#{prodId},#{damageDegree},#{damagecount},#{barCode},NULL);
+	</insert>
+		<delete id="deld" parameterType="Integer">
+		delete from rcpt_damage where damageid= #{value}
+	</delete>
+	
+ 
+</mapper>
