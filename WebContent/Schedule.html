@@ -485,7 +485,7 @@
 				$("#toaddresszb2").val(row.toaddresszb);
 				$("#fromaddresszb2").val(row.fromaddresszb);
 				/*承运商信息表格*/
-				$("#carrierTable,#carrierTable3").bootstrapTable({
+				$("#carrierTable3").bootstrapTable({
 					url:"schedule/getThirdPartyById.action",
 					queryParams:{"thirdPartyId":row.thirdPartyId},
 					columns: [{
@@ -519,8 +519,75 @@
 					}]
 				})
 				
+				/*承运商信息表格*/
+				$("#carrierTable").bootstrapTable({
+					columns: [{
+						title: "承运商姓名",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "地址",
+						field: 'address',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "联系人",
+						field: 'contact',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "承运商电话",
+						field: 'phone',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "删除",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='remove(3)'></button>";
+
+						}
+					}]
+				})
+				
+				
 				/*司机信息表格*/
-				$("#driverTable,#driverTable3").bootstrapTable({
+				$("#driverTable").bootstrapTable({
+					columns: [{
+						title: "司机名称",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "驾驶证类型",
+						field: 'drivertype',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "驾龄",
+						field: 'driverage',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "联系电话",
+						field: 'contact',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "删除",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='remove(2)'></button>";
+
+						}
+					}]
+				})
+				
+				/*司机信息表格*/
+				$("#driverTable3").bootstrapTable({
 					url:"driverDim/getDriverDimByIds.action",
 					queryParams:{"driverId":row.driverId},
 					columns: [{
@@ -555,7 +622,40 @@
 				})
 				
 				//车辆信息表格
-				$("#carTable,#carTable3").bootstrapTable({
+				$("#carTable").bootstrapTable({
+					columns: [{
+						title: "车牌号",
+						field: 'license',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "车辆类型",
+						field: 'trucktype',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "吨位",
+						field: 'carryCapcty',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "车辆所有权",
+						field: 'name',
+						align: 'center',
+						valign: 'middle',
+					}, {
+						title: "删除",
+						align: 'center',
+						valign: 'middle',
+						formatter: function(value, row, index) {
+							return "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='remove(1)'></button>";
+
+						}
+					}]
+				});
+				
+				//车辆信息表格
+				$("#carTable3").bootstrapTable({
 					url:"truckDim/getTruckDimByIds.action",
 					queryParams:{"truckId":row.truckId},
 					columns: [{

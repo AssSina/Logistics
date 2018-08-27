@@ -1,6 +1,7 @@
 package com.sanyang.logistics.base.pojo;
 
 public class PrepareOutWarehouse {
+	
     private Integer preoutId;
 
     private Integer pickoutProdId;
@@ -30,8 +31,39 @@ public class PrepareOutWarehouse {
     private Integer backupid;
 
     private String doneFlag;
+    
+    private Integer storeAmt;
+    
+    private Integer nums;
+    private String wname;
+ 
 
-    public Integer getPreoutId() {
+    
+	public String getWname() {
+		return wname;
+	}
+
+	public void setWname(String wname) {
+		this.wname = wname;
+	}
+
+	public Integer getNums() {
+		return nums;
+	}
+
+	public void setNums(Integer nums) {
+		this.nums = nums;
+	}
+
+	public Integer getStoreAmt() {
+		return storeAmt;
+	}
+
+	public void setStoreAmt(Integer storeAmt) {
+		this.storeAmt = storeAmt;
+	}
+
+	public Integer getPreoutId() {
         return preoutId;
     }
 
@@ -150,4 +182,17 @@ public class PrepareOutWarehouse {
     public void setDoneFlag(String doneFlag) {
         this.doneFlag = doneFlag == null ? null : doneFlag.trim();
     }
+
+	@Override
+	public String toString() {
+		return "PrepareOutWarehouse [preoutId=" + preoutId + ", pickoutProdId=" + pickoutProdId + ", pickoutId="
+				+ pickoutId + ", posnId=" + posnId + ", prodId=" + prodId + ", pname=" + pname + ", ptype=" + ptype
+				+ ", pcode=" + pcode + ", packageName=" + packageName + ", posnCode=" + posnCode + ", preoutAmt="
+				+ preoutAmt + ", policyId=" + policyId + ", backupAreaCode=" + backupAreaCode + ", backupid=" + backupid
+				+ ", doneFlag=" + doneFlag + ", storeAmt=" + storeAmt + ", nums=" + nums + ", wname=" + wname + "]";
+	}
+
+
+
+    
 }

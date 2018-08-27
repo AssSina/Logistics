@@ -30,8 +30,33 @@ public class RcptProdBridge {
     private Integer preinAmt;
 
     private Integer inAmt;
+    
+    private String plan_receipt_date;
+    
+    private String name;
 
-    public Integer getRcptProdId() {
+    private Integer nums;
+    
+    private Integer storeAmt;
+    
+    
+    public Integer getStoreAmt() {
+		return storeAmt;
+	}
+
+	public void setStoreAmt(Integer storeAmt) {
+		this.storeAmt = storeAmt;
+	}
+
+	public Integer getNums() {
+		return nums;
+	}
+
+	public void setNums(Integer nums) {
+		this.nums = nums;
+	}
+
+	public Integer getRcptProdId() {
         return rcptProdId;
     }
 
@@ -150,4 +175,33 @@ public class RcptProdBridge {
     public void setInAmt(Integer inAmt) {
         this.inAmt = inAmt;
     }
+
+	public String getPlan_receipt_date() {
+		return plan_receipt_date;
+	}
+
+	public void setPlan_receipt_date(String plan_receipt_date) {
+		this.plan_receipt_date = plan_receipt_date;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "RcptProdBridge [rcptProdId=" + rcptProdId + ", rcptId=" + rcptId + ", workOrderId=" + workOrderId
+				+ ", prodId=" + prodId + ", pname=" + pname + ", ptype=" + ptype + ", pcode=" + pcode + ", packageName="
+				+ packageName + ", planAmt=" + planAmt + ", incount=" + incount + ", lostcount=" + lostcount
+				+ ", destorycount=" + destorycount + ", backupAreaId=" + backupAreaId + ", preinAmt=" + preinAmt
+				+ ", inAmt=" + inAmt + ", plan_receipt_date=" + plan_receipt_date + ", name=" + name + ", nums=" + nums
+				+ ", storeAmt=" + storeAmt + "]";
+	}
+
+
+	
 }

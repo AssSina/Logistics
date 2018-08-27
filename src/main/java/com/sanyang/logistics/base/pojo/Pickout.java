@@ -9,17 +9,28 @@ public class Pickout {
 
     private Integer whId;
 
-    private Date planPickoutDate;
+    private String planPickoutDate;
 
     private String statusId;
 
-    private Date createDate;
+    private String createDate;
 
-    private Date updateDate;
+    private String updateDate;
 
     private String doneFlag;
+    
+    private String name;
+    
+    private String dname;
+    public String getName() {
+		return name;
+	}
 
-    public Integer getPickoutId() {
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getPickoutId() {
         return pickoutId;
     }
 
@@ -43,14 +54,6 @@ public class Pickout {
         this.whId = whId;
     }
 
-    public Date getPlanPickoutDate() {
-        return planPickoutDate;
-    }
-
-    public void setPlanPickoutDate(Date planPickoutDate) {
-        this.planPickoutDate = planPickoutDate;
-    }
-
     public String getStatusId() {
         return statusId;
     }
@@ -59,21 +62,7 @@ public class Pickout {
         this.statusId = statusId == null ? null : statusId.trim();
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
 
     public String getDoneFlag() {
         return doneFlag;
@@ -82,4 +71,52 @@ public class Pickout {
     public void setDoneFlag(String doneFlag) {
         this.doneFlag = doneFlag == null ? null : doneFlag.trim();
     }
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getPlanPickoutDate() {
+		return planPickoutDate;
+	}
+
+	public void setPlanPickoutDate(String planPickoutDate) {
+		this.planPickoutDate = planPickoutDate;
+	}
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
+	}
+	
+	
+
+	public String getDname() {
+		return dname;
+	}
+
+	public void setDname(String dname) {
+		this.dname = dname;
+	}
+
+	@Override
+	public String toString() {
+		return "Pickout [pickoutId=" + pickoutId + ", schedId=" + schedId + ", whId=" + whId + ", planPickoutDate="
+				+ planPickoutDate + ", statusId=" + statusId + ", createDate=" + createDate + ", updateDate="
+				+ updateDate + ", doneFlag=" + doneFlag + ", name=" + name + ", dname=" + dname + "]";
+	}
+
+
+
+
+
+
+    
 }

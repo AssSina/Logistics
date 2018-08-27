@@ -9,15 +9,30 @@ public class Receipt {
 
     private Integer whId;
 
-    private Date planReceiptDate;
+    private String planReceiptDate;
 
     private Integer statusId;
 
     private Date createDate;
 
     private Date updateDate;
+    
+    private String sname;
+    
+    private String  xname;
+    
+    private String  name;
+    
+    
+    public String getSname() {
+		return sname;
+	}
 
-    public Integer getRcptId() {
+	public void setSname(String sname) {
+		this.sname = sname;
+	}
+
+	public Integer getRcptId() {
         return rcptId;
     }
 
@@ -41,15 +56,17 @@ public class Receipt {
         this.whId = whId;
     }
 
-    public Date getPlanReceiptDate() {
-        return planReceiptDate;
-    }
 
-    public void setPlanReceiptDate(Date planReceiptDate) {
-        this.planReceiptDate = planReceiptDate;
-    }
 
-    public Integer getStatusId() {
+    public String getPlanReceiptDate() {
+		return planReceiptDate;
+	}
+
+	public void setPlanReceiptDate(String planReceiptDate) {
+		this.planReceiptDate = planReceiptDate;
+	}
+
+	public Integer getStatusId() {
         return statusId;
     }
 
@@ -72,4 +89,35 @@ public class Receipt {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+    
+
+	public String getXname() {
+		return xname;
+	}
+
+	public void setXname(String xname) {
+		this.xname = xname;
+	}
+	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "Receipt [rcptId=" + rcptId + ", schedId=" + schedId + ", whId=" + whId + ", planReceiptDate="
+				+ planReceiptDate + ", statusId=" + statusId + ", createDate=" + createDate + ", updateDate="
+				+ updateDate + ", sname=" + sname + ", xname=" + xname + ", name=" + name + "]";
+	}
+
+
+
+
+    
+    
 }

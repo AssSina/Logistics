@@ -23,6 +23,7 @@ public class RcptDamage {
     
     private String code;
 
+
     public Integer getDamageid() {
         return damageid;
     }

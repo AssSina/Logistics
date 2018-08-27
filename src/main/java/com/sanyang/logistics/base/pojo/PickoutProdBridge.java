@@ -22,8 +22,33 @@ public class PickoutProdBridge {
     private Integer preoutAmt;
 
     private Integer outAmt;
+    
+    private Integer nums;
+    
+    private String name;
+    
+   
+    
 
-    public Integer getPickoutProdId() {
+
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getNums() {
+		return nums;
+	}
+
+	public void setNums(Integer nums) {
+		this.nums = nums;
+	}
+
+	public Integer getPickoutProdId() {
         return pickoutProdId;
     }
 
@@ -110,4 +135,9 @@ public class PickoutProdBridge {
     public void setOutAmt(Integer outAmt) {
         this.outAmt = outAmt;
     }
+
+
+
+
+    
 }

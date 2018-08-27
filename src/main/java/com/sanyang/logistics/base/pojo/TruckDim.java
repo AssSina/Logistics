@@ -24,6 +24,7 @@ public class TruckDim {
     
     private String name;
     
+
 	 private String fromaddress;
 	 private String toaddress;
 	 private String end_date;
@@ -38,6 +39,10 @@ public class TruckDim {
     public String getFromaddress() {
 		return fromaddress;
 	}
+
+
+    private String description;
+    
 
 	public void setFromaddress(String fromaddress) {
 		this.fromaddress = fromaddress;
@@ -105,6 +110,14 @@ public class TruckDim {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Integer getTruckId() {

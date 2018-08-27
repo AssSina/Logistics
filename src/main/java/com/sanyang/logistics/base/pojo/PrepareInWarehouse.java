@@ -28,8 +28,30 @@ public class PrepareInWarehouse {
     private Integer storeAmt;
 
     private String doneFlag;
+    
+    private String nums;
+    
+    private String hname;
 
-    public Integer getPreind() {
+    
+    
+    public String getHname() {
+		return hname;
+	}
+
+	public void setHname(String hname) {
+		this.hname = hname;
+	}
+
+	public String getNums() {
+		return nums;
+	}
+
+	public void setNums(String nums) {
+		this.nums = nums;
+	}
+
+	public Integer getPreind() {
         return preind;
     }
 
@@ -140,4 +162,16 @@ public class PrepareInWarehouse {
     public void setDoneFlag(String doneFlag) {
         this.doneFlag = doneFlag == null ? null : doneFlag.trim();
     }
+
+	@Override
+	public String toString() {
+		return "PrepareInWarehouse [preind=" + preind + ", rcptProdId=" + rcptProdId + ", rcptId=" + rcptId
+				+ ", posnId=" + posnId + ", prodId=" + prodId + ", pname=" + pname + ", ptype=" + ptype + ", pcode="
+				+ pcode + ", packageName=" + packageName + ", posnCode=" + posnCode + ", policyId=" + policyId
+				+ ", backupAreaCode=" + backupAreaCode + ", storeAmt=" + storeAmt + ", doneFlag=" + doneFlag + ", nums="
+				+ nums + "]";
+	}
+
+
+    
 }

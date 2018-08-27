@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!--导入核心bootstrap css样式-->
+		<link rel="stylesheet" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<!--导入jQuery-->
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--导入核心bootstrap js-->
+		<script src="js/bootstarp-3.3.7/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+
+		<!--导入table css样式-->
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+
+       
+       <script type="text/javascript">
+       				$(function(){
+       					$("#hwxx").bootstrapTable({
+       						url: "product/getpro.action",
+							pagination: true,
+							pageSize: 4,
+							columns: [{
+									field: 'pid',
+									title: '货物编号',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'pname',
+									title: '货物名称',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'catery',
+									title: '货物类型',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'pmodel',
+									title: '产品型号',
+									align: 'center',
+									valign: 'middle',
+								},  {
+									field: 'code',
+									title: '产品编码',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'provider',
+									title: '供应商',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'createDate',
+									title: '创建日期',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'updateDate',
+									title: '更新日期',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'package_id',
+									title: '包装定制',
+									align: 'center',
+									valign: 'middle',
+								}, {
+									field: 'status',
+									title: '货物状态',
+									align: 'center',
+									valign: 'middle',
+								},{
+									field: 'caozuo',
+									title: '操作',
+									align: 'center',
+									valign: 'middle',
+									formatter: function(value, row, index) {
+										return "<button onclick='dele(" + row.schedTypeId + ")' class='btn btn-danger'>删除</button>";
+										
+									}
+								}
+							]
+       			})
+		})
+		 </script>
+	</head>
+	<body>
+		
+		客户名称：<select id="kemc"><option id="khmc" value=""></option></select>
+		目的地：
+		轻重货：
+		货物名称：
+		货物批次：
+		
+		<h4>货物信息</h4><button id="zdhw"><a href="addhwxx.html">指定货物</a></button>
+		<table id="hwxx"></table>
+	</body>
+</html>
