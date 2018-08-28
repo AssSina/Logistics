@@ -15,7 +15,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
 	<select id="allTruck" resultMap="BaseResultMap" parameterType="TruckDim">
-		select t.trucktype, t.truck_id,license,trucklocation,s.create_date,s.end_date,t.update_date,s.fromaddress,s.toaddress from truck_dim t,schedule s where  t.truck_id = s.sched_id		
+		select t.trucktype, t.truck_id,license,trucklocation,s.create_date,s.end_date,t.update_date,s.fromaddress,s.toaddress from truck_dim t,schedule s where  t.truck_id = s.truck_id		
 		<if test="license!=null and license!=''"> 
 		 	and license like '%${license}%'
 		</if>

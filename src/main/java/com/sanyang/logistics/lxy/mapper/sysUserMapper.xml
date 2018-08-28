@@ -26,7 +26,7 @@
   </resultMap>
 
 		<insert id="adduser" parameterType="com.sanyang.logistics.base.pojo.SysUser">
-		insert into sys_user values(null,'${password}','${loginId}','${name}','${email}','${phone}','${address}','${regionId}','${role_id}')
+		insert into sys_user values(null,'${password}','${loginId}','${name}','${email}','${phone}','${address}','${regionId}','${roleId}')
 		</insert>
 		
 	<select id="getUser" resultMap="BaseResultMap" parameterType="com.sanyang.logistics.base.pojo.SysUser">

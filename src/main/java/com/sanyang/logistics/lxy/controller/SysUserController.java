@@ -23,6 +23,7 @@ public class SysUserController {
 	@RequestMapping("/getsysuser")
 	@ResponseBody
 	public Object getsysUser(SysUser sysUser) {
+//		System.out.println(sysUser.getLoginId()+" "+sysUser.getPassword());
 		SysUser sysUsers = service.getUser(sysUser);
 		if (sysUsers==null) {
 			return "1";

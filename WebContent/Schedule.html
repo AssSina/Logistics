@@ -205,8 +205,10 @@
 				//搜索货物表格
 				$("#proTable2").bootstrapTable({
 					url: "schedule/getWorkOrder.action",
-					pagination: true, //分页
-					pageSize: 5, //页面显示的数据
+					pagination: true,
+				    pageNumber: 1,
+				    pageSize: 5,
+				    pageList: [5, 10, 20],
 					queryParams:proParams,//方法返回参数
 					columns: [{
 						title: "货物名称",
@@ -249,7 +251,6 @@
 				})
 				
 				$("#tjdu").click(function(){
-					$("#proTable2").bootstrapTable('refresh')
 					$.ajax({
 						type:"post",
 						url:"schedule/insertSchedule.action",
@@ -401,9 +402,6 @@
 			}
 			
 			function pid(row){
-				$(".odid").each(function(){
-					$(this).val(row.oid);
-				})
 				var data={
 					'pname':row.pname,
 					'orderid':row.orderid,
@@ -422,7 +420,7 @@
 			  	});
 			  	if(isChange!=true){
 			  		$("#proTable").bootstrapTable('append',data);
-			  		//$("#proTable").parent().append('<input type="hidden" name="odid" id="odid" value="'+row.oid+'">');//work_order_id        int		     null,			-- 工作单id					
+			  		$("#proTable").parent().append('<input type="hidden" name="odid" id="odid" value="'+row.oid+'">');//work_order_id        int		     null,			-- 工作单id					
 			  	}
 //			  	if ($("button").is(".pids")==false) {
 //			  		$("#proTable").bootstrapTable('append',data);
@@ -470,7 +468,7 @@
 					alert('调度已完成，不能更新');
 				}
 				$("#carTable,#driverTable,#carrierTable").bootstrapTable('removeAll');
-				$("#carTable3,#driverTable3,#carrierTable3,#proTable2").bootstrapTable('destroy');
+				$("#carTable3,#driverTable3,#carrierTable3").bootstrapTable('destroy');
 				$("#schedId").val(row.schedId);
 				$("#truckId2").val(row.truckId);
 				$("#driverId2").val(row.driverId);
@@ -521,6 +519,7 @@
 				
 				/*承运商信息表格*/
 				$("#carrierTable").bootstrapTable({
+					
 					columns: [{
 						title: "承运商姓名",
 						field: 'name',
@@ -691,8 +690,6 @@
 				
 				//货物信息表格
 				$("#proTable").bootstrapTable({
-					url:"schedule/getWorkOrderById.action",
-					queryParams:{"schedId":row.schedId},
 					columns: [{
 						title: "货物名称",
 						field: 'pname',
@@ -729,7 +726,7 @@
 						align: 'center',
 						valign: 'middle',
 						formatter: function(value, row, index) {
-							return '<div align="center"><input type="text" class="form-control nums" name="nums" value="0"  style="width:100px" onblur="getNums('+row.scount+','+index+')"/>"<input type="hidden" name="odid" class="odid" value="'+row.oid+'">"</div>';
+							return '<div align="center"><input type="text" class="form-control nums" name="nums" id="" value="0"  style="width:100px" onblur="getNums('+row.scount+','+index+')"/></div>';
 						}
 					}, {
 						title: "删除",

@@ -55,7 +55,7 @@
 											<form class="">
 												<fieldset>
 													<ul>
-											<li class="frame_style form_error"><label class="user_icon"></label><input name="用户名" type="text" id="name" /><i>用户名</i></li>
+											<li class="frame_style form_error"><label class="user_icon"></label><input name="用户名" type="text" id="login_id" /><i>用户名</i></li>
 											<li class="frame_style form_error"><label class="password_icon"></label><input name="密码" type="password" id="password" /><i>密码</i></li>
 										</ul>
 													<div class="space"></div>
@@ -127,7 +127,7 @@
 		
 
          
-			var name = $("#name").val();
+			var login_id = $("#login_id").val();
 		var password = $("#password").val();
 		if(num > 0) {
 			return false;
@@ -136,13 +136,13 @@
 			$.ajax({
 				type: "post",
 				url: "sysUser/getsysuser.action",
-				data: "name=" + name + "&password=" + password,
+				data: "loginId=" + login_id + "&password=" + password,
 				daType: "json",
 				success: function(data) {
 					
 						if(data != 1) {
 							alert("登录成功");
-							location.href = "index.html";
+							location.href = "index.html?login_id="+login_id+"&role_id="+data.roleId;
 							layer.close(index);
 						} else {
 							alert("登录失败！")
