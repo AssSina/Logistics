@@ -60,7 +60,7 @@
 						align: 'center',
 						valign: 'middle',
 						formatter: function(value, row, index) {
-							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele(" + row.schedId + ")'></button>";
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick=dele(" + row.schedId + ",'"+row.schstatus+"')></button>";
 							return d;
 						}
 					}]
@@ -272,12 +272,16 @@
 				               goods_str += ','+id;
 				   		   }
 			  		 }); */
-			  		 $.post("schedule/updateSchedule.action",$("#form2").serialize(),function(data){
-						$("#myModal01").modal("hide");
-						$("#tab").bootstrapTable("refresh");
-						
-			  		 });
-			  		 
+			  		if ($("button").is(".pids")==false) {
+				  		alert('还没有指定货物，不能提交');
+				  	}else{
+				  		/* alert('提交更新'); */
+				  		$.post("schedule/updateSchedule.action",$("#form2").serialize(),function(data){
+							$("#myModal01").modal("hide");
+							$("#tab").bootstrapTable("refresh");
+							
+				  		 });
+				  	}
 			  		/*  
 			  		$.ajax({
 						type:"post",
@@ -363,29 +367,39 @@
 			}
 			
 			function truckId(row){
-				$("#truckId,#truckId2").val(row.truckId);
-				$("#carTable,#carTable3").bootstrapTable('removeAll');
-				var data={
-					'license':row.license,
-					'trucktype':row.trucktype,
-					'carryCapcty':row.carryCapcty,
-					'name':row.name
+				if(row.truckstatus=='可用'){
+					$("#truckId,#truckId2").val(row.truckId);
+					$("#carTable,#carTable3").bootstrapTable('removeAll');
+					var data={
+						'license':row.license,
+						'trucktype':row.trucktype,
+						'carryCapcty':row.carryCapcty,
+						'name':row.name
+					}
+					$("#carTable,#carTable3").bootstrapTable('append',data);
+					$("#carModal").modal("hide");
+				}else{
+					alert('该车辆正在'+row.truckstatus+'，不能指定')
 				}
-				$("#carTable,#carTable3").bootstrapTable('append',data);
-				$("#carModal").modal("hide");
+				
 			}
 			
 			function driverId(row){
-				$("#driverId,#driverId2").val(row.driverId);
-				$("#driverTable,#driverTable3").bootstrapTable('removeAll');
-				var data={
-					'name':row.name,
-					'drivertype':row.drivertype,
-					'driverage':row.driverage,
-					'contact':row.contact
+				if(row.status=='Y'){
+					$("#driverId,#driverId2").val(row.driverId);
+					$("#driverTable,#driverTable3").bootstrapTable('removeAll');
+					var data={
+						'name':row.name,
+						'drivertype':row.drivertype,
+						'driverage':row.driverage,
+						'contact':row.contact
+					}
+					$("#driverTable,#driverTable3").bootstrapTable('append',data);
+					$("#driverModal").modal("hide");
+				}else{
+					alert('该司机正在使用，不能指定')
 				}
-				$("#driverTable,#driverTable3").bootstrapTable('append',data);
-				$("#driverModal").modal("hide");
+				
 			}
 			
 			function thirdPartyId(row){
@@ -751,15 +765,19 @@
 
 			}
 			
-			function dele(schedId){
-				$.ajax({
-						type: "post",
-						url: "schedule/deleteSchedule.action",
-						data:"scheduleId=" + schedId,
-						success: function(data) {
-							$("#tab").bootstrapTable("refresh");
-						}
-					});
+			function dele(schedId,schstatus){
+				if(schstatus=='调度完成'){
+					 $.ajax({
+							type: "post",
+							url: "schedule/deleteSchedule.action",
+							data:"scheduleId=" + schedId,
+							success: function(data) {
+								$("#tab").bootstrapTable("refresh");
+							}
+						}); 
+				}else{
+					alert("正在调度的不能删除！")
+				}
 			}
 			
 			function updatedu(schedId,execDoneFlag,schstatus){
@@ -1005,7 +1023,7 @@
 				
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button class="btn btn-success" id="tjgx"><span class="glyphicon glyphicon-ok"></span> 提交更新</button>
+						<button type="button" class="btn btn-success" id="tjgx"><span class="glyphicon glyphicon-ok"></span> 提交更新</button>
 					</div>
 				</div>
 			</div>

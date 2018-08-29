@@ -178,11 +178,11 @@ marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
             var keyword = document.getElementById("text_").value;  
             localSearch.setSearchCompleteCallback(function(searchResult) {  
             	
-            	alert(searchResult)
+            	/* alert(searchResult) */
             	
                 var poi = searchResult.getPoi(0);  
                 var xy =   document.getElementById("result_").value = poi.point.lng + "," + poi.point.lat;  
-               	alert(xy)
+               	/* alert(xy) */
 //             maps.centerAndZoom(poi.point, 13);
 ////              var marker = new BMap.Marker(new  BMap.Point(poi.point.lng, poi.point.lat)); // 创建标注，为要查询的地方对应的经纬度  
 ////              maps.addOverlay(marker);  
@@ -196,8 +196,9 @@ marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
 			
        			 $.ajax({
             	type:"post",
-            	url:"clgz/updatexyandaddcoorde_xy.action?truck_id="+id+"&coord_xy="+xy+"&coord_name="+keyword,
-            	async:false,
+            	url:"clgz/updatexyandaddcoorde_xy.action?truckId="+id+"&coord_xy="+xy+"&coord_name="+keyword,
+            	dataType:"text",
+            	async:true,
             	success:function(data){
             		if (data=='ok') {
             			document.location.reload();//当前页面 

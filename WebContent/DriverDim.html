@@ -52,11 +52,6 @@
 						align: 'center',
 						valign: 'middle',
 					},{
-						title: "状态",
-						field: 'status',
-						align: 'center',
-						valign: 'middle',
-					},{
 						title: "驾证编号",
 						field: 'license',
 						align: 'center',
@@ -82,7 +77,7 @@
 						align: 'center',
 						valign: 'middle',
 						formatter: function(value, row, index) {
-							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele(" + row.driverId + ")'></button>";
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick=dele(" + row.driverId + ",'"+row.status+"')></button>";
 							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd(' + row.driverId + ')" data-target="#myModal2"></button>';
 							return d + u;
 						}
@@ -122,15 +117,19 @@
 				}
 			}
 			
-			function dele(driverId) {
-				$.ajax({
-					type: "post",
-					url: "driverDim/deleteDriverDim.action",
-					data:"driverId=" + driverId,
-					success: function(data) {
-						$("#tab").bootstrapTable("refresh");
-					}
-				});
+			function dele(driverId,status) {
+				if(status=='Y'){
+					$.ajax({
+						type: "post",
+						url: "driverDim/deleteDriverDim.action",
+						data:"driverId=" + driverId,
+						success: function(data) {
+							$("#tab").bootstrapTable("refresh");
+						}
+					});
+				}else{
+					alert('该司机正在使用，不能删除！')
+				}
 			}
 			
 			function upd(driverId) {

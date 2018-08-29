@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <!--导入核心bootstrap css样式-->
+		<link rel="stylesheet" href="js/bootstarp-3.3.7/css/bootstrap.min.css" />
+		<!--导入jQuery-->
+		<script src="js/jquery-3.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--导入核心bootstrap js-->
+		<script src="js/bootstarp-3.3.7/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+
+		<!--导入table css样式-->
+		<link rel="stylesheet" type="text/css" href="js/bootstarp-table-1.11.1/bootstrap-table.min.css" />
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstarp-table-1.11.1/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+
+          
+       <script type="text/javascript">
+       				$(function(){
+       					$("#roletable").bootstrapTable({
+       						url: "role/getrole.action",
+							pagination: true,
+							pageSize: 8,
+							queryParams: queryParams,
+							columns: [{
+									field: 'roleId',
+									title: '权限ID',
+									align: 'center',
+									valign: 'middle',
+								},{
+									field: 'name',
+									title: '权限名称',
+									align: 'center',
+									valign: 'middle',
+								},{
+									field: 'description',
+									title: '描述',
+									align: 'center',
+									valign: 'middle',
+								},{
+									title: '操作',
+									align: 'center',
+									valign: 'middle',
+									formatter: function(value, row, index) {
+										var upda = "<button onclick='getid(" + JSON.stringify(row) + ")' class='btn btn-default'>修改</button>";
+										var dele = "<button onclick='dele(" + row.roleId + ")' class='btn btn-danger'>删除</button>";
+										return dele + upda;
+									}
+								}
+							]
+       			})
+       				
+       		
+       					
+       				})
+       				
+       				
+       				
+       				function ad(){
+						$.ajax({
+							type:"post",
+							url:"role/addrole.action",
+							data:$("#addusers").serialize(),
+							success:function(data){
+								$("#myModal").modal('hide');
+								$("#roletable").bootstrapTable("refresh");
+							}
+						})
+						};
+       	function dele(role_id) {
+				$.ajax({
+					url: "role/deleteroleone.action?id="+role_id,
+					type: "post",
+					success: function(data) {
+						$("#roletable").bootstrapTable('refresh');
+					}
+				})
+			};
+				function getid(row){
+         		$('#mymodells').modal('show');
+         		$('#roleId').val(row.roleId);
+				$('#name').val(row.name);
+				$('#description').val(row.description);
+					};
+
+				function updat(){
+					$.ajax({
+					type:"post",
+					url:"role/uprole.action",
+					data:$("#users").serialize(),
+					success:function(data){				
+						$("#roletable").bootstrapTable("refresh");
+						$("#mymodells").modal('hide');
+						}
+					})
+				};
+				
+				
+				function queryParams() {
+					return {
+					'name':$("#qx").val()
+			}
+		} ;
+		function selec(){
+					$("#roletable").bootstrapTable('refresh');
+			
+		}
+       			 </script>
+</head>
+<body>
+	<button type="button" class="button border-yellow" data-toggle="modal" data-target="#myModal">添加权限信息</button>
+	
+		<form class="form-inline">
+				
+				 			<div class="form-group">
+   							 <label for="exampleInputEmail1">权限：</label>
+  							  <input type="text" class="form-control" id="qx" name="name" >
+  								</div>
+				<button type="button" class="button border-main icon-search" onclick="selec()">查询</button>
+  							 	</form>	  
+	
+<table class="table-striped" id="roletable"></table>
+
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   							 <div class="modal-dialog">
+    						    <div class="modal-content">
+         					   <div class="modal-header">
+          					      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+           					     <h4 class="modal-title" id="myModalLabel">信息</h4>
+          						  </div>
+          						  <form id="addusers">
+          						  	 <input type="hidden" class="form-control" id="roleId1" name="roleId" >
+          						   
+ 							  <div class="form-group">
+   							 <label for="exampleInputEmail1">权限名称：</label>
+  							  <input type="text" class="form-control" id="name1" name="name" >
+  								</div>
+   							     <div class="form-group">
+   							 <label for="exampleInputEmail1">描述：</label>
+  							  <input type="text" class="form-control" id="description1" name="description" >
+  								</div>
+  										
+ 								
+ 								 </form>  
+     								       <div class="modal-footer">
+        								        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      								          <button type="button" class="btn btn-primary" onclick="ad()">提交</button>
+      								      
+     								  </div>
+   							</div>
+								</div>
+								</div>
+
+	<div class="modal fade" id="mymodells" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   							 <div class="modal-dialog">
+    						    <div class="modal-content">
+         					   <div class="modal-header">
+          					      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+           					     <h4 class="modal-title" id="myModalLabel">信息</h4>
+          						  </div>
+          						  <form id="users">
+          						  	 <input type="hidden" class="form-control" id="roleId" name="roleId" >
+          						   
+ 							  <div class="form-group">
+   							 <label for="exampleInputEmail1">权限名称：</label>
+  							  <input type="text" class="form-control" id="name" name="name" >
+  								</div>
+   							     <div class="form-group">
+   							 <label for="exampleInputEmail1">描述：</label>
+  							  <input type="text" class="form-control" id="description" name="description" >
+  								</div>
+ 								 </form>  
+     								       <div class="modal-footer">
+        								        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      								          <button type="button" class="btn btn-primary" onclick="updat()">提交</button>
+     								  </div>
+   							</div>
+								</div>
+								</div>
+
+
+</body>
+</html>

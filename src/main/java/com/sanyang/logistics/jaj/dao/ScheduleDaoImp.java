@@ -40,9 +40,32 @@ public class ScheduleDaoImp implements ScheduleDao {
 	}
 
 	@Override
-	public void insertSchedule(Schedule schedule) {
+	public void insertSchedule(Schedule schedule) throws Exception {
 		// TODO Auto-generated method stub
 			scheduleMapper.insertSelective(schedule);
+			Statement stm=null;
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/logistics?useUnicode=true&amp;characterEncoding=UTF-8","root","root");
+			try {
+				stm=conn.createStatement();
+				conn.setAutoCommit(false);//手动控制事务
+//				修改司机状态
+				String sql="update driver_dim set status='N' where driver_id="+schedule.getDriverId()+"";
+				stm.executeUpdate(sql);
+//				修改车辆状态
+				sql="update truck_dim set truckstatus='运货' where truck_id="+schedule.getTruckId()+"";
+				stm.executeUpdate(sql);
+				conn.commit();
+				conn.setAutoCommit(true);
+			} catch (Exception e) {
+				//出现异常了回滚事务
+				conn.rollback();
+				conn.setAutoCommit(true);
+				e.printStackTrace();
+			}finally{
+				conn.close();
+				stm.close();
+			}
 	}
 
 	@Override

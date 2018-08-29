@@ -97,6 +97,7 @@ public class VehicleTrackingHandler {
 			
 			return "no";
 		}else {
+			System.out.println("------------"+r);
 			ordertrackingservice.addxy(r);
 			
 			ordertrackingservice.updatelocation(r);

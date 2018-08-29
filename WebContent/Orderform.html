@@ -238,6 +238,9 @@
 
 			
        	function dele(user_id) {
+       		if(user_id==1){
+       			alert("此用户是超级管理员，不能删除！")
+       		}else{
 				$.ajax({
 					url: "sysUser/deleteuser.action?id="+user_id,
 					type: "post",
@@ -245,6 +248,7 @@
 						$("#sysusertables").bootstrapTable('refresh');
 					}
 				})
+       		}
 			};
 			
 		function queryParams() {

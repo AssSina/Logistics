@@ -42,7 +42,7 @@ public class ScheduleHandler {
 	@RequestMapping("/deleteSchedule")
 	@ResponseBody
 	public int deleteSchedule(Integer scheduleId){
-		System.out.println(scheduleId);
+//		System.out.println(scheduleId);
 		scheduleService.deleteSchedule(scheduleId);
 		return 1;
 	}

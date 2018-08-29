@@ -42,16 +42,16 @@
 	</select>
 	
 	<select id = "lx" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-		select c.coord_id, c.coord_xy, s.fromaddress,s.toaddress, t.trucklocation from truck_dim t, `schedule` s , coord c where s.sched_id = c.schedule_id = t.truck_id =c.truck_id =#{value}
+		select c.coord_id, c.coord_xy,  t.trucklocation from truck_dim t, coord c where  t.truck_id = c.truck_id  and c.truck_id = #{value}
 	</select>
 	
 	<select id ="qz" resultMap="BaseResultMap"  parameterType="java.lang.Integer">
-		select * from `schedule` where sched_id = #{value}
+			select * from `schedule` s , truck_dim t where s.truck_id = t.truck_id and t.truck_id = #{value}
 	</select>
 
 	
 	<insert id="addxy" parameterType="TruckDim">
-		insert into coord values(null,#{coord_name},#{truckId},#{truckId},#{coord_xy})
+		insert into coord values(null,#{coord_name},#{truckId},#{coord_xy})
 	</insert>
 	
 	<update id="updatelocation"  parameterType="TruckDim">

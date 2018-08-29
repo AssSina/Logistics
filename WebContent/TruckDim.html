@@ -82,7 +82,7 @@
 						align: 'center',
 						valign: 'middle',
 						formatter: function(value, row, index) {
-							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick='dele(" + row.truckId + ")'></button>";
+							var d = "<button class='btn btn-danger glyphicon glyphicon-trash' onclick=dele(" + row.truckId + ","+row.truckstatus+")></button>";
 							var u = '<button class="btn btn-warning col-md-offset-1 glyphicon glyphicon-list-alt" data-toggle="modal" onclick="upd(' + row.truckId + ')" data-target="#myModal2"></button>';
 							return d + u;
 						}
@@ -126,15 +126,20 @@
 				}
 			}
 			
-			function dele(truckId) {
-				$.ajax({
-					type: "post",
-					url: "truckDim/deleteTruckDim.action",
-					data:"truckId=" + truckId,
-					success: function(data) {
-						$("#tab").bootstrapTable("refresh");
-					}
-				});
+			function dele(truckId,truckstatus) {
+				if(row.truckstatus=='可用'){
+					$.ajax({
+						type: "post",
+						url: "truckDim/deleteTruckDim.action",
+						data:"truckId=" + truckId,
+						success: function(data) {
+							$("#tab").bootstrapTable("refresh");
+						}
+					});
+				}else{
+					alert('该车辆正在'+truckstatus+'，不能删除')
+				}
+				
 			}
 			
 			function upd(truckId) {

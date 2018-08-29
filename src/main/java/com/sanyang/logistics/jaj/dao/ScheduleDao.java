@@ -14,7 +14,7 @@ public interface ScheduleDao {
 
 	List<Schedule> getSchedule();
 
-	void insertSchedule(Schedule schedule);
+	void insertSchedule(Schedule schedule) throws Exception;
 
 	void deleteSchedule(Integer scheduleId);
 

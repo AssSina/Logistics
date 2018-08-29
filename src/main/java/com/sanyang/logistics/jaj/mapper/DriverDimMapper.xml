@@ -257,7 +257,7 @@
         driverage = #{driverage,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=CHAR},
+        status ='Y',
       </if>
       <if test="license != null" >
         license = #{license,jdbcType=VARCHAR},

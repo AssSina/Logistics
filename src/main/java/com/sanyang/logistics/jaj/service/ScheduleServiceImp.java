@@ -30,7 +30,12 @@ public class ScheduleServiceImp implements ScheduleService {
 	@Override
 	public void insertSchedule(Schedule schedule) {
 		// TODO Auto-generated method stub
-		scheduleDao.insertSchedule(schedule);
+		try {
+			scheduleDao.insertSchedule(schedule);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
